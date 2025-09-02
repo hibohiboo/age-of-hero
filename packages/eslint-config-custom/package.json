@@ -2,8 +2,6 @@
   "name": "@age-of-hero/eslint-config-custom",
   "type": "module",
   "private": true,
-  "license": "MIT",
-  "version": "0.0.0",
   "devDependencies": {
     "@conarti/eslint-plugin-feature-sliced": "^1.0.5",
     "@eslint/config-inspector": "^1.2.0",
