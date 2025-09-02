@@ -16,8 +16,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-router', 'react-dom/client'],
-          util: ['swr', 'uuid'],
-          vendors: ['hono', ],
+          util: ['swr'],
+          vendors: ['hono'],
         },
       },
     },
