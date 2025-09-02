@@ -1,0 +1,44 @@
+{
+  "name": "@age-of-hero/frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "dev:mock": "bunx --bun vite --mode mock",
+    "prebuild": "node ../../node_modules/typescript/bin/tsc -b",
+    "build": "vite build",
+    "lint": "eslint . --fix && node ../../node_modules/typescript/bin/tsc -b",
+    "preview": "bunx --bun vite preview",
+    "prepreview:ci": "tsc -b && bunx --bun vite build --mode ci",
+    "preview:ci": "bunx --bun vite preview --port 5173 ",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "ncu": "ncu -u",
+    "upgrade-msw": "bunx msw init public --save"
+  },
+  "dependencies": {
+    "hono": "^4.9.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router": "^7.8.0",
+    "swr": "^2.3.6"
+  },
+  "devDependencies": {
+    "@age-of-hero/eslint-config-custom": "workspace:*",
+    "@age-of-hero/tsconfig": "workspace:*",
+    "@tailwindcss/vite": "^4.1.12",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react-swc": "^4.0.0",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "msw": "^2.10.5",
+    "npm-check-updates": "^18.0.2",
+    "vite": "^7.1.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
