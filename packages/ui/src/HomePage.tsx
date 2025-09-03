@@ -1,8 +1,6 @@
 import React from 'react';
-import { Layout } from './Layout';
 
 export const HomePage: React.FC = () => (
-    <Layout title="Age of Hero TRPG">
       <div className="text-center">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 sm:mb-8 break-words">Age of Hero TRPG へようこそ</h2>
         
@@ -32,5 +30,4 @@ export const HomePage: React.FC = () => (
           </div>
         </div>
       </div>
-    </Layout>
   );

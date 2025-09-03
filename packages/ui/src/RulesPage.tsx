@@ -1,5 +1,4 @@
 import React from 'react';
-import { Layout } from './Layout';
 
 export const RulesPage: React.FC = () => {
   const rulesSections = [
@@ -12,8 +11,7 @@ export const RulesPage: React.FC = () => {
   ];
 
   return (
-    <Layout title="ルール - Age of Hero TRPG">
-      <div>
+    <div>
         <h2 className="text-3xl font-bold text-gray-800 mb-8">ルール</h2>
         
         <p className="text-lg text-gray-600 mb-8">
@@ -33,7 +31,6 @@ export const RulesPage: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
-    </Layout>
+    </div>
   );
 };

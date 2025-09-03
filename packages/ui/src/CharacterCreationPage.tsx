@@ -1,5 +1,4 @@
 import React from 'react';
-import { Layout } from './Layout';
 
 export const CharacterCreationPage: React.FC = () => {
   const classes = [
@@ -63,8 +62,7 @@ export const CharacterCreationPage: React.FC = () => {
   ];
 
   return (
-    <Layout title="キャラクター作成 - Age of Hero TRPG">
-      <article className="max-w-4xl mx-auto">
+    <article className="max-w-4xl mx-auto">
         <header className="mb-8 text-center">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">キャラクター作成</h1>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
@@ -221,7 +219,6 @@ export const CharacterCreationPage: React.FC = () => {
             </a>
           </div>
         </nav>
-      </article>
-    </Layout>
+    </article>
   );
 };
