@@ -1,6 +1,4 @@
-export { Layout } from './Layout';
-export { HomePage } from './HomePage';
-export { RulesPage } from './RulesPage';
-export { WorldPage } from './WorldPage';
-export { CharacterPage } from './CharacterPage';
-export { CharacterCreationPage } from './CharacterCreationPage';
+export { Layout } from './components/Layout';
+export { HomePage } from './pages/HomePage';
+export { RulesPage } from './pages/RulesPage';
+export { CharacterCreationPage } from './pages/CharacterCreationPage';

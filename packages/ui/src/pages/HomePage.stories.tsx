@@ -1,16 +1,16 @@
-import { RulesPage } from './RulesPage';
-import { Layout } from './Layout';
+import { HomePage } from './HomePage';
+import { Layout } from '../components/Layout';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const meta: Meta<typeof RulesPage> = {
-  title: 'Pages/RulesPage',
-  component: RulesPage,
+const meta: Meta<typeof HomePage> = {
+  title: 'Pages/HomePage',
+  component: HomePage,
   parameters: {
     layout: 'fullscreen',
   },
   decorators: [
     (Story) => (
-      <Layout title="ルール - Age of Hero TRPG">
+      <Layout title="Age of Hero TRPG">
         <Story />
       </Layout>
     ),
