@@ -1,0 +1,48 @@
+{
+  "name": "@age-of-hero/ui",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts",
+    "./tailwind.css": "./src/styles/tailwind.css"
+  },
+  "scripts": {
+    "ncu": "ncu -u",
+    "dev": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o ../../docs/astro/public/age-of-hero-components",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router": "^7.8.2"
+  },
+  "devDependencies": {
+    "@age-of-hero/tsconfig": "workspace:*",
+    "@storybook/addon-docs": "9.1.4",
+    "@storybook/addon-links": "^9.1.4",
+    "@storybook/addon-onboarding": "^9.1.4",
+    "@storybook/addon-vitest": "9.1.4",
+    "@storybook/react-vite": "^9.1.4",
+    "@storybook/testing-library": "^0.2.2",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "autoprefixer": "^10.4.21",
+    "eslint-plugin-storybook": "9.1.4",
+    "playwright": "^1.55.0",
+    "postcss": "^8.5.6",
+    "storybook": "^9.1.4",
+    "tailwindcss": "^4.1.12",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.3.0"
+  }
+}
