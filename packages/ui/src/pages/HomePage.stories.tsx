@@ -1,5 +1,5 @@
-import { HomePage } from './HomePage';
 import { Layout } from '../components/Layout';
+import { HomePage } from './HomePage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof HomePage> = {

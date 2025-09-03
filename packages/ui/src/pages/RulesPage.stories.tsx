@@ -1,5 +1,5 @@
-import { RulesPage } from './RulesPage';
 import { Layout } from '../components/Layout';
+import { RulesPage } from './RulesPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof RulesPage> = {

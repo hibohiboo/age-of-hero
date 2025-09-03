@@ -1,5 +1,5 @@
-import { CharacterCreationPage } from './CharacterCreationPage';
 import { Layout } from '../components/Layout';
+import { CharacterCreationPage } from './CharacterCreationPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof CharacterCreationPage> = {
