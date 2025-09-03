@@ -1,4 +1,6 @@
 import React from 'react';
+import { Card } from '../components/Card';
+import { PageHeader } from '../components/PageHeader';
 
 export const RulesPage: React.FC = () => {
   const rulesSections = [
@@ -12,25 +14,24 @@ export const RulesPage: React.FC = () => {
 
   return (
     <div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-8">ルール</h2>
-        
-        <p className="text-lg text-gray-600 mb-8">
-          Age of Hero TRPGの基本的なルールとシステムについて説明します。
-        </p>
+      <PageHeader 
+        title="ルール" 
+        description="Age of Hero TRPGの基本的なルールとシステムについて説明します。"
+      />
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {rulesSections.map((section, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">{section.title}</h3>
-              <a 
-                href={section.path} 
-                className="inline-block text-blue-600 hover:text-blue-800 font-medium"
-              >
-                詳細を見る →
-              </a>
-            </div>
-          ))}
-        </div>
+      <div className="grid md:grid-cols-2 gap-6">
+        {rulesSections.map((section, index) => (
+          <Card key={index}>
+            <h3 className="text-xl font-semibold mb-4 text-blue-600">{section.title}</h3>
+            <a 
+              href={section.path} 
+              className="inline-block text-blue-600 hover:text-blue-800 font-medium"
+            >
+              詳細を見る →
+            </a>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
