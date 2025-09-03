@@ -1,7 +1,7 @@
 import customConfig from '@age-of-hero/eslint-config-custom/frontend.js';
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
-export default tseslint.config(
+export default defineConfig(
   { ignores: ['vite.config.ts', '**/dist/**', '**/public/**'] },
   {
     extends: [

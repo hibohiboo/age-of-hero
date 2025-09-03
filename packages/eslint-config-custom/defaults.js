@@ -2,6 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import prettierConfig from 'eslint-config-prettier';
 import sonarjs from 'eslint-plugin-sonarjs';
 import unuserdPlugin from 'eslint-plugin-unused-imports';
@@ -14,7 +15,7 @@ const compat = new FlatCompat({
   baseDirectory: dirname,
 });
 
-export default tseslint.config({
+export default defineConfig({
   extends: [
     js.configs.recommended,
     ...tseslint.configs.recommended,

@@ -1,9 +1,9 @@
 import customConfig from '@age-of-hero/eslint-config-custom/defaults.js';
+import { defineConfig } from 'eslint/config';
 import storybook from 'eslint-plugin-storybook';
 
-import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default defineConfig(
   {
     extends: [
       ...customConfig,

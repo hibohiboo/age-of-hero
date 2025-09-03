@@ -1,9 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
+import { defineConfig } from 'eslint/config';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
 import customConfig from './defaults.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -13,7 +13,7 @@ const compat = new FlatCompat({
   baseDirectory: dirname,
 });
 
-export default tseslint.config({
+export default defineConfig({
   files: ['**/*.ts', '**/*.tsx'],
   ignores: ['dist', 'public'],
   extends: [

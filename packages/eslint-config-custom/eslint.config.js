@@ -1,7 +1,7 @@
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 import customConfig from './defaults.js';
 
-export default tseslint.config({
+export default defineConfig({
   extends: [...customConfig],
   rules: {
     'import/extensions': ['off'],
