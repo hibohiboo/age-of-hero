@@ -17,36 +17,63 @@ export const CharacterCreationPage: React.FC = () => {
 
   const abilities = [
     {
-      category: '肉体（Physical）',
-      skills: ['パワー（Power）', 'タフネス（Toughness）', 'スタミナ（Stamina）'],
+      category: '【肉体】',
+      description: '肉体的な力やその身体が持つ耐久力を表す能力値だ。',
+      skills: [
+        { name: '〈パワー〉', description: '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。' },
+        { name: '〈タフネス〉', description: '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。' },
+        { name: '〈スタミナ〉', description: '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。' }
+      ],
       color: 'text-red-700',
       bgColor: 'bg-red-50',
       borderColor: 'border-red-200'
     },
     {
-      category: '反射（Reflexes）',
-      skills: ['テクニック（Technique）', 'ムーブメント（Movement）', 'パイロット（Piloting）'],
+      category: '【反射】',
+      description: '手先の器用さや反射神経の良さを表す能力値だ。',
+      skills: [
+        { name: '〈技術〉', description: '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。' },
+        { name: '〈運動〉', description: '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。' },
+        { name: '〈操縦〉', description: '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。' }
+      ],
       color: 'text-blue-700',
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200'
     },
     {
-      category: '感覚（Senses）',
-      skills: ['射撃（Shooting）', '知覚（Perception）', '工芸（Crafting）', '芸術（Arts）'],
+      category: '【感覚】',
+      description: '天性のセンスや感受性の高さなどを表す能力値だ。',
+      skills: [
+        { name: '〈射撃〉', description: '銃や弓を用いて射撃を行う技能。長距離狙撃からガンカタまで。' },
+        { name: '〈知覚〉', description: '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。' },
+        { name: '〈製作〉', description: '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。' },
+        { name: '〈芸術〉', description: 'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。' }
+      ],
       color: 'text-green-700',
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200'
     },
     {
-      category: '知識（Intelligence）',
-      skills: ['情報（Information）', '交渉（Negotiation）', '心理（Psychology）', '医療（Medical）'],
+      category: '【知力】',
+      description: '知識や頭脳をどれだけ上手く運用できるかを表す能力値だ。',
+      skills: [
+        { name: '〈情報〉', description: '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。' },
+        { name: '〈交渉〉', description: '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。' },
+        { name: '〈心理〉', description: '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。' },
+        { name: '〈医療〉', description: 'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。' }
+      ],
       color: 'text-purple-700',
       bgColor: 'bg-purple-50',
       borderColor: 'border-purple-200'
     },
     {
-      category: '超常（Supernatural）',
-      skills: ['魔法（Magic）', 'サイキック（Psychic Powers）', '第六感（Sixth Sense）'],
+      category: '【超常】',
+      description: '通常では考えられないような超常的な力を表す能力値だ。',
+      skills: [
+        { name: '〈魔術〉', description: '魔術を用いる技能。魔術の種類は多岐にわたる。' },
+        { name: '〈超能力〉', description: 'ESPやサイコキネシスなどの超能力を用いる技能。' },
+        { name: '〈第六感〉', description: '五感以外の感覚でものをとらえる技能。時に周囲の助けとなる。' }
+      ],
       color: 'text-indigo-700',
       bgColor: 'bg-indigo-50',
       borderColor: 'border-indigo-200'
@@ -64,7 +91,11 @@ export const CharacterCreationPage: React.FC = () => {
     { number: 8, title: '行動値を決定', description: '戦闘時の行動順序を決める値を算出' }
   ];
 
-  const commonSkills = ['社会（Social）', '人脈（Connections）', '意志力（Willpower）'];
+  const commonSkills = [
+    { name: '〈社会〉', description: 'どのような社会や組織に所属しているかを表す技能。代表的なものはヒーロー協会、企業、警察、裏社会などだ。取得時には〈社会：ヒーロー協会〉といった形で記載し、それぞれ別技能として扱う。' },
+    { name: '〈コネ〉', description: 'どのような人物とコネクションを持っているかを表す技能。' },
+    { name: '〈意志〉', description: '心の強さを表す技能。ヒーローに必須の力だ。' }
+  ];
 
   return (
     <article className="max-w-4xl mx-auto">
@@ -73,6 +104,13 @@ export const CharacterCreationPage: React.FC = () => {
         description="「Age of Hero」の世界で活躍するヒーローキャラクターを作成します。キャラクターは数値的なデータ、ヒーロースキル、アイテム、個人的背景によって定義されます。"
         centered
       />
+
+      <div className="mb-8">
+        <p className="text-gray-600">
+          能力値はそのヒーローがバイタル・メンタルなどの面でどれほどの強さがあるかを表している。技能はヒーローが具体的にどのようなことができるのかを表すパラメーターとなるのだ。
+        </p>
+        <p className="text-gray-600 mt-2">各能力値と技能の詳細は以下の通り。</p>
+      </div>
 
       <div className="space-y-12">
         <Section title="作成手順" icon="📋">
@@ -90,16 +128,17 @@ export const CharacterCreationPage: React.FC = () => {
           </div>
         </Section>
 
-        <Section title="能力値（5つのカテゴリー）" step={2}>
-          <div className="grid gap-6">
+        <Section title="能力値と技能" step={2}>
+          <div className="grid gap-8">
             {abilities.map((ability) => (
               <div key={ability.category} className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}>
                 <h3 className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color}`}>{ability.category}</h3>
-                <div className="grid sm:grid-cols-2 gap-2">
+                <p className="text-gray-600 mb-4">{ability.description}</p>
+                <div className="space-y-4">
                   {ability.skills.map((skill) => (
-                    <div key={skill} className="flex items-center space-x-2">
-                      <div className={`w-2 h-2 rounded-full ${ability.color.replace('text-', 'bg-')}`}></div>
-                      <span className="text-gray-700">{skill}</span>
+                    <div key={skill.name} className="ml-4">
+                      <h4 className="font-semibold text-gray-800">{skill.name}</h4>
+                      <p className="text-gray-600 text-sm mt-1">{skill.description}</p>
                     </div>
                   ))}
                 </div>
@@ -108,12 +147,13 @@ export const CharacterCreationPage: React.FC = () => {
           </div>
         </Section>
 
-        <Section title="共通スキル" step={3}>
-          <p className="text-gray-600 mb-4">全てのキャラクターが持つ基本的なスキルです。</p>
-          <div className="grid sm:grid-cols-3 gap-3">
+        <Section title="共通取得技能" step={3}>
+          <p className="text-gray-600 mb-6">能力値に左右されない技能を指す。以下の三つが存在する。</p>
+          <div className="space-y-6">
             {commonSkills.map((skill) => (
-              <div key={skill} className="p-3 bg-yellow-50 border-2 border-yellow-200 rounded-lg text-center">
-                <span className="text-yellow-800 font-medium">{skill}</span>
+              <div key={skill.name} className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg">
+                <h4 className="font-semibold text-yellow-800 mb-2">{skill.name}</h4>
+                <p className="text-gray-600 text-sm">{skill.description}</p>
               </div>
             ))}
           </div>
