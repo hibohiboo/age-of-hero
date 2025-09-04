@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  GiMuscleUp,
   GiRobotAntennas,
   GiCrystalBall,
   GiBrain,
@@ -8,11 +7,12 @@ import {
   GiStarFormation,
   GiAncientSword,
   GiPunchingBag,
-  GiBodyHeight,
+  GiBiceps,
   GiRunningShoe,
   GiEyeTarget,
   GiBookshelf,
   GiMagicSwirl,
+  GiMuscleUp,
 } from 'react-icons/gi';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
@@ -66,7 +66,7 @@ export const CharacterCreationPage: React.FC = () => {
   const abilities = [
     {
       category: '【肉体】',
-      icon: GiBodyHeight,
+      icon: GiBiceps,
       description: '肉体的な力やその身体が持つ耐久力を表す能力値だ。',
       skills: [
         {
