@@ -8,6 +8,11 @@ import {
   GiStarFormation,
   GiAncientSword,
   GiPunchingBag,
+  GiBodyHeight,
+  GiRunningShoe,
+  GiEyeTarget,
+  GiBookshelf,
+  GiMagicSwirl,
 } from 'react-icons/gi';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
@@ -61,6 +66,7 @@ export const CharacterCreationPage: React.FC = () => {
   const abilities = [
     {
       category: '【肉体】',
+      icon: GiBodyHeight,
       description: '肉体的な力やその身体が持つ耐久力を表す能力値だ。',
       skills: [
         {
@@ -85,6 +91,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【反射】',
+      icon: GiRunningShoe,
       description: '手先の器用さや反射神経の良さを表す能力値だ。',
       skills: [
         {
@@ -109,6 +116,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【感覚】',
+      icon: GiEyeTarget,
       description: '天性のセンスや感受性の高さなどを表す能力値だ。',
       skills: [
         {
@@ -138,6 +146,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【知力】',
+      icon: GiBookshelf,
       description: '知識や頭脳をどれだけ上手く運用できるかを表す能力値だ。',
       skills: [
         {
@@ -167,6 +176,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【超常】',
+      icon: GiMagicSwirl,
       description: '通常では考えられないような超常的な力を表す能力値だ。',
       skills: [
         {
@@ -302,8 +312,9 @@ export const CharacterCreationPage: React.FC = () => {
                 className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}
               >
                 <h3
-                  className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color}`}
+                  className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color} flex items-center gap-2`}
                 >
+                  <ability.icon size={24} />
                   {ability.category}
                 </h3>
                 <p className="text-gray-600 mb-4">{ability.description}</p>
