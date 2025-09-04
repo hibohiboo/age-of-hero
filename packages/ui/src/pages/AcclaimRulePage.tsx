@@ -11,6 +11,7 @@ import {
   GiFireBottle,
 } from 'react-icons/gi';
 import { PiHandsClapping } from 'react-icons/pi';
+import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 
@@ -235,18 +236,18 @@ export const AcclaimRulePage: React.FC = () => {
 
       <nav className="mt-12 pt-8 border-t border-gray-200">
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-          <a
-            href="/rules"
+          <Link
+            to="/rules"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
           >
             ← ルール一覧に戻る
-          </a>
-          <a
-            href="/session-progress"
+          </Link>
+          <Link
+            to="/rules/session"
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             セッション進行へ →
-          </a>
+          </Link>
         </div>
       </nav>
     </article>
