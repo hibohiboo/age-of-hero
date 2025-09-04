@@ -2,6 +2,7 @@ import React from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { StepList } from '../components/StepList';
+import { ClassStatsTable } from '../components/ClassStatsTable';
 
 export const CharacterCreationPage: React.FC = () => {
   const classes = [
@@ -313,9 +314,10 @@ export const CharacterCreationPage: React.FC = () => {
         </Section>
         <Section title="基本能力値を計算" step={2}>
           <div className="p-4 bg-orange-50 border-l-4 border-orange-400 rounded">
-            <p className="text-gray-700">
+            <p className="text-gray-700 mb-4">
               クラスに設定された能力値を合計する。同じクラスを二回選択した場合、そのクラスに設定された能力値を二倍にする。その後、任意の能力値に１点追加する。{' '}
             </p>
+            <ClassStatsTable />
           </div>
         </Section>
         <Section title="技能ポイント分配" step={3}>
