@@ -1,3 +1,4 @@
+import { MemoryRouter } from 'react-router';
 import type { Preview } from '@storybook/react-vite';
 import '../src/styles/tailwind.css';
 
@@ -11,6 +12,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
 };
 
 export default preview;

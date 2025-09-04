@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -16,23 +17,23 @@ export const Layout: React.FC<LayoutProps> = ({
         <nav className="mt-4">
           <ul className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6">
             <li>
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="block py-1 hover:text-blue-200 transition-colors"
               >
                 ホーム
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/rules"
+              <Link
+                to="/rules"
                 className="block py-1 hover:text-blue-200 transition-colors"
               >
                 ルール
-              </a>
+              </Link>
             </li>
-            {/* <li><a href="/world" className="block py-1 hover:text-blue-200 transition-colors">ワールド</a></li>
-              <li><a href="/character" className="block py-1 hover:text-blue-200 transition-colors text-sm sm:text-base">キャラクター作成</a></li> */}
+            {/* <li><Link to="/world" className="block py-1 hover:text-blue-200 transition-colors">ワールド</Link></li>
+              <li><Link to="/character" className="block py-1 hover:text-blue-200 transition-colors text-sm sm:text-base">キャラクター作成</Link></li> */}
           </ul>
         </nav>
       </div>
