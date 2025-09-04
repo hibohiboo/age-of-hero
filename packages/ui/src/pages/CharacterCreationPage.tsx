@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaEye } from 'react-icons/fa';
 import {
   GiRobotAntennas,
   GiCrystalBall,
@@ -13,7 +14,23 @@ import {
   GiBookshelf,
   GiMagicSwirl,
   GiMuscleUp,
+  GiFist,
+  GiShield,
+  GiHeartPlus,
+  GiSteeringWheel,
+  GiCrosshair,
+  GiWalk,
+  GiTinker,
+  GiMusicalNotes,
+  GiMagnifyingGlass,
+  GiSpeaker,
+  GiMedicalPack,
+  GiSpellBook,
+  GiThirdEye,
+  GiKnifeThrust,
+  GiAbstract061,
 } from 'react-icons/gi';
+import { MdOutlinePsychology } from 'react-icons/md';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
@@ -71,16 +88,19 @@ export const CharacterCreationPage: React.FC = () => {
       skills: [
         {
           name: '〈パワー〉',
+          icon: GiFist,
           description:
             '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。',
         },
         {
           name: '〈タフネス〉',
+          icon: GiShield,
           description:
             '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。',
         },
         {
           name: '〈スタミナ〉',
+          icon: GiHeartPlus,
           description:
             '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。',
         },
@@ -96,16 +116,19 @@ export const CharacterCreationPage: React.FC = () => {
       skills: [
         {
           name: '〈技術〉',
+          icon: GiKnifeThrust,
           description:
             '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。',
         },
         {
           name: '〈運動〉',
+          icon: GiWalk,
           description:
             '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。',
         },
         {
           name: '〈操縦〉',
+          icon: GiSteeringWheel,
           description:
             '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。',
         },
@@ -121,21 +144,25 @@ export const CharacterCreationPage: React.FC = () => {
       skills: [
         {
           name: '〈射撃〉',
+          icon: GiCrosshair,
           description:
             '銃や弓を用いて射撃を行う技能。長距離狙撃からガンカタまで。',
         },
         {
           name: '〈知覚〉',
+          icon: FaEye,
           description:
             '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。',
         },
         {
           name: '〈製作〉',
+          icon: GiTinker,
           description:
             '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。',
         },
         {
           name: '〈芸術〉',
+          icon: GiMusicalNotes,
           description:
             'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。',
         },
@@ -151,21 +178,25 @@ export const CharacterCreationPage: React.FC = () => {
       skills: [
         {
           name: '〈情報〉',
+          icon: GiMagnifyingGlass,
           description:
             '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。',
         },
         {
           name: '〈交渉〉',
+          icon: GiSpeaker,
           description:
             '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。',
         },
         {
           name: '〈心理〉',
+          icon: MdOutlinePsychology,
           description:
             '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。',
         },
         {
           name: '〈医療〉',
+          icon: GiMedicalPack,
           description:
             'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。',
         },
@@ -181,14 +212,17 @@ export const CharacterCreationPage: React.FC = () => {
       skills: [
         {
           name: '〈魔術〉',
+          icon: GiSpellBook,
           description: '魔術を用いる技能。魔術の種類は多岐にわたる。',
         },
         {
           name: '〈超能力〉',
+          icon: GiThirdEye,
           description: 'ESPやサイコキネシスなどの超能力を用いる技能。',
         },
         {
           name: '〈第六感〉',
+          icon: GiAbstract061,
           description:
             '五感以外の感覚でものをとらえる技能。時に周囲の助けとなる。',
         },
@@ -321,7 +355,8 @@ export const CharacterCreationPage: React.FC = () => {
                 <div className="space-y-4">
                   {ability.skills.map((skill) => (
                     <div key={skill.name} className="ml-4">
-                      <h4 className="font-semibold text-gray-800">
+                      <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                        <skill.icon size={18} />
                         {skill.name}
                       </h4>
                       <p className="text-gray-600 text-sm mt-1">
