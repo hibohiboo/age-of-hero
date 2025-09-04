@@ -7,7 +7,7 @@ import {
   GiDna2,
   GiStarFormation,
   GiAncientSword,
-  GiPaintBrush,
+  GiPunchingBag,
 } from 'react-icons/gi';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
@@ -53,7 +53,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       name: 'アーツ',
-      icon: GiPaintBrush,
+      icon: GiPunchingBag,
       color: 'bg-teal-100 text-teal-800 border-teal-300',
     },
   ];
