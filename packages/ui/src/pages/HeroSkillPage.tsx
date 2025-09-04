@@ -18,6 +18,7 @@ import {
 import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
+import { SkillCard } from '../components/SkillCard';
 
 export const HeroSkillPage: React.FC = () => {
   const skillProperties = [
@@ -336,79 +337,13 @@ export const HeroSkillPage: React.FC = () => {
 
           <div className="space-y-6">
             {exampleSkills.map((skill, index) => (
-              <div
+              <SkillCard
                 key={index}
-                className={`p-6 ${skill.color} rounded-lg border-2`}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <skill.icon size={28} className="text-gray-700" />
-                  <h3 className="text-xl font-bold text-gray-800">
-                    {skill.name}
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        最大Ｌｖ：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.maxLv}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        タイミング：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.timing}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        技能：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.skill}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        対象：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.target}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        射程：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.range}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-white rounded border border-gray-200">
-                      <span className="text-sm font-medium text-gray-600">
-                        コスト：
-                      </span>
-                      <span className="text-sm text-gray-800">
-                        {skill.details.cost}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-white rounded border border-gray-200">
-                    <h5 className="text-sm font-medium text-gray-600 mb-2">
-                      効果：
-                    </h5>
-                    <p className="text-sm text-gray-800 leading-relaxed">
-                      {skill.details.effect}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                name={skill.name}
+                icon={skill.icon}
+                details={skill.details}
+                color={skill.color}
+              />
             ))}
           </div>
         </Section>
