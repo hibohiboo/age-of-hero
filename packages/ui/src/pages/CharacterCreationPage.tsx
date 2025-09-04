@@ -10,8 +10,6 @@ import {
   GiAncientSword,
   GiPunchingBag,
   GiBiceps,
-  GiRunningShoe,
-  GiEyeTarget,
   GiBookshelf,
   GiMagicSwirl,
   GiMuscleUp,
@@ -32,8 +30,9 @@ import {
   GiAbstract061,
   GiModernCity,
   GiFireSilhouette,
+  GiAlliedStar,
 } from 'react-icons/gi';
-import { MdOutlinePsychology } from 'react-icons/md';
+import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
@@ -114,7 +113,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【反射】',
-      icon: GiRunningShoe,
+      icon: MdOutlineBolt,
       description: '手先の器用さや反射神経の良さを表す能力値だ。',
       skills: [
         {
@@ -142,7 +141,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       category: '【感覚】',
-      icon: GiEyeTarget,
+      icon: GiAlliedStar,
       description: '天性のセンスや感受性の高さなどを表す能力値だ。',
       skills: [
         {
