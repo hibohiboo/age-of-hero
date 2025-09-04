@@ -6,7 +6,7 @@ import {
   GiBrain,
   GiDna2,
   GiStarFormation,
-  GiElectric,
+  GiAncientSword,
   GiPaintBrush,
 } from 'react-icons/gi';
 import { ClassStatsTable } from '../components/ClassStatsTable';
@@ -48,7 +48,7 @@ export const CharacterCreationPage: React.FC = () => {
     },
     {
       name: 'アーティファクト',
-      icon: GiElectric,
+      icon: GiAncientSword,
       color: 'bg-orange-100 text-orange-800 border-orange-300',
     },
     {
