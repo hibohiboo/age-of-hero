@@ -162,12 +162,13 @@ export const CharacterCreationPage: React.FC = () => {
     {
       number: 1,
       title: 'クラスを2つ選択',
-      description: '8種類のクラスから好きな組み合わせを選択',
+      description: 'この際同じクラスを2回選択してもよい。',
     },
     {
       number: 2,
       title: '基本能力値を計算',
-      description: '選択したクラスに基づいて初期値を設定',
+      description:
+        'クラスに設定された能力値を合計する。その後、任意の能力値に１点追加する。',
     },
     {
       number: 3,
@@ -222,16 +223,18 @@ export const CharacterCreationPage: React.FC = () => {
       <PageHeader
         title="キャラクター作成"
         description="　キミが「Age of Hero」をプレイヤーとして遊ぼうとするならば、キミが「Age of Hero」世界で動かすプレイヤー・キャラクター（PC）を作る必要がある。キミの作ったPCはひとりのヒーローとなり、人を救い、ヴィランと戦うことになる。
-　「Age of Hero」では、PCはその身体的強さや技術を表す数値と、それぞれが得意とする技であるヒーロースキル、所持するアイテムなどによって表現される。そこに名前や年齢、性別、ヒーローとなった経緯などを加えて、ひとりのキャラクターとなるのだ。"
+「Age of Hero」では、PCはその身体的強さや技術を表す数値と、それぞれが得意とする技であるヒーロースキル、所持するアイテムなどによって表現される。そこに名前や年齢、性別、ヒーローとなった経緯などを加えて、ひとりのキャラクターとなるのだ。"
         centered
       />
 
       <div className="space-y-12">
-        <Section title="作成手順" icon="📋">
-          <StepList steps={steps} />
+        <Section title="キャラクターの要素" icon="🎭">
+          <p className="text-gray-600 mb-6">
+            キャラクター作成において、キミのヒーローを構成する要素がいくつも存在する。まずはそれらの要素について説明しよう。
+          </p>
         </Section>
 
-        <Section title="クラス選択" step={1}>
+        <Section title="クラス">
           <p className="text-gray-600 mb-6">
             クラスとはヒーローたちの持つ超常の力を表すものだ。
             クラスはその能力の系統ごとに八種類に分かれている。PCはこれらの内からクラスを二つ選ぶことになる。
@@ -252,7 +255,7 @@ export const CharacterCreationPage: React.FC = () => {
           </p>
         </Section>
 
-        <Section title="能力値と技能" step={2}>
+        <Section title="能力値と技能">
           <p className="text-gray-600 mb-6">
             能力値はそのヒーローがバイタル・メンタルなどの面でどれほどの強さがあるかを表している。技能はヒーローが具体的にどのようなことができるのかを表すパラメーターとなるのだ。
             各能力値と技能の詳細は以下の通り。
@@ -286,7 +289,7 @@ export const CharacterCreationPage: React.FC = () => {
           </div>
         </Section>
 
-        <Section title="共通取得技能" step={3}>
+        <Section title="共通取得技能">
           <p className="text-gray-600 mb-6">
             能力値に左右されない技能を指す。以下の三つが存在する。
           </p>
@@ -305,10 +308,21 @@ export const CharacterCreationPage: React.FC = () => {
           </div>
         </Section>
 
-        <Section title="技能ポイント分配" step={4}>
+        <Section title="作成手順" icon="📋">
+          <StepList steps={steps} />
+        </Section>
+        <Section title="基本能力値を計算" step={2}>
           <div className="p-4 bg-orange-50 border-l-4 border-orange-400 rounded">
             <p className="text-gray-700">
-              追加で150%分の技能ポイントを上記の能力値に分配します。これによりキャラクターの個性や特徴を表現できます。
+              クラスに設定された能力値を合計する。同じクラスを二回選択した場合、そのクラスに設定された能力値を二倍にする。その後、任意の能力値に１点追加する。{' '}
+            </p>
+          </div>
+        </Section>
+        <Section title="技能ポイント分配" step={3}>
+          <div className="p-4 bg-orange-50 border-l-4 border-orange-400 rounded">
+            <p className="text-gray-700">
+              能力値×１０％が各技能の初期値となる。その後、技能を１５０％分追加で割り振る。
+              ひとつの技能に割り振ることのできるポイントの上限は１００％である。この際、初期値と割り振った技能の合計が１００％を超えるように取得しても構わない。{' '}
             </p>
           </div>
         </Section>
