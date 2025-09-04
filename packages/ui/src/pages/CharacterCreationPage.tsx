@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaEye } from 'react-icons/fa';
+import { FaRegHandshake } from 'react-icons/fa6';
 import {
   GiRobotAntennas,
   GiCrystalBall,
@@ -29,6 +30,8 @@ import {
   GiThirdEye,
   GiKnifeThrust,
   GiAbstract061,
+  GiModernCity,
+  GiFireSilhouette,
 } from 'react-icons/gi';
 import { MdOutlinePsychology } from 'react-icons/md';
 import { ClassStatsTable } from '../components/ClassStatsTable';
@@ -280,15 +283,18 @@ export const CharacterCreationPage: React.FC = () => {
   const commonSkills = [
     {
       name: '〈社会〉',
+      icon: GiModernCity,
       description:
         'どのような社会や組織に所属しているかを表す技能。代表的なものはヒーロー協会、企業、警察、裏社会などだ。取得時には〈社会：ヒーロー協会〉といった形で記載し、それぞれ別技能として扱う。',
     },
     {
       name: '〈コネ〉',
+      icon: FaRegHandshake,
       description: 'どのような人物とコネクションを持っているかを表す技能。',
     },
     {
       name: '〈意志〉',
+      icon: GiFireSilhouette,
       description: '心の強さを表す技能。ヒーローに必須の力だ。',
     },
   ];
@@ -380,7 +386,8 @@ export const CharacterCreationPage: React.FC = () => {
                 key={skill.name}
                 className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg"
               >
-                <h4 className="font-semibold text-yellow-800 mb-2">
+                <h4 className="font-semibold text-yellow-800 mb-2 flex items-center gap-2">
+                  <skill.icon size={18} />
                   {skill.name}
                 </h4>
                 <p className="text-gray-600 text-sm">{skill.description}</p>
