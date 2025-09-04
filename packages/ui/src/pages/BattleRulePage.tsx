@@ -18,10 +18,10 @@ import {
   GiDirectionSign,
   GiMove,
   GiWeightLiftingDown,
-  GiFrozenBlock,
+  GiFootTrip,
   GiPoisonBottle,
   GiFluffyCloud,
-  GiChainedHeart,
+  GiHandcuffs,
 } from 'react-icons/gi';
 import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
@@ -176,12 +176,12 @@ export const BattleRulePage: React.FC = () => {
     },
     {
       title: 'ＢＳ：硬直',
-      icon: GiFrozenBlock,
+      icon: GiFootTrip,
       description: '移動を行うことができなくなる。',
       color: 'bg-blue-50 border-blue-200',
     },
     {
-      title: 'ＢＳ：スリップn',
+      title: 'ＢＳ：スリップ',
       icon: GiPoisonBottle,
       description: 'メインプロセス終了時にｎ点のHPダメージを受ける。',
       color: 'bg-green-50 border-green-200',
@@ -194,7 +194,7 @@ export const BattleRulePage: React.FC = () => {
     },
     {
       title: 'ＢＳ：捕縛',
-      icon: GiChainedHeart,
+      icon: GiHandcuffs,
       description: '選択した装備品の使用ができなくなる。',
       color: 'bg-red-50 border-red-200',
     },
