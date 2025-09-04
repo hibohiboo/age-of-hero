@@ -6,13 +6,25 @@ import { StepList } from '../components/StepList';
 export const CharacterCreationPage: React.FC = () => {
   const classes = [
     { name: 'マッスル', color: 'bg-red-100 text-red-800 border-red-300' },
-    { name: 'テクノロジー', color: 'bg-blue-100 text-blue-800 border-blue-300' },
-    { name: 'マジカル', color: 'bg-purple-100 text-purple-800 border-purple-300' },
+    {
+      name: 'テクノロジー',
+      color: 'bg-blue-100 text-blue-800 border-blue-300',
+    },
+    {
+      name: 'マジカル',
+      color: 'bg-purple-100 text-purple-800 border-purple-300',
+    },
     { name: 'サイキック', color: 'bg-pink-100 text-pink-800 border-pink-300' },
     { name: 'バイオ', color: 'bg-green-100 text-green-800 border-green-300' },
-    { name: 'エスペラント', color: 'bg-yellow-100 text-yellow-800 border-yellow-300' },
-    { name: 'アーティファクト', color: 'bg-orange-100 text-orange-800 border-orange-300' },
-    { name: 'アーツ', color: 'bg-teal-100 text-teal-800 border-teal-300' }
+    {
+      name: 'エスペラント',
+      color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+    },
+    {
+      name: 'アーティファクト',
+      color: 'bg-orange-100 text-orange-800 border-orange-300',
+    },
+    { name: 'アーツ', color: 'bg-teal-100 text-teal-800 border-teal-300' },
   ];
 
   const abilities = [
@@ -20,97 +32,199 @@ export const CharacterCreationPage: React.FC = () => {
       category: '【肉体】',
       description: '肉体的な力やその身体が持つ耐久力を表す能力値だ。',
       skills: [
-        { name: '〈パワー〉', description: '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。' },
-        { name: '〈タフネス〉', description: '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。' },
-        { name: '〈スタミナ〉', description: '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。' }
+        {
+          name: '〈パワー〉',
+          description:
+            '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。',
+        },
+        {
+          name: '〈タフネス〉',
+          description:
+            '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。',
+        },
+        {
+          name: '〈スタミナ〉',
+          description:
+            '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。',
+        },
       ],
       color: 'text-red-700',
       bgColor: 'bg-red-50',
-      borderColor: 'border-red-200'
+      borderColor: 'border-red-200',
     },
     {
       category: '【反射】',
       description: '手先の器用さや反射神経の良さを表す能力値だ。',
       skills: [
-        { name: '〈技術〉', description: '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。' },
-        { name: '〈運動〉', description: '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。' },
-        { name: '〈操縦〉', description: '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。' }
+        {
+          name: '〈技術〉',
+          description:
+            '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。',
+        },
+        {
+          name: '〈運動〉',
+          description:
+            '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。',
+        },
+        {
+          name: '〈操縦〉',
+          description:
+            '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。',
+        },
       ],
       color: 'text-blue-700',
       bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
+      borderColor: 'border-blue-200',
     },
     {
       category: '【感覚】',
       description: '天性のセンスや感受性の高さなどを表す能力値だ。',
       skills: [
-        { name: '〈射撃〉', description: '銃や弓を用いて射撃を行う技能。長距離狙撃からガンカタまで。' },
-        { name: '〈知覚〉', description: '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。' },
-        { name: '〈製作〉', description: '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。' },
-        { name: '〈芸術〉', description: 'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。' }
+        {
+          name: '〈射撃〉',
+          description:
+            '銃や弓を用いて射撃を行う技能。長距離狙撃からガンカタまで。',
+        },
+        {
+          name: '〈知覚〉',
+          description:
+            '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。',
+        },
+        {
+          name: '〈製作〉',
+          description:
+            '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。',
+        },
+        {
+          name: '〈芸術〉',
+          description:
+            'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。',
+        },
       ],
       color: 'text-green-700',
       bgColor: 'bg-green-50',
-      borderColor: 'border-green-200'
+      borderColor: 'border-green-200',
     },
     {
       category: '【知力】',
       description: '知識や頭脳をどれだけ上手く運用できるかを表す能力値だ。',
       skills: [
-        { name: '〈情報〉', description: '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。' },
-        { name: '〈交渉〉', description: '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。' },
-        { name: '〈心理〉', description: '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。' },
-        { name: '〈医療〉', description: 'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。' }
+        {
+          name: '〈情報〉',
+          description:
+            '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。',
+        },
+        {
+          name: '〈交渉〉',
+          description:
+            '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。',
+        },
+        {
+          name: '〈心理〉',
+          description:
+            '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。',
+        },
+        {
+          name: '〈医療〉',
+          description:
+            'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。',
+        },
       ],
       color: 'text-purple-700',
       bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200'
+      borderColor: 'border-purple-200',
     },
     {
       category: '【超常】',
       description: '通常では考えられないような超常的な力を表す能力値だ。',
       skills: [
-        { name: '〈魔術〉', description: '魔術を用いる技能。魔術の種類は多岐にわたる。' },
-        { name: '〈超能力〉', description: 'ESPやサイコキネシスなどの超能力を用いる技能。' },
-        { name: '〈第六感〉', description: '五感以外の感覚でものをとらえる技能。時に周囲の助けとなる。' }
+        {
+          name: '〈魔術〉',
+          description: '魔術を用いる技能。魔術の種類は多岐にわたる。',
+        },
+        {
+          name: '〈超能力〉',
+          description: 'ESPやサイコキネシスなどの超能力を用いる技能。',
+        },
+        {
+          name: '〈第六感〉',
+          description:
+            '五感以外の感覚でものをとらえる技能。時に周囲の助けとなる。',
+        },
       ],
       color: 'text-indigo-700',
       bgColor: 'bg-indigo-50',
-      borderColor: 'border-indigo-200'
-    }
+      borderColor: 'border-indigo-200',
+    },
   ];
 
   const steps = [
-    { number: 1, title: 'クラスを2つ選択', description: '8種類のクラスから好きな組み合わせを選択' },
-    { number: 2, title: '基本能力値を計算', description: '選択したクラスに基づいて初期値を設定' },
-    { number: 3, title: '追加の技能ポイント150%を分配', description: 'キャラクターの個性を表現する能力値の調整' },
-    { number: 4, title: 'ヒーロースキル7レベルを習得', description: 'クラスに応じた特殊能力を選択' },
-    { number: 5, title: '必殺技1レベルを習得', description: 'キャラクター独自の強力な技を作成' },
-    { number: 6, title: 'アイテム20点分を購入', description: '装備や道具でキャラクターを強化' },
-    { number: 7, title: 'HP・SPを算出', description: '生命力とスキルポイントの計算' },
-    { number: 8, title: '行動値を決定', description: '戦闘時の行動順序を決める値を算出' }
+    {
+      number: 1,
+      title: 'クラスを2つ選択',
+      description: '8種類のクラスから好きな組み合わせを選択',
+    },
+    {
+      number: 2,
+      title: '基本能力値を計算',
+      description: '選択したクラスに基づいて初期値を設定',
+    },
+    {
+      number: 3,
+      title: '追加の技能ポイント150%を分配',
+      description: 'キャラクターの個性を表現する能力値の調整',
+    },
+    {
+      number: 4,
+      title: 'ヒーロースキル7レベルを習得',
+      description: 'クラスに応じた特殊能力を選択',
+    },
+    {
+      number: 5,
+      title: '必殺技1レベルを習得',
+      description: 'キャラクター独自の強力な技を作成',
+    },
+    {
+      number: 6,
+      title: 'アイテム20点分を購入',
+      description: '装備や道具でキャラクターを強化',
+    },
+    {
+      number: 7,
+      title: 'HP・SPを算出',
+      description: '生命力とスキルポイントの計算',
+    },
+    {
+      number: 8,
+      title: '行動値を決定',
+      description: '戦闘時の行動順序を決める値を算出',
+    },
   ];
 
   const commonSkills = [
-    { name: '〈社会〉', description: 'どのような社会や組織に所属しているかを表す技能。代表的なものはヒーロー協会、企業、警察、裏社会などだ。取得時には〈社会：ヒーロー協会〉といった形で記載し、それぞれ別技能として扱う。' },
-    { name: '〈コネ〉', description: 'どのような人物とコネクションを持っているかを表す技能。' },
-    { name: '〈意志〉', description: '心の強さを表す技能。ヒーローに必須の力だ。' }
+    {
+      name: '〈社会〉',
+      description:
+        'どのような社会や組織に所属しているかを表す技能。代表的なものはヒーロー協会、企業、警察、裏社会などだ。取得時には〈社会：ヒーロー協会〉といった形で記載し、それぞれ別技能として扱う。',
+    },
+    {
+      name: '〈コネ〉',
+      description: 'どのような人物とコネクションを持っているかを表す技能。',
+    },
+    {
+      name: '〈意志〉',
+      description: '心の強さを表す技能。ヒーローに必須の力だ。',
+    },
   ];
 
   return (
     <article className="max-w-4xl mx-auto">
-      <PageHeader 
+      <PageHeader
         title="キャラクター作成"
-        description="「Age of Hero」の世界で活躍するヒーローキャラクターを作成します。キャラクターは数値的なデータ、ヒーロースキル、アイテム、個人的背景によって定義されます。"
+        description="　キミが「Age of Hero」をプレイヤーとして遊ぼうとするならば、キミが「Age of Hero」世界で動かすプレイヤー・キャラクター（PC）を作る必要がある。キミの作ったPCはひとりのヒーローとなり、人を救い、ヴィランと戦うことになる。
+　「Age of Hero」では、PCはその身体的強さや技術を表す数値と、それぞれが得意とする技であるヒーロースキル、所持するアイテムなどによって表現される。そこに名前や年齢、性別、ヒーローとなった経緯などを加えて、ひとりのキャラクターとなるのだ。"
         centered
       />
-
-      <div className="mb-8">
-        <p className="text-gray-600">
-          能力値はそのヒーローがバイタル・メンタルなどの面でどれほどの強さがあるかを表している。技能はヒーローが具体的にどのようなことができるのかを表すパラメーターとなるのだ。
-        </p>
-        <p className="text-gray-600 mt-2">各能力値と技能の詳細は以下の通り。</p>
-      </div>
 
       <div className="space-y-12">
         <Section title="作成手順" icon="📋">
@@ -118,27 +232,52 @@ export const CharacterCreationPage: React.FC = () => {
         </Section>
 
         <Section title="クラス選択" step={1}>
-          <p className="text-gray-600 mb-6">8種類のクラスから2つを選択できます。それぞれ異なる特徴と能力を持っています。</p>
+          <p className="text-gray-600 mb-6">
+            クラスとはヒーローたちの持つ超常の力を表すものだ。
+            クラスはその能力の系統ごとに八種類に分かれている。PCはこれらの内からクラスを二つ選ぶことになる。
+          </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {classes.map((classItem) => (
-              <div key={classItem.name} className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}>
+              <div
+                key={classItem.name}
+                className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+              >
                 {classItem.name}
               </div>
             ))}
           </div>
+          <p className="text-gray-600 mt-6">
+            例えば、クラスが「マッスル」と「バイオ」であれば、「身体改造によって人間以外の動物の能力を移植され、その強力なパワーで戦うヒーロー」というようなキャラクターになるだろう。
+            クラスの詳細については、各クラスデータの解説を参照してほしい。
+          </p>
         </Section>
 
         <Section title="能力値と技能" step={2}>
+          <p className="text-gray-600 mb-6">
+            能力値はそのヒーローがバイタル・メンタルなどの面でどれほどの強さがあるかを表している。技能はヒーローが具体的にどのようなことができるのかを表すパラメーターとなるのだ。
+            各能力値と技能の詳細は以下の通り。
+          </p>
           <div className="grid gap-8">
             {abilities.map((ability) => (
-              <div key={ability.category} className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}>
-                <h3 className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color}`}>{ability.category}</h3>
+              <div
+                key={ability.category}
+                className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}
+              >
+                <h3
+                  className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color}`}
+                >
+                  {ability.category}
+                </h3>
                 <p className="text-gray-600 mb-4">{ability.description}</p>
                 <div className="space-y-4">
                   {ability.skills.map((skill) => (
                     <div key={skill.name} className="ml-4">
-                      <h4 className="font-semibold text-gray-800">{skill.name}</h4>
-                      <p className="text-gray-600 text-sm mt-1">{skill.description}</p>
+                      <h4 className="font-semibold text-gray-800">
+                        {skill.name}
+                      </h4>
+                      <p className="text-gray-600 text-sm mt-1">
+                        {skill.description}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -148,11 +287,18 @@ export const CharacterCreationPage: React.FC = () => {
         </Section>
 
         <Section title="共通取得技能" step={3}>
-          <p className="text-gray-600 mb-6">能力値に左右されない技能を指す。以下の三つが存在する。</p>
+          <p className="text-gray-600 mb-6">
+            能力値に左右されない技能を指す。以下の三つが存在する。
+          </p>
           <div className="space-y-6">
             {commonSkills.map((skill) => (
-              <div key={skill.name} className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg">
-                <h4 className="font-semibold text-yellow-800 mb-2">{skill.name}</h4>
+              <div
+                key={skill.name}
+                className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg"
+              >
+                <h4 className="font-semibold text-yellow-800 mb-2">
+                  {skill.name}
+                </h4>
                 <p className="text-gray-600 text-sm">{skill.description}</p>
               </div>
             ))}
@@ -161,25 +307,29 @@ export const CharacterCreationPage: React.FC = () => {
 
         <Section title="技能ポイント分配" step={4}>
           <div className="p-4 bg-orange-50 border-l-4 border-orange-400 rounded">
-            <p className="text-gray-700">追加で150%分の技能ポイントを上記の能力値に分配します。これによりキャラクターの個性や特徴を表現できます。</p>
+            <p className="text-gray-700">
+              追加で150%分の技能ポイントを上記の能力値に分配します。これによりキャラクターの個性や特徴を表現できます。
+            </p>
           </div>
         </Section>
 
         <Section title="ヒーロースキル" step={5}>
           <div className="p-4 bg-pink-50 border-l-4 border-pink-400 rounded">
-            <p className="text-gray-700">合計7レベルまでのヒーロースキルを習得できます。選択したクラスによって習得可能なスキルが決まります。</p>
+            <p className="text-gray-700">
+              ヒーロースキルを合計７Ｌｖ分習得する。
+            </p>
           </div>
         </Section>
 
         <Section title="必殺技" step={6}>
           <div className="p-4 bg-red-50 border-l-4 border-red-400 rounded">
-            <p className="text-gray-700">1レベルの必殺技を習得します。これはキャラクターの特別な能力を表現します。</p>
+            <p className="text-gray-700">必殺技１Ｌｖを習得する。</p>
           </div>
         </Section>
 
         <Section title="アイテム" step={7}>
           <div className="p-4 bg-teal-50 border-l-4 border-teal-400 rounded">
-            <p className="text-gray-700">20点分のアイテムを購入できます。装備や道具を選択してキャラクターを強化しましょう。</p>
+            <p className="text-gray-700">価格２０点分のアイテムを購入する。</p>
           </div>
         </Section>
 
@@ -187,11 +337,15 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="space-y-3">
             <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
               <span className="font-semibold text-indigo-800">HP・SP算出:</span>
-              <span className="text-gray-700 ml-2">キャラクターの生命力とスキルポイントを計算します。</span>
+              <span className="text-gray-700 ml-2">
+                選択した二つのクラスのＨＰ・ＳＰの数値をそれぞれ合計し、ヒーロースキルなどで修正がある場合はそれを加える。
+              </span>
             </div>
             <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
               <span className="font-semibold text-indigo-800">行動値決定:</span>
-              <span className="text-gray-700 ml-2">戦闘時の行動順序を決める値を算出します。</span>
+              <span className="text-gray-700 ml-2">
+                行動値の算出を行う。行動値は【反射】×２＋【知力】となる。ヒーロースキルなどで修正がある場合はそれを加える。
+              </span>
             </div>
           </div>
         </Section>
@@ -199,10 +353,16 @@ export const CharacterCreationPage: React.FC = () => {
 
       <nav className="mt-12 pt-8 border-t border-gray-200">
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-          <a href="/rules" className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+          <a
+            href="/rules"
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          >
             ← ルール一覧に戻る
           </a>
-          <a href="/character" className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+          <a
+            href="/character"
+            className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             キャラクター作成ツールへ →
           </a>
         </div>
