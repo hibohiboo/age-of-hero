@@ -1,31 +1,61 @@
 import React from 'react';
+import {
+  GiMuscleUp,
+  GiRobotAntennas,
+  GiCrystalBall,
+  GiBrain,
+  GiDna2,
+  GiStarFormation,
+  GiElectric,
+  GiPaintBrush,
+} from 'react-icons/gi';
+import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { StepList } from '../components/StepList';
-import { ClassStatsTable } from '../components/ClassStatsTable';
 
 export const CharacterCreationPage: React.FC = () => {
   const classes = [
-    { name: 'マッスル', color: 'bg-red-100 text-red-800 border-red-300' },
+    {
+      name: 'マッスル',
+      icon: GiMuscleUp,
+      color: 'bg-red-100 text-red-800 border-red-300',
+    },
     {
       name: 'テクノロジー',
+      icon: GiRobotAntennas,
       color: 'bg-blue-100 text-blue-800 border-blue-300',
     },
     {
       name: 'マジカル',
+      icon: GiCrystalBall,
       color: 'bg-purple-100 text-purple-800 border-purple-300',
     },
-    { name: 'サイキック', color: 'bg-pink-100 text-pink-800 border-pink-300' },
-    { name: 'バイオ', color: 'bg-green-100 text-green-800 border-green-300' },
+    {
+      name: 'サイキック',
+      icon: GiBrain,
+      color: 'bg-pink-100 text-pink-800 border-pink-300',
+    },
+    {
+      name: 'バイオ',
+      icon: GiDna2,
+      color: 'bg-green-100 text-green-800 border-green-300',
+    },
     {
       name: 'エスペラント',
+      icon: GiStarFormation,
       color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
     },
     {
       name: 'アーティファクト',
+      icon: GiElectric,
       color: 'bg-orange-100 text-orange-800 border-orange-300',
     },
-    { name: 'アーツ', color: 'bg-teal-100 text-teal-800 border-teal-300' },
+    {
+      name: 'アーツ',
+      icon: GiPaintBrush,
+      color: 'bg-teal-100 text-teal-800 border-teal-300',
+    },
   ];
 
   const abilities = [
@@ -241,14 +271,18 @@ export const CharacterCreationPage: React.FC = () => {
             クラスはその能力の系統ごとに八種類に分かれている。PCはこれらの内からクラスを二つ選ぶことになる。
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {classes.map((classItem) => (
-              <div
-                key={classItem.name}
-                className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
-              >
-                {classItem.name}
-              </div>
-            ))}
+            {classes.map((classItem) => {
+              const IconComponent = classItem.icon;
+              return (
+                <div
+                  key={classItem.name}
+                  className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+                >
+                  <IconComponent className="mx-auto mb-2" size={24} />
+                  {classItem.name}
+                </div>
+              );
+            })}
           </div>
           <p className="text-gray-600 mt-6">
             例えば、クラスが「マッスル」と「バイオ」であれば、「身体改造によって人間以外の動物の能力を移植され、その強力なパワーで戦うヒーロー」というようなキャラクターになるだろう。
