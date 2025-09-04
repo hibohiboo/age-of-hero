@@ -173,6 +173,38 @@ export const JudgmentRulePage: React.FC = () => {
           <p className="text-gray-600 mb-6">
             対抗判定とは、二人以上のキャラクターの間で何らかの争いや競合が起きた場合に発生する判定だ。例えば「ヒーローがヴィランを追いかけ、ヴィランが逃走を試みる」場合などに発生する。
           </p>
+
+          <h3 className="font-semibold text-gray-800 mb-4">対抗判定の手順</h3>
+          <div className="space-y-4 mb-8">
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold text-sm">
+                1
+              </div>
+              <span className="text-gray-700">
+                対決の宣言：GMは使用する技能を決定。能動側、受動側キャラクターの確定
+              </span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold text-sm">
+                2
+              </div>
+              <span className="text-gray-700">能動側の判定</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold text-sm">
+                3
+              </div>
+              <span className="text-gray-700">受動側の判定</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold text-sm">
+                4
+              </div>
+              <span className="text-gray-700">判定結果の比較</span>
+            </div>
+          </div>
+
+          <h3 className="font-semibold text-gray-800 mb-4">判定結果の比較</h3>
           <p className="text-gray-600 mb-6">
             ヒーロースキルや攻撃により発生する対抗判定でない場合、判定の成否の比べ合いは以下のようになる。
           </p>
@@ -200,9 +232,10 @@ export const JudgmentRulePage: React.FC = () => {
 
           <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-400 rounded">
             <p className="text-blue-800 text-sm">
-              <strong>成功度・失敗度について：</strong>
+              <strong>成功度について：</strong>
               <br />
-              成功度は「判定値 - 出目」で算出される。
+              成功度は「判定値 -
+              出目」で算出される。数値が大きいほど、より良い結果となる。
             </p>
           </div>
         </Section>
