@@ -9,22 +9,24 @@ export const RulesPage: React.FC = () => {
     { title: 'セッションの進行', path: '/rules/session' },
     { title: '喝采ルール', path: '/rules/applause' },
     { title: '戦闘ルール', path: '/rules/combat' },
-    { title: '戦闘ルール：バッドステータス', path: '/rules/combat-bad-status' },
+    // { title: '戦闘ルール：バッドステータス', path: '/rules/combat-bad-status' },
   ];
 
   return (
     <div>
-      <PageHeader 
-        title="ルール" 
-        description="Age of Hero TRPGの基本的なルールとシステムについて説明します。"
+      <PageHeader
+        title="ルール"
+        description="Age of Hero TRPGの基本的なルールとシステム"
       />
 
       <div className="grid md:grid-cols-2 gap-6">
         {rulesSections.map((section, index) => (
           <Card key={index}>
-            <h3 className="text-xl font-semibold mb-4 text-blue-600">{section.title}</h3>
-            <a 
-              href={section.path} 
+            <h3 className="text-xl font-semibold mb-4 text-blue-600">
+              {section.title}
+            </h3>
+            <a
+              href={section.path}
               className="inline-block text-blue-600 hover:text-blue-800 font-medium"
             >
               詳細を見る →

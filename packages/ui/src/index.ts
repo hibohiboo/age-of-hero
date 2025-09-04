@@ -10,3 +10,7 @@ export { LinkCard } from './components/LinkCard';
 export { HomePage } from './pages/HomePage';
 export { RulesPage } from './pages/RulesPage';
 export { CharacterCreationPage } from './pages/CharacterCreationPage';
+export { JudgmentRulePage } from './pages/JudgmentRulePage';
+export { SessionProgressPage } from './pages/SessionProgressPage';
+export { AcclaimRulePage } from './pages/AcclaimRulePage';
+export { BattleRulePage } from './pages/BattleRulePage';
