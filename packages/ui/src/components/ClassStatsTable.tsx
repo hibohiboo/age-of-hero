@@ -94,64 +94,61 @@ const classStats: ClassStat[] = [
   },
 ];
 
+const tableHeaders = [
+  'クラス名',
+  '肉体',
+  '反射',
+  '感覚',
+  '知力',
+  '超常',
+  'ＨＰ',
+  'ＳＰ',
+];
+
+const getClassStatValues = (classStat: ClassStat): (string | number)[] => [
+  classStat.name,
+  classStat.body,
+  classStat.reflex,
+  classStat.sense,
+  classStat.intellect,
+  classStat.supernatural,
+  classStat.hp,
+  classStat.sp,
+];
+
+const TableHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
+    {children}
+  </th>
+);
+
+const TableCell: React.FC<{ 
+  children: React.ReactNode; 
+  isFirst?: boolean;
+}> = ({ children, isFirst = false }) => (
+  <td className={`px-3 py-2 border border-gray-300 ${isFirst ? 'font-medium' : 'text-center'}`}>
+    {children}
+  </td>
+);
+
 export const ClassStatsTable: React.FC = () => (
   <div className="overflow-x-auto">
     <table className="min-w-full bg-white border border-gray-300 rounded-lg text-sm">
       <thead className="bg-gray-50">
         <tr>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            クラス名
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            肉体
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            反射
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            感覚
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            知力
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            超常
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            ＨＰ
-          </th>
-          <th className="px-3 py-2 border border-gray-300 font-semibold text-gray-700">
-            ＳＰ
-          </th>
+          {tableHeaders.map((header) => (
+            <TableHeader key={header}>{header}</TableHeader>
+          ))}
         </tr>
       </thead>
       <tbody>
         {classStats.map((classStat) => (
           <tr key={classStat.name} className="hover:bg-gray-50">
-            <td className="px-3 py-2 border border-gray-300 font-medium">
-              {classStat.name}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.body}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.reflex}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.sense}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.intellect}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.supernatural}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.hp}
-            </td>
-            <td className="px-3 py-2 border border-gray-300 text-center">
-              {classStat.sp}
-            </td>
+            {getClassStatValues(classStat).map((value, index) => (
+              <TableCell key={index} isFirst={index === 0}>
+                {value}
+              </TableCell>
+            ))}
           </tr>
         ))}
       </tbody>
