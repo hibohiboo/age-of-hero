@@ -17,6 +17,11 @@ import {
   GiStopSign,
   GiDirectionSign,
   GiMove,
+  GiWeightLiftingDown,
+  GiFrozenBlock,
+  GiPoisonBottle,
+  GiFluffyCloud,
+  GiChainedHeart,
 } from 'react-icons/gi';
 import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
@@ -160,6 +165,39 @@ export const BattleRulePage: React.FC = () => {
     'リアクション側のキャラクターの判定',
     '対決の確定',
     'ダメージ算出',
+  ];
+
+  const badStatuses = [
+    {
+      title: 'ＢＳ：重圧',
+      icon: GiWeightLiftingDown,
+      description: 'オートアクションのヒーロースキルが使用できなくなる。',
+      color: 'bg-gray-50 border-gray-200',
+    },
+    {
+      title: 'ＢＳ：硬直',
+      icon: GiFrozenBlock,
+      description: '移動を行うことができなくなる。',
+      color: 'bg-blue-50 border-blue-200',
+    },
+    {
+      title: 'ＢＳ：スリップn',
+      icon: GiPoisonBottle,
+      description: 'メインプロセス終了時にｎ点のHPダメージを受ける。',
+      color: 'bg-green-50 border-green-200',
+    },
+    {
+      title: 'ＢＳ：放心',
+      icon: GiFluffyCloud,
+      description: '全ての判定に－２０％の修正を受ける。',
+      color: 'bg-yellow-50 border-yellow-200',
+    },
+    {
+      title: 'ＢＳ：捕縛',
+      icon: GiChainedHeart,
+      description: '選択した装備品の使用ができなくなる。',
+      color: 'bg-red-50 border-red-200',
+    },
   ];
 
   return (
@@ -431,6 +469,44 @@ export const BattleRulePage: React.FC = () => {
                 ダメージは[ヒット数]回のダメージロールを行う。基本ダメージは[（使用技能の属する能力値）Ｄ＋武器の攻撃力]。受ける側は１回のダメージロールごとに防護点分ダメージを軽減し、ガードを選択していた場合はガード値分も軽減する。
               </p>
             </div>
+          </div>
+        </Section>
+
+        <Section title="バッドステータス" icon="💀">
+          <p className="text-gray-600 mb-6">
+            戦闘中、キャラクターは様々な悪い状況に陥ることがある。これをバッドステータス（ＢＳ）と呼ぶ。バッドステータスは戦闘終了時に自動的に解除される。
+          </p>
+
+          <div className="space-y-4">
+            {badStatuses.map((status, index) => (
+              <div
+                key={index}
+                className={`p-4 ${status.color} rounded-lg border-2`}
+              >
+                <div className="flex items-start gap-3">
+                  <status.icon
+                    size={24}
+                    className="text-gray-700 mt-1 flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-800 mb-2">
+                      {status.title}
+                    </h4>
+                    <p className="text-gray-600 text-sm">
+                      {status.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 p-4 bg-orange-50 border-l-4 border-orange-400 rounded">
+            <p className="text-orange-800 text-sm">
+              <strong>バッドステータスの解除：</strong>
+              <br />
+              バッドステータスは基本的に戦闘終了時に自動的に解除される。ただし、一部のヒーロースキルやアイテムの効果で早期に解除できる場合もある。
+            </p>
           </div>
         </Section>
       </div>
