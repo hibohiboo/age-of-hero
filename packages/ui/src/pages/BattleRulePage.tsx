@@ -17,11 +17,11 @@ import {
   GiStopSign,
   GiDirectionSign,
   GiMove,
-  GiWeightLiftingDown,
   GiFootTrip,
   GiPoisonBottle,
   GiFluffyCloud,
   GiHandcuffs,
+  GiDespair,
 } from 'react-icons/gi';
 import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
@@ -170,7 +170,7 @@ export const BattleRulePage: React.FC = () => {
   const badStatuses = [
     {
       title: 'ＢＳ：重圧',
-      icon: GiWeightLiftingDown,
+      icon: GiDespair,
       description: 'オートアクションのヒーロースキルが使用できなくなる。',
       color: 'bg-gray-50 border-gray-200',
     },
