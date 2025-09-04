@@ -1,10 +1,10 @@
 import { Layout } from '../components/Layout';
-import { JudgmentRulePage } from '../pages/JudgmentRulePage';
+import { SessionProgressPage } from '../pages/SessionProgressPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/JudgmentRulePage',
-  component: JudgmentRulePage,
+  title: 'Pages/SessionProgressPage',
+  component: SessionProgressPage,
   parameters: {
     layout: 'fullscreen',
   },
@@ -15,7 +15,7 @@ const meta = {
       </Layout>
     ),
   ],
-} satisfies Meta<typeof JudgmentRulePage>;
+} satisfies Meta<typeof SessionProgressPage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
