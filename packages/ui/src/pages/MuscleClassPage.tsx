@@ -4,8 +4,6 @@ import {
   GiRunningShoe,
   GiShield,
   GiFist,
-  GiHeartPlus,
-  GiPowerButton,
   GiBiceps,
   GiEyeball,
   GiBrain,
@@ -49,7 +47,7 @@ export const MuscleClassPage: React.FC = () => {
     },
     {
       name: '《マッスルチャージ》',
-      icon: GiPowerButton,
+      icon: GiMuscleUp,
       details: {
         maxLv: 5,
         timing: 'メジャーアクション',
@@ -64,7 +62,7 @@ export const MuscleClassPage: React.FC = () => {
     },
     {
       name: '《バイタルアップ》',
-      icon: GiHeartPlus,
+      icon: GiMuscleUp,
       details: {
         maxLv: 10,
         timing: '常時',
