@@ -430,6 +430,9 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-pink-50 border-l-4 border-pink-400 rounded">
             <p className="text-gray-700">
               ヒーロースキルを合計７Ｌｖ分習得する。
+              
+               <Link to={`/character/hero-skill-guide}>ヒーロースキルの見方    </Link>
+               
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {classes.map((classItem) => {
                   const IconComponent = classItem.icon;
