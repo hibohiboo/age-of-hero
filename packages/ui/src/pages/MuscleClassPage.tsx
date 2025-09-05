@@ -102,6 +102,116 @@ export const MuscleClassPage: React.FC = () => {
         },
         color: 'bg-red-50 border-red-200',
       },
+      {
+        name: '《即席巨大武器》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 5,
+          timing: 'マイナーアクション',
+          skill: 'なし',
+          target: '自身',
+          range: 'なし',
+          cost: 4,
+          effect: `そのシーンの間、以下のデータの武器を作成し装備する。このヒーロースキルのＬｖが３以上になったならば、この武器を用いて「対象：範囲」に攻撃を行ってもよい。
+種別：白兵
+技能：〈パワー〉
+修正：－２０％
+攻撃力：＋[Ｌｖ＋９]
+ガード値：６
+射程：至近`,
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《ボディウォール》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 1,
+          timing: 'オートアクション',
+          skill: 'なし',
+          target: '単体',
+          range: '至近',
+          cost: 2,
+          effect:
+            '対象がリアクションを行った直前に使用する。対象への攻撃に対しカバーリングを行う。あなたはこのヒーロースキルによるカバーリングで行動終了にならず、行動終了していても使用できる。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《アダプテーション》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 3,
+          timing: 'スタートプロセス',
+          skill: 'なし',
+          target: '自身',
+          range: 'なし',
+          cost: 6,
+          effect:
+            '「白兵攻撃の判定」「ドッジの判定」の内からひとつを選択する。そのラウンド中、選択した判定値を＋[Ｌｖ×２０％]する。またそのラウンド中、「攻撃力」「防護点」「行動値」のいずれかに＋３する。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《肉体硬化》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 5,
+          timing: 'リアクション',
+          skill: '技能',
+          target: '自身',
+          range: 'なし',
+          cost: 4,
+          effect:
+            'ガード判定を行う。そのメインプロセス中、あなたのガード値を＋[Ｌｖ×４]＋１Ｄする。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《フルパワーアタック》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 3,
+          timing: 'ムーブアクション',
+          skill: 'なし',
+          target: '自身',
+          range: 'なし',
+          cost: 6,
+          effect:
+            'あなたがそのメインプロセス中に行う白兵攻撃ではダメージを＋[Ｌｖ×５]する。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《スピードフォース》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 3,
+          timing: 'メジャーアクション',
+          skill: '〈パワー〉',
+          target: '単体',
+          range: '至近',
+          cost: 8,
+          effect:
+            '対象に白兵攻撃を行う。コンボ２。その攻撃のダメージに＋[行動値]する。シーンにＬｖ回使用可能。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
+      {
+        name: '《ビルドアップストライク》',
+        icon: GiMuscleUp,
+        details: {
+          maxLv: 5,
+          timing: 'オート',
+          skill: 'なし',
+          target: '自身',
+          range: 'なし',
+          cost: 'ＦＣ',
+          effect:
+            'ファンチットを５枚消費する。ダメージロールの直前に使用する。そのダメージロールに＋３Ｄする。シーンに１回使用可能。このヒーロースキルのＬｖが３以上になったならばシナリオに２回、Ｌｖが５以上になったならばシナリオに３回使用可能。',
+        },
+        color: 'bg-red-50 border-red-200',
+      },
     ],
     origins: [
       {
