@@ -58,7 +58,7 @@ export const MuscleClassPage: React.FC = () => {
         effect:
           'このヒーロースキルを組み合わせた〈パワー〉技能の判定値を＋[Ｌｖ×２０]％する。',
       } as SkillDetails,
-      color: 'bg-orange-50 border-orange-200',
+      color: 'bg-red-50 border-red-200',
     },
     {
       name: '《バイタルアップ》',
@@ -72,7 +72,7 @@ export const MuscleClassPage: React.FC = () => {
         cost: 'なし',
         effect: 'あなたの最大ＨＰを＋[Ｌｖ×５]する。',
       } as SkillDetails,
-      color: 'bg-green-50 border-green-200',
+      color: 'bg-red-50 border-red-200',
     },
   ];
 
