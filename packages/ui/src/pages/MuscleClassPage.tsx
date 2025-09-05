@@ -5,9 +5,9 @@ import {
   GiShield,
   GiFist,
   GiBiceps,
-  GiEyeball,
-  GiBrain,
-  GiMagicPalm,
+  GiAlliedStar,
+  GiBookshelf,
+  GiMagicSwirl,
 } from 'react-icons/gi';
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
@@ -21,9 +21,9 @@ export const MuscleClassPage: React.FC = () => {
     abilityStats: [
       { name: '肉体', value: 3, icon: GiBiceps, color: 'bg-red-100' },
       { name: '反射', value: 2, icon: MdOutlineBolt, color: 'bg-yellow-100' },
-      { name: '感覚', value: 2, icon: GiEyeball, color: 'bg-blue-100' },
-      { name: '知力', value: 1, icon: GiBrain, color: 'bg-purple-100' },
-      { name: '超常', value: 0, icon: GiMagicPalm, color: 'bg-gray-100' },
+      { name: '感覚', value: 2, icon: GiAlliedStar, color: 'bg-blue-100' },
+      { name: '知力', value: 1, icon: GiBookshelf, color: 'bg-purple-100' },
+      { name: '超常', value: 0, icon: GiMagicSwirl, color: 'bg-gray-100' },
     ],
     hpSp: [
       { name: 'ＨＰ', value: 38, color: 'bg-red-100' },
