@@ -1,15 +1,10 @@
 import React from 'react';
 import {
   GiBrain,
-  GiThirdEye,
-  GiMindControl,
   GiBiceps,
   GiAlliedStar,
   GiBookshelf,
   GiMagicSwirl,
-  GiLightningBolt,
-  GiTeleport,
-  GiShieldReflect,
 } from 'react-icons/gi';
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
@@ -17,7 +12,8 @@ import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 export const PsychicClassPage: React.FC = () => {
   const classData: ClassPageData = {
     className: 'サイキック',
-    description: '超能力という特殊な能力を使うヒーローたち。個人ごとにテレパスや治癒能力の強化、気象や磁力の操作など能力の規模や方向性が異なる様々な能力を用いて戦闘や救助を行う。',
+    description:
+      '超能力という特殊な能力を使うヒーローたち。個人ごとにテレパスや治癒能力の強化、気象や磁力の操作など能力の規模や方向性が異なる様々な能力を用いて戦闘や救助を行う。',
     classIcon: '🧠',
     abilityStats: [
       { name: '肉体', value: 1, icon: GiBiceps, color: 'bg-red-100' },
@@ -224,9 +220,12 @@ export const PsychicClassPage: React.FC = () => {
         description: '実験や訓練によって後天的に超能力を身に着けた',
       },
     ],
-    originsDescription: 'サイキックヒーローの超能力がどのようにして発現したかは様々である。キャラクター作成時に、自分のサイキックがどのような経緯で能力を得たのかを考えてみよう。',
-    originsNote: 'いずれの起源であっても、その能力は脳機能の特殊な発現であり、使い手独自の特別な能力なのだ。',
-    abilityNote: 'サイキックは感覚・知力・超常能力がバランス良く配分された精神系クラス。物理能力は低いが、多様な超能力で戦況をコントロールできる。クラス取得時に《パワーオリジン》を自動取得する。',
+    originsDescription:
+      'サイキックヒーローの超能力がどのようにして発現したかは様々である。キャラクター作成時に、自分のサイキックがどのような経緯で能力を得たのかを考えてみよう。',
+    originsNote:
+      'いずれの起源であっても、その能力は脳機能の特殊な発現であり、使い手独自の特別な能力なのだ。',
+    abilityNote:
+      'サイキックは感覚・知力・超常能力がバランス良く配分された精神系クラス。物理能力は低いが、多様な超能力で戦況をコントロールできる。クラス取得時に《パワーオリジン》を自動取得する。',
     playStyles: [
       {
         title: '戦闘での役割',
