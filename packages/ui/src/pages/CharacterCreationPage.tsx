@@ -45,41 +45,49 @@ export const CharacterCreationPage: React.FC = () => {
       name: 'マッスル',
       icon: GiMuscleUp,
       color: 'bg-red-100 text-red-800 border-red-300',
+      path: 'character/muscle',
     },
     {
       name: 'テクノロジー',
       icon: GiRobotAntennas,
       color: 'bg-blue-100 text-blue-800 border-blue-300',
+      path: 'character/technology',
     },
     {
       name: 'マジカル',
       icon: GiCrystalBall,
       color: 'bg-purple-100 text-purple-800 border-purple-300',
+      path: 'character/magical',
     },
     {
       name: 'サイキック',
       icon: GiBrain,
       color: 'bg-pink-100 text-pink-800 border-pink-300',
+      path: 'character/psychic',
     },
     {
       name: 'バイオ',
       icon: GiDna2,
       color: 'bg-green-100 text-green-800 border-green-300',
+      path: 'character/bio',
     },
     {
       name: 'エスペラント',
       icon: GiStarFormation,
       color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+      path: 'character/esperanto',
     },
     {
       name: 'アーティファクト',
       icon: GiAncientSword,
       color: 'bg-orange-100 text-orange-800 border-orange-300',
+      path: 'character/artifact',
     },
     {
       name: 'アーツ',
       icon: GiPunchingBag,
       color: 'bg-teal-100 text-teal-800 border-teal-300',
+      path: 'character/arts',
     },
   ];
 
@@ -324,13 +332,15 @@ export const CharacterCreationPage: React.FC = () => {
             {classes.map((classItem) => {
               const IconComponent = classItem.icon;
               return (
-                <div
-                  key={classItem.name}
-                  className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
-                >
-                  <IconComponent className="mx-auto mb-2" size={24} />
-                  {classItem.name}
-                </div>
+                <Link to={`/${classItem.path}`} key={classItem.name}>
+                  <div
+                    key={classItem.name}
+                    className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+                  >
+                    <IconComponent className="mx-auto mb-2" size={24} />
+                    {classItem.name}
+                  </div>
+                </Link>
               );
             })}
           </div>
@@ -420,6 +430,22 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-pink-50 border-l-4 border-pink-400 rounded">
             <p className="text-gray-700">
               ヒーロースキルを合計７Ｌｖ分習得する。
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                {classes.map((classItem) => {
+                  const IconComponent = classItem.icon;
+                  return (
+                    <Link to={`/${classItem.path}`} key={classItem.name}>
+                      <div
+                        key={classItem.name}
+                        className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+                      >
+                        <IconComponent className="mx-auto mb-2" size={24} />
+                        {classItem.name}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
             </p>
           </div>
         </Section>
@@ -427,6 +453,7 @@ export const CharacterCreationPage: React.FC = () => {
         <Section title="必殺技" step={6}>
           <div className="p-4 bg-red-50 border-l-4 border-red-400 rounded">
             <p className="text-gray-700">必殺技１Ｌｖを習得する。</p>
+            <Link to="/character/ultimate-skill">必殺技一覧</Link>
           </div>
         </Section>
 
@@ -434,6 +461,7 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-teal-50 border-l-4 border-teal-400 rounded">
             <p className="text-gray-700">価格２０点分のアイテムを購入する。</p>
           </div>
+          <Link to="/character/item">アイテム一覧</Link>
         </Section>
 
         <Section title="最終計算" step={8}>
