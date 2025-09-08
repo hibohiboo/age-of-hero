@@ -3,7 +3,7 @@ import { JudgmentRulePage } from '../pages/JudgmentRulePage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/JudgmentRulePage',
+  title: 'Pages/Rules/JudgmentRulePage',
   component: JudgmentRulePage,
   parameters: {
     layout: 'fullscreen',

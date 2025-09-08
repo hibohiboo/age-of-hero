@@ -3,7 +3,7 @@ import { ItemsPage } from '../pages/ItemsPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/ItemsPage',
+  title: 'Pages/Rules/ItemsPage',
   component: ItemsPage,
   parameters: {
     layout: 'fullscreen',

@@ -3,7 +3,7 @@ import { EsperantoClassPage } from '../pages/EsperantoClassPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/EsperantoClassPage',
+  title: 'Pages/Classes/EsperantoClassPage',
   component: EsperantoClassPage,
   parameters: {
     layout: 'fullscreen',

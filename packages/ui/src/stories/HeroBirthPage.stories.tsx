@@ -3,7 +3,7 @@ import { HeroBirthPage } from '../pages/HeroBirthPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/HeroBirthPage',
+  title: 'Pages/World/HeroBirthPage',
   component: HeroBirthPage,
   parameters: {
     layout: 'fullscreen',

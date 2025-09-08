@@ -3,7 +3,7 @@ import { TechnologyClassPage } from '../pages/TechnologyClassPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/TechnologyClassPage',
+  title: 'Pages/Classes/TechnologyClassPage',
   component: TechnologyClassPage,
   parameters: {
     layout: 'fullscreen',

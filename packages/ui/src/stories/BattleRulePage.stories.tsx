@@ -3,7 +3,7 @@ import { BattleRulePage } from '../pages/BattleRulePage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/BattleRulePage',
+  title: 'Pages/Rules/BattleRulePage',
   component: BattleRulePage,
   parameters: {
     layout: 'fullscreen',

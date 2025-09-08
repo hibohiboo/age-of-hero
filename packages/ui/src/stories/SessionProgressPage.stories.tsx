@@ -3,7 +3,7 @@ import { SessionProgressPage } from '../pages/SessionProgressPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/SessionProgressPage',
+  title: 'Pages/Rules/SessionProgressPage',
   component: SessionProgressPage,
   parameters: {
     layout: 'fullscreen',

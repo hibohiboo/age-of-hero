@@ -3,7 +3,7 @@ import { UltimateSkillPage } from '../pages/UltimateSkillPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/UltimateSkillPage',
+  title: 'Pages/Rules/UltimateSkillPage',
   component: UltimateSkillPage,
   parameters: {
     layout: 'fullscreen',

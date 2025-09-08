@@ -3,7 +3,7 @@ import { PsychicClassPage } from '../pages/PsychicClassPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/PsychicClassPage',
+  title: 'Pages/Classes/PsychicClassPage',
   component: PsychicClassPage,
   parameters: {
     layout: 'fullscreen',

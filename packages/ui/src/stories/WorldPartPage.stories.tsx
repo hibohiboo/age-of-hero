@@ -3,7 +3,7 @@ import { WorldPartPage } from '../pages/WorldPartPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/WorldPartPage',
+  title: 'Pages/World/WorldPartPage',
   component: WorldPartPage,
   parameters: {
     layout: 'fullscreen',

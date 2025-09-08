@@ -3,7 +3,7 @@ import { HeroSkillPage } from '../pages/HeroSkillPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/HeroSkillPage',
+  title: 'Pages/Rules/HeroSkillPage',
   component: HeroSkillPage,
   parameters: {
     layout: 'fullscreen',

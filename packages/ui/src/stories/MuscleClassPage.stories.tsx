@@ -3,7 +3,7 @@ import { MuscleClassPage } from '../pages/MuscleClassPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/MuscleClassPage',
+  title: 'Pages/Classes/MuscleClassPage',
   component: MuscleClassPage,
   parameters: {
     layout: 'fullscreen',

@@ -3,7 +3,7 @@ import { BioClassPage } from '../pages/BioClassPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/BioClassPage',
+  title: 'Pages/Classes/BioClassPage',
   component: BioClassPage,
   parameters: {
     layout: 'fullscreen',

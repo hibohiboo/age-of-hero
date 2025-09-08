@@ -3,7 +3,7 @@ import { AcclaimRulePage } from '../pages/AcclaimRulePage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Pages/AcclaimRulePage',
+  title: 'Pages/Rules/AcclaimRulePage',
   component: AcclaimRulePage,
   parameters: {
     layout: 'fullscreen',
