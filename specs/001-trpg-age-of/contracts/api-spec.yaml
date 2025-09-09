@@ -29,7 +29,7 @@ paths:
   /api/characters:
     post:
       summary: キャラクター作成
-      description: 新しいキャラクターを作成し、アクセストークンを発行
+      description: 新しいキャラクターを作成し、一意のIDを発行
       tags:
         - Character
       requestBody:
@@ -52,14 +52,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  /api/characters/{accessToken}:
+  /api/characters/{id}:
     get:
       summary: キャラクター取得
-      description: アクセストークンを使用してキャラクター情報を取得
+      description: キャラクターIDを使用してキャラクター情報を取得
       tags:
         - Character
       parameters:
-        - name: accessToken
+        - name: id
           in: path
           required: true
           schema:
@@ -93,11 +93,11 @@ paths:
 
     put:
       summary: キャラクター更新
-      description: キャラクター情報を更新 (セッション中のステータス変更等)
+      description: キャラクターのセッション情報を追加・更新
       tags:
         - Character
       parameters:
-        - name: accessToken
+        - name: id
           in: path
           required: true
           schema:
@@ -123,14 +123,14 @@ paths:
         '404':
           description: キャラクターが見つからない
 
-  /api/characters/{accessToken}/password:
+  /api/characters/{id}/password:
     put:
       summary: パスワード設定/変更
       description: キャラクターシートにパスワード保護を設定または変更
       tags:
         - Character
       parameters:
-        - name: accessToken
+        - name: id
           in: path
           required: true
           schema:
@@ -365,9 +365,6 @@ components:
         id:
           type: string
           format: uuid
-        accessToken:
-          type: string
-          format: uuid
         url:
           type: string
           example: "/character/123e4567-e89b-12d3-a456-426614174000"
@@ -402,13 +399,40 @@ components:
           type: integer
         actionValue:
           type: integer
-        currentHp:
-          type: integer
-        currentSp:
-          type: integer
-        currentFc:
-          type: integer
-          nullable: true
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              sessionName:
+                type: string
+              gmName:
+                type: string
+              sessionDate:
+                type: string
+                format: date
+              currentHp:
+                type: integer
+                minimum: 0
+              currentSp:
+                type: integer
+                minimum: 0
+              currentFc:
+                type: integer
+                minimum: 0
+                nullable: true
+              experiencePoints:
+                type: integer
+                minimum: 0
+              memo:
+                type: string
+                nullable: true
+              createdAt:
+                type: string
+                format: date-time
         classes:
           type: array
           items:
@@ -459,16 +483,35 @@ components:
     UpdateCharacterRequest:
       type: object
       properties:
-        currentHp:
-          type: integer
-          minimum: 0
-        currentSp:
-          type: integer
-          minimum: 0
-        currentFc:
-          type: integer
-          minimum: 0
-          nullable: true
+        session:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            sessionName:
+              type: string
+            gmName:
+              type: string
+            sessionDate:
+              type: string
+              format: date
+            currentHp:
+              type: integer
+              minimum: 0
+            currentSp:
+              type: integer
+              minimum: 0
+            currentFc:
+              type: integer
+              minimum: 0
+              nullable: true
+            experiencePoints:
+              type: integer
+              minimum: 0
+            memo:
+              type: string
+              nullable: true
         password:
           type: string
           nullable: true
