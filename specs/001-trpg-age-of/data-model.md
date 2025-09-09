@@ -190,11 +190,23 @@ const HERO_SKILLS = {
 ### JSON データバリデーション
 
 ```typescript
+// 共通スキーマ定義
+const ClassNameSchema = z.enum([
+  "マッスル", 
+  "テクノロジー", 
+  "マジカル", 
+  "サイキック", 
+  "バイオ", 
+  "エスペラント", 
+  "アーティファクト", 
+  "アーツ"
+]);
+
 // バリデーションスキーマ (例: Zod)
 const CharacterDataSchema = z.object({
   selectedClasses: z.object({
-    primary: z.enum(["マッスル", "テクノロジー", "マジカル", "サイキック", "バイオ", "エスペラント", "アーティファクト", "アーツ"]),
-    secondary: z.enum(["マッスル", "テクノロジー", "マジカル", "サイキック", "バイオ", "エスペラント", "アーティファクト", "アーツ"])
+    primary: ClassNameSchema,
+    secondary: ClassNameSchema
   }),
   
   abilities: z.object({
