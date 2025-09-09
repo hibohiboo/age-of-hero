@@ -46,9 +46,10 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 *ゲート: フェーズ0研究前に通過必須。フェーズ1設計後に再チェック。*
 
 **簡素性**:
-- プロジェクト: 2個 (フロントエンド + バックエンド) - 最大3個以内 ✓
+- プロジェクト: 5個 (apps: backend+frontend, packages: ui+schemas+shared) - 最大3個を超過 ⚠️
+  - 正当化: モノレポ構成により共通コード重複を削減、型安全性向上、保守性向上
 - フレームワークを直接使用? はい - 直接 React/Hono 使用 ✓
-- 単一データモデル? はい - 共有 TypeScript 型 ✓
+- 単一データモデル? はい - packages/schemas で共有 TypeScript 型 ✓
 - パターンを避ける? はい - 直接 ORM、不要な Repository/UoW なし ✓
 
 **アーキテクチャ**:
@@ -88,35 +89,59 @@ specs/001-trpg-age-of/
 └── tasks.md             # フェーズ 2 出力 (/tasks コマンド - /plan では作成しない)
 ```
 
-### ソースコード (リポジトリルート)
+### ソースコード (リポジトリルート) - モノレポ構成
 ```
-# オプション 2: ウェブアプリケーション ("frontend" + "backend" 検出時)
-backend/
-├── src/
-│   ├── models/          # Drizzle スキーマ
-│   ├── services/        # ビジネスロジックライブラリ
-│   ├── api/            # Hono ルートハンドラー
-│   └── lib/            # ユーティリティライブラリ
-├── tests/
-│   ├── contract/       # API 契約テスト
-│   ├── integration/    # フルスタック統合テスト
-│   └── unit/          # サービス単体テスト
-└── drizzle/           # データベースマイグレーション
+# モノレポ構成: apps/ + packages/ アーキテクチャ
+apps/
+├── backend/
+│   ├── src/
+│   │   ├── api/            # Hono ルートハンドラー
+│   │   ├── services/       # ビジネスロジックライブラリ
+│   │   └── lib/           # バックエンド固有ユーティリティ
+│   ├── tests/
+│   │   ├── contract/      # API 契約テスト
+│   │   ├── integration/   # フルスタック統合テスト
+│   │   └── unit/         # サービス単体テスト
+│   └── drizzle/          # データベースマイグレーション
+│
+└── frontend/
+    ├── src/
+    │   ├── pages/         # ルートページ
+    │   ├── components/    # アプリケーション固有コンポーネント
+    │   ├── services/      # API クライアントライブラリ
+    │   └── lib/          # フロントエンド固有ユーティリティ
+    ├── tests/
+    │   ├── contract/     # コンポーネント契約テスト
+    │   ├── integration/  # ユーザーフローテスト
+    │   └── unit/        # コンポーネント単体テスト
+    └── public/          # 静的アセット
 
-frontend/
-├── src/
-│   ├── components/     # React コンポーネント
-│   ├── pages/         # ルートページ
-│   ├── services/      # API クライアントライブラリ
-│   └── lib/          # ユーティリティライブラリ
-├── tests/
-│   ├── contract/      # コンポーネント契約テスト
-│   ├── integration/   # ユーザーフローテスト
-│   └── unit/         # コンポーネント単体テスト
-└── public/           # 静的アセット
+packages/
+├── ui/
+│   ├── src/
+│   │   ├── components/   # 再利用可能UIコンポーネント
+│   │   ├── hooks/        # カスタムReact hooks
+│   │   └── styles/       # 共通スタイル定義
+│   └── tests/           # UIコンポーネントテスト
+│
+├── schemas/
+│   ├── src/
+│   │   ├── character/    # キャラクター関連スキーマ
+│   │   ├── session/      # セッション関連スキーマ
+│   │   ├── api/          # API契約スキーマ
+│   │   └── validation/   # 共通バリデーションルール
+│   └── tests/           # スキーマテスト
+│
+└── shared/
+    ├── src/
+    │   ├── types/        # 共通型定義
+    │   ├── constants/    # 定数定義
+    │   ├── utils/        # 共通ユーティリティ関数
+    │   └── errors/       # エラー定義
+    └── tests/           # 共通ライブラリテスト
 ```
 
-**構造決定**: オプション 2 (ウェブアプリケーション) - React/Hono スタック用フロントエンド + バックエンドアーキテクチャ
+**構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(ui/schemas/shared) 構成によるフロントエンド + バックエンド分離と共通ライブラリ管理
 
 ## フェーズ 0: 概要 & 研究
 
