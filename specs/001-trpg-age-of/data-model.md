@@ -115,18 +115,17 @@ interface CharacterData {
 
   // セッション履歴
   sessions: {
-    [sessionId: string]: {
-      sessionName: string; // セッション名
-      gmName: string; // GM名
-      sessionDate: string; // セッション実施日 (YYYY-MM-DD)
-      currentHp: number; // セッション終了時HP
-      currentSp: number; // セッション終了時SP
-      currentFc?: number; // セッション終了時ファンチット
-      experiencePoints: number; // 獲得経験点
-      memo?: string; // セッションメモ
-      createdAt: string; // 記録作成日時 (ISO string)
-    };
-  };
+    id: string; // セッションID (UUID v4)
+    sessionName: string; // セッション名
+    gmName: string; // GM名
+    sessionDate: string; // セッション実施日 (YYYY-MM-DD)
+    currentHp: number; // セッション終了時HP
+    currentSp: number; // セッション終了時SP
+    currentFc?: number; // セッション終了時ファンチット
+    experiencePoints: number; // 獲得経験点
+    memo?: string; // セッションメモ
+    createdAt: string; // 記録作成日時 (ISO string)
+  }[];
 
   // メタデータ
   metadata: {
@@ -142,12 +141,13 @@ interface CharacterData {
 - characterData: JSON スキーマバリデーション
 - 能力値: 0-20の範囲
 - HP/SP: 正の整数
-- sessionId: UUID v4 形式
-- sessionName: 1-100文字、必須
-- gmName: 1-50文字、必須
-- sessionDate: YYYY-MM-DD 形式
-- currentHp/currentSp: 0以上
-- experiencePoints: 0以上の整数
+- sessions: 配列形式
+- session.id: UUID v4 形式
+- session.sessionName: 1-100文字、必須
+- session.gmName: 1-50文字、必須
+- session.sessionDate: YYYY-MM-DD 形式
+- session.currentHp/currentSp: 0以上
+- session.experiencePoints: 0以上の整数
 
 ### 静的マスターデータ (コード内定義)
 
@@ -347,8 +347,9 @@ const CharacterDataSchema = z.object({
     actionValue: z.number().positive(),
   }),
 
-  sessions: z.record(
+  sessions: z.array(
     z.object({
+      id: z.string().uuid(),
       sessionName: z.string().min(1).max(100),
       gmName: z.string().min(1).max(50),
       sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -440,7 +441,7 @@ export const charactersIndexes = {
 6. **ヒーロースキル選択**: characterData.heroSkills設定
 7. **必殺技・アイテム選択**: characterData.specialAttacks, items設定
 8. **最終ステータス算出**: characterData.status設定
-9. **セッション履歴初期化**: characterData.sessions を空のオブジェクトで初期化
+9. **セッション履歴初期化**: characterData.sessions を空の配列で初期化
 
 ### データ更新フロー
 
@@ -459,21 +460,20 @@ const addSessionRecord = async (
     memo?: string;
   }
 ) => {
-  const sessionId = crypto.randomUUID();
   const character = await db
     .select()
     .from(characters)
     .where(eq(characters.id, characterId));
   
+  const newSession = {
+    id: crypto.randomUUID(),
+    ...sessionData,
+    createdAt: new Date().toISOString(),
+  };
+  
   const updatedData = {
     ...character[0].characterData,
-    sessions: {
-      ...character[0].characterData.sessions,
-      [sessionId]: {
-        ...sessionData,
-        createdAt: new Date().toISOString(),
-      },
-    },
+    sessions: [...character[0].characterData.sessions, newSession],
   };
 
   await db
@@ -487,7 +487,7 @@ const addSessionRecord = async (
 
 // 最新セッション情報取得
 const getLatestSessionStatus = (character: Character) => {
-  const sessions = Object.values(character.characterData.sessions);
+  const sessions = character.characterData.sessions;
   if (sessions.length === 0) {
     return {
       currentHp: character.characterData.status.hp,
@@ -496,15 +496,47 @@ const getLatestSessionStatus = (character: Character) => {
     };
   }
   
-  const latestSession = sessions.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )[0];
+  // 配列は時系列順なので最後の要素が最新
+  const latestSession = sessions[sessions.length - 1];
   
   return {
     currentHp: latestSession.currentHp,
     currentSp: latestSession.currentSp,
     currentFc: latestSession.currentFc || 0,
   };
+};
+
+// セッション編集例
+const updateSessionRecord = async (
+  characterId: string,
+  sessionId: string,
+  updates: Partial<{
+    sessionName: string;
+    gmName: string;
+    memo: string;
+  }>
+) => {
+  const character = await db
+    .select()
+    .from(characters)
+    .where(eq(characters.id, characterId));
+  
+  const updatedSessions = character[0].characterData.sessions.map(session =>
+    session.id === sessionId ? { ...session, ...updates } : session
+  );
+  
+  const updatedData = {
+    ...character[0].characterData,
+    sessions: updatedSessions,
+  };
+
+  await db
+    .update(characters)
+    .set({
+      characterData: updatedData,
+      updatedAt: new Date(),
+    })
+    .where(eq(characters.id, characterId));
 };
 ```
 
