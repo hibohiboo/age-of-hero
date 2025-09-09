@@ -202,6 +202,8 @@ const ClassNameSchema = z.enum([
   "アーツ"
 ]);
 
+const AbilityValueSchema = z.number().min(0).max(20);
+
 // バリデーションスキーマ (例: Zod)
 const CharacterDataSchema = z.object({
   selectedClasses: z.object({
@@ -210,11 +212,11 @@ const CharacterDataSchema = z.object({
   }),
   
   abilities: z.object({
-    physical: z.number().min(0).max(20),
-    reflex: z.number().min(0).max(20),
-    sensory: z.number().min(0).max(20),
-    intellectual: z.number().min(0).max(20),
-    supernatural: z.number().min(0).max(20)
+    physical: AbilityValueSchema,
+    reflex: AbilityValueSchema,
+    sensory: AbilityValueSchema,
+    intellectual: AbilityValueSchema,
+    supernatural: AbilityValueSchema
   }),
   
   skills: z.record(z.object({
