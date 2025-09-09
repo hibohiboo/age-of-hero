@@ -1,41 +1,41 @@
-# Tasks: Age of Hero キャラクターシート管理システム
+# タスク: Age of Hero キャラクターシート管理システム
 
-**Input**: Design documents from `/specs/001-trpg-age-of/`  
-**Prerequisites**: plan.md (required), research.md, data-model.md, contracts/api-spec.yaml  
-**Project Type**: web - モノレポ構成 (apps/backend + apps/frontend + packages)
+**入力**: `/specs/001-trpg-age-of/` からの設計ドキュメント  
+**前提条件**: plan.md (必須), research.md, data-model.md, contracts/api-spec.yaml  
+**プロジェクトタイプ**: web - モノレポ構成 (apps/backend + apps/frontend + packages)
 
-## Execution Flow (main)
+## 実行フロー (main)
 ```
-1. Load plan.md from feature directory
-   → Success: モノレポ構成、React/TypeScript + Hono/PostgreSQL確認
-   → Extract: Bun, Drizzle ORM, Cloudflare Pages/Workers
-2. Load design documents:
+1. フィーチャーディレクトリからplan.mdを読み込み
+   → 成功: モノレポ構成、React/TypeScript + Hono/PostgreSQL確認
+   → 抽出: Bun, Drizzle ORM, Cloudflare Pages/Workers
+2. 設計ドキュメントを読み込み:
    → data-model.md: Characters単一テーブル設計 → schema/model tasks
    → contracts/api-spec.yaml: 5エンドポイント → contract test tasks  
    → research.md: 技術決定根拠 → setup tasks
-3. Generate tasks by category:
-   → Setup: モノレポ構成、依存関係、linting
-   → Tests: contract tests, integration tests (TDD)
-   → Core: Drizzle schema, API endpoints, React components
-   → Integration: DB接続, middleware, フロントエンド統合
-   → Polish: unit tests, E2E tests, performance
-4. Apply task rules:
-   → Different packages/apps = mark [P] for parallel
-   → Same file = sequential (no [P])  
-   → Tests before implementation (TDD)
-5. Number tasks sequentially (T001, T002...)
-6. Success: 69+ tasks generated for monorepo execution
+3. カテゴリ別にタスクを生成:
+   → セットアップ: モノレポ構成、依存関係、linting
+   → テスト: contract tests, integration tests (TDD)
+   → コア: Drizzle schema, API endpoints, React components
+   → 統合: DB接続, middleware, フロントエンド統合
+   → 仕上げ: unit tests, E2E tests, performance
+4. タスクルールを適用:
+   → 異なるpackages/apps = [P]で並列マーク
+   → 同じファイル = sequential ([P]なし)  
+   → 実装前にテスト (TDD)
+5. タスクを順次番号付け (T001, T002...)
+6. 成功: モノレポ実行用の69+タスクを生成
 ```
 
-## Format: `[ID] [P?] Description`
-- **[P]**: Can run in parallel (different files/packages, no dependencies)  
-- Include exact file paths in descriptions
+## フォーマット: `[ID] [P?] 説明`
+- **[P]**: 並列実行可能 (異なるファイル/packages、依存関係なし)  
+- 説明に正確なファイルパスを含める
 
-## Path Conventions
-**Monorepo structure** (from plan.md):
-- **Backend**: `apps/backend/src/`, `apps/backend/tests/`
-- **Frontend**: `apps/frontend/src/`, `apps/frontend/tests/`  
-- **Packages**: `packages/schemas/`, `packages/ui/`, `packages/shared/`
+## パス規約
+**モノレポ構造** (plan.mdから):
+- **バックエンド**: `apps/backend/src/`, `apps/backend/tests/`
+- **フロントエンド**: `apps/frontend/src/`, `apps/frontend/tests/`  
+- **パッケージ**: `packages/schemas/`, `packages/ui/`, `packages/shared/`
 
 ## フェーズ 3.1: セットアップ
 - [ ] T001 apps/ と packages/ ディレクトリでモノレポ構造を作成
