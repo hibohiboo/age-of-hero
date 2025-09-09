@@ -8,6 +8,7 @@
 ## 設計アプローチ
 
 ### 単一テーブル + JSON設計の利点
+
 - **シンプルさ**: 正規化によるJOINクエリを回避
 - **開発速度**: 小規模TRPGツールに適したアジャイル開発
 - **柔軟性**: キャラクターシート項目の追加・変更が容易
@@ -34,22 +35,23 @@ erDiagram
 ## エンティティ定義
 
 ### Characters (メインテーブル)
+
 **目的**: キャラクター情報の一元管理
 
 ```typescript
 interface Character {
   // 基本情報 (テーブル直下カラム)
-  id: string;                    // UUID v4
-  name: string;                  // キャラクター名
-  createdAt: Date;              // 作成日時
-  updatedAt: Date;              // 更新日時
-  
+  id: string; // UUID v4
+  name: string; // キャラクター名
+  createdAt: Date; // 作成日時
+  updatedAt: Date; // 更新日時
+
   // アクセス制御 (テーブル直下カラム)
-  accessToken: string;          // UUID v4 (URL識別子)
-  passwordHash?: string;        // bcrypt ハッシュ (オプション)
+  accessToken: string; // UUID v4 (URL識別子)
+  passwordHash?: string; // bcrypt ハッシュ (オプション)
   isPasswordProtected: boolean; // パスワード保護フラグ
-  lastAccessedAt?: Date;        // 最終アクセス日時
-  
+  lastAccessedAt?: Date; // 最終アクセス日時
+
   // キャラクターシート詳細情報 (JSON カラム)
   characterData: CharacterData;
 }
@@ -58,37 +60,37 @@ interface Character {
 interface CharacterData {
   // クラス情報
   selectedClasses: {
-    primary: string;             // 1つ目のクラス名
-    secondary: string;           // 2つ目のクラス名 (重複可)
+    primary: string; // 1つ目のクラス名
+    secondary: string; // 2つ目のクラス名 (重複可)
   };
-  
+
   // 計算済み能力値
   abilities: {
-    physical: number;            // 肉体
-    reflex: number;              // 反射
-    sensory: number;             // 感覚
-    intellectual: number;        // 知力
-    supernatural: number;        // 超常
+    physical: number; // 肉体
+    reflex: number; // 反射
+    sensory: number; // 感覚
+    intellectual: number; // 知力
+    supernatural: number; // 超常
   };
-  
+
   // 技能値 (初期値 + 割り振りポイント)
   skills: {
     [skillName: string]: {
-      baseValue: number;         // 初期値 (能力値×10%)
-      allocatedPoints: number;   // 割り振りポイント
-      totalValue: number;        // 合計値
+      baseValue: number; // 初期値 (能力値×10%)
+      allocatedPoints: number; // 割り振りポイント
+      totalValue: number; // 合計値
     };
   };
-  
+
   // ヒーロースキル
   heroSkills: {
     [skillName: string]: {
-      level: number;             // 習得レベル
-      maxLevel: number;          // 最大レベル
-      effect: string;            // 効果説明
+      level: number; // 習得レベル
+      maxLevel: number; // 最大レベル
+      effect: string; // 効果説明
     };
   };
-  
+
   // 必殺技
   specialAttacks: {
     [attackName: string]: {
@@ -96,37 +98,38 @@ interface CharacterData {
       effect: string;
     };
   };
-  
+
   // アイテム・装備
   items: {
     [itemName: string]: {
-      type: string;              // 種別 (武器/防具/消耗品等)
-      quantity: number;          // 数量
-      effects: string[];         // 効果一覧
+      type: string; // 種別 (武器/防具/消耗品等)
+      quantity: number; // 数量
+      effects: string[]; // 効果一覧
     };
   };
-  
+
   // ステータス
   status: {
     // 基本ステータス
-    hp: number;                  // 最大HP
-    sp: number;                  // 最大SP
-    actionValue: number;         // 行動値 (反射×2+知力)
-    
+    hp: number; // 最大HP
+    sp: number; // 最大SP
+    actionValue: number; // 行動値 (反射×2+知力)
+
     // 現在値 (セッション中に変動)
     currentHp: number;
     currentSp: number;
-    currentFc?: number;          // ファンチット (オプション)
+    currentFc?: number; // ファンチット (オプション)
   };
-  
+
   // メタデータ
   metadata: {
-    version: string;             // データ構造バージョン
+    version: string; // データ構造バージョン
   };
 }
 ```
 
 **バリデーションルール**:
+
 - name: 1-50文字、必須
 - accessToken: UUID v4 形式、ユニーク
 - characterData: JSON スキーマバリデーション
@@ -135,39 +138,140 @@ interface CharacterData {
 - currentHp/currentSp: 0以上、最大値以下
 
 ### 静的マスターデータ (コード内定義)
+
 **目的**: ゲームシステム固定データをコード内で管理
 
 ```typescript
 // クラスマスターデータ (変更頻度が低いためコード内定義)
 const CLASSES = {
-  マッスル: { physical: 3, reflex: 2, sensory: 2, intellectual: 1, supernatural: 0, hp: 38, sp: 17 },
-  テクノロジー: { physical: 1, reflex: 2, sensory: 3, intellectual: 2, supernatural: 0, hp: 30, sp: 25 },
-  マジカル: { physical: 1, reflex: 1, sensory: 1, intellectual: 2, supernatural: 3, hp: 23, sp: 32 },
-  サイキック: { physical: 1, reflex: 1, sensory: 2, intellectual: 2, supernatural: 2, hp: 25, sp: 30 },
-  バイオ: { physical: 2, reflex: 2, sensory: 2, intellectual: 2, supernatural: 0, hp: 36, sp: 19 },
-  エスペラント: { physical: 1, reflex: 2, sensory: 1, intellectual: 2, supernatural: 2, hp: 27, sp: 28 },
-  アーティファクト: { physical: 2, reflex: 1, sensory: 2, intellectual: 1, supernatural: 2, hp: 34, sp: 21 },
-  アーツ: { physical: 1, reflex: 3, sensory: 2, intellectual: 2, supernatural: 0, hp: 32, sp: 23 }
+  マッスル: {
+    physical: 3,
+    reflex: 2,
+    sensory: 2,
+    intellectual: 1,
+    supernatural: 0,
+    hp: 38,
+    sp: 17,
+  },
+  テクノロジー: {
+    physical: 1,
+    reflex: 2,
+    sensory: 3,
+    intellectual: 2,
+    supernatural: 0,
+    hp: 30,
+    sp: 25,
+  },
+  マジカル: {
+    physical: 1,
+    reflex: 1,
+    sensory: 1,
+    intellectual: 2,
+    supernatural: 3,
+    hp: 23,
+    sp: 32,
+  },
+  サイキック: {
+    physical: 1,
+    reflex: 1,
+    sensory: 2,
+    intellectual: 2,
+    supernatural: 2,
+    hp: 25,
+    sp: 30,
+  },
+  バイオ: {
+    physical: 2,
+    reflex: 2,
+    sensory: 2,
+    intellectual: 2,
+    supernatural: 0,
+    hp: 36,
+    sp: 19,
+  },
+  エスペラント: {
+    physical: 1,
+    reflex: 2,
+    sensory: 1,
+    intellectual: 2,
+    supernatural: 2,
+    hp: 27,
+    sp: 28,
+  },
+  アーティファクト: {
+    physical: 2,
+    reflex: 1,
+    sensory: 2,
+    intellectual: 1,
+    supernatural: 2,
+    hp: 34,
+    sp: 21,
+  },
+  アーツ: {
+    physical: 1,
+    reflex: 3,
+    sensory: 2,
+    intellectual: 2,
+    supernatural: 0,
+    hp: 32,
+    sp: 23,
+  },
 } as const;
 
 // 技能マスターデータ
 const SKILLS = {
   // 肉体系
-  パワー: { category: 'physical', description: '素手や武器による力任せな攻撃、災害救助など。' },
-  タフネス: { category: 'physical', description: 'ダメージへの耐久力、防御、仲間を守るために必要。' },
-  スタミナ: { category: 'physical', description: '持久力や回復力。長期任務や連続行動に重要。' },
+  パワー: {
+    category: 'physical',
+    description: '素手や武器による力任せな攻撃、災害救助など。',
+  },
+  タフネス: {
+    category: 'physical',
+    description: 'ダメージへの耐久力、防御、仲間を守るために必要。',
+  },
+  スタミナ: {
+    category: 'physical',
+    description: '持久力や回復力。長期任務や連続行動に重要。',
+  },
   // 反射系
-  技術: { category: 'reflex', description: '武器や道具を扱う技能。鍛錬次第で応用可能。' },
-  運動: { category: 'reflex', description: '回避や素早い運動。人質救出などに役立つ。' },
-  操縦: { category: 'reflex', description: '車・船・飛行機などの操縦。現場へ駆けつける手段。' },
+  技術: {
+    category: 'reflex',
+    description: '武器や道具を扱う技能。鍛錬次第で応用可能。',
+  },
+  運動: {
+    category: 'reflex',
+    description: '回避や素早い運動。人質救出などに役立つ。',
+  },
+  操縦: {
+    category: 'reflex',
+    description: '車・船・飛行機などの操縦。現場へ駆けつける手段。',
+  },
   // 感覚系
-  射撃: { category: 'sensory', description: '銃や弓による射撃。長距離狙撃やガンカタを含む。' },
-  知覚: { category: 'sensory', description: '周囲に気づく力。奇襲への対応など。' },
-  製作: { category: 'sensory', description: '武器・道具・乗り物の製作。ギミックを仕込む準備。' },
-  芸術: { category: 'sensory', description: '歌や絵画などの創作。人々の心を癒やすことも可能。' },
+  射撃: {
+    category: 'sensory',
+    description: '銃や弓による射撃。長距離狙撃やガンカタを含む。',
+  },
+  知覚: {
+    category: 'sensory',
+    description: '周囲に気づく力。奇襲への対応など。',
+  },
+  製作: {
+    category: 'sensory',
+    description: '武器・道具・乗り物の製作。ギミックを仕込む準備。',
+  },
+  芸術: {
+    category: 'sensory',
+    description: '歌や絵画などの創作。人々の心を癒やすことも可能。',
+  },
   // 知力系
-  情報: { category: 'intellectual', description: '情報収集や情報戦。敵をかく乱する手段にも。' },
-  交渉: { category: 'intellectual', description: '他者との交渉。物資や情報を得る手段。' }
+  情報: {
+    category: 'intellectual',
+    description: '情報収集や情報戦。敵をかく乱する手段にも。',
+  },
+  交渉: {
+    category: 'intellectual',
+    description: '他者との交渉。物資や情報を得る手段。',
+  },
 } as const;
 
 // ヒーロースキルマスターデータ (一部例)
@@ -179,7 +283,7 @@ const HERO_SKILLS = {
     target: '単体',
     range: '近接',
     cost: 3,
-    effect: 'パワー+レベルで攻撃。成功時追加ダメージ。'
+    effect: 'パワー+レベルで攻撃。成功時追加ダメージ。',
   },
   // ... その他のスキル定義
 } as const;
@@ -190,14 +294,14 @@ const HERO_SKILLS = {
 ```typescript
 // 共通スキーマ定義
 const ClassNameSchema = z.enum([
-  "マッスル", 
-  "テクノロジー", 
-  "マジカル", 
-  "サイキック", 
-  "バイオ", 
-  "エスペラント", 
-  "アーティファクト", 
-  "アーツ"
+  'マッスル',
+  'テクノロジー',
+  'マジカル',
+  'サイキック',
+  'バイオ',
+  'エスペラント',
+  'アーティファクト',
+  'アーツ',
 ]);
 
 const AbilityValueSchema = z.number().min(0).max(20);
@@ -206,53 +310,59 @@ const AbilityValueSchema = z.number().min(0).max(20);
 const CharacterDataSchema = z.object({
   selectedClasses: z.object({
     primary: ClassNameSchema,
-    secondary: ClassNameSchema
+    secondary: ClassNameSchema,
   }),
-  
+
   abilities: z.object({
     physical: AbilityValueSchema,
     reflex: AbilityValueSchema,
     sensory: AbilityValueSchema,
     intellectual: AbilityValueSchema,
-    supernatural: AbilityValueSchema
+    supernatural: AbilityValueSchema,
   }),
-  
-  skills: z.record(z.object({
-    baseValue: z.number().min(0).max(200),
-    allocatedPoints: z.number().min(0).max(100),
-    totalValue: z.number().min(0).max(300)
-  })),
-  
+
+  skills: z.record(
+    z.object({
+      baseValue: z.number().min(0).max(200),
+      allocatedPoints: z.number().min(0).max(100),
+      totalValue: z.number().min(0).max(300),
+    }),
+  ),
+
   status: z.object({
     hp: z.number().positive(),
     sp: z.number().positive(),
     actionValue: z.number().positive(),
     currentHp: z.number().min(0),
     currentSp: z.number().min(0),
-    currentFc: z.number().optional()
+    currentFc: z.number().optional(),
   }),
-  
+
   metadata: z.object({
-    version: z.string()
-  })
+    version: z.string(),
+  }),
 });
 
 // カスタムバリデーション
 const validateCharacterData = (data: CharacterData) => {
   // スキルポイント合計チェック
-  const totalAllocatedPoints = Object.values(data.skills)
-    .reduce((sum, skill) => sum + skill.allocatedPoints, 0);
+  const totalAllocatedPoints = Object.values(data.skills).reduce(
+    (sum, skill) => sum + skill.allocatedPoints,
+    0,
+  );
   if (totalAllocatedPoints > 150) {
     throw new Error('技能ポイント合計は150を超えることはできません');
   }
-  
+
   // ヒーロースキルレベル合計チェック
-  const totalHeroSkillLevels = Object.values(data.heroSkills)
-    .reduce((sum, skill) => sum + skill.level, 0);
+  const totalHeroSkillLevels = Object.values(data.heroSkills).reduce(
+    (sum, skill) => sum + skill.level,
+    0,
+  );
   if (totalHeroSkillLevels > 7) {
     throw new Error('ヒーロースキル合計は7レベルを超えることはできません');
   }
-  
+
   return true;
 };
 ```
@@ -261,7 +371,14 @@ const validateCharacterData = (data: CharacterData) => {
 
 ```typescript
 // schema.ts - 単一テーブル設計
-import { pgTable, uuid, varchar, timestamp, boolean, jsonb } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  uuid,
+  varchar,
+  timestamp,
+  boolean,
+  jsonb,
+} from 'drizzle-orm/pg-core';
 
 export const characters = pgTable('characters', {
   // 基本情報
@@ -269,28 +386,33 @@ export const characters = pgTable('characters', {
   name: varchar('name', { length: 50 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  
+
   // アクセス制御
   accessToken: uuid('access_token').defaultRandom().notNull().unique(),
   passwordHash: varchar('password_hash', { length: 255 }),
-  isPasswordProtected: boolean('is_password_protected').default(false).notNull(),
+  isPasswordProtected: boolean('is_password_protected')
+    .default(false)
+    .notNull(),
   lastAccessedAt: timestamp('last_accessed_at'),
-  
+
   // キャラクターシート詳細 (JSON)
-  characterData: jsonb('character_data').notNull().$type<CharacterData>()
+  characterData: jsonb('character_data').notNull().$type<CharacterData>(),
 });
 
 // インデックス設定
 export const charactersIndexes = {
-  accessTokenIdx: uniqueIndex('idx_characters_access_token').on(characters.accessToken),
+  accessTokenIdx: uniqueIndex('idx_characters_access_token').on(
+    characters.accessToken,
+  ),
   updatedAtIdx: index('idx_characters_updated_at').on(characters.updatedAt),
-  nameIdx: index('idx_characters_name').on(characters.name)
+  nameIdx: index('idx_characters_name').on(characters.name),
 };
 ```
 
 ## ビジネスロジック
 
 ### キャラクター作成フロー
+
 1. **初期化**: 空のcharacterDataオブジェクト作成
 2. **クラス選択**: characterData.selectedClasses 設定
 3. **能力値算出**: CLASSES定数から計算してcharacterData.abilities設定
@@ -301,28 +423,37 @@ export const charactersIndexes = {
 8. **最終ステータス算出**: characterData.status設定
 
 ### データ更新フロー
+
 ```typescript
 // 部分更新の例
-const updateCharacterSkills = async (id: string, skillUpdates: Partial<CharacterData['skills']>) => {
-  const character = await db.select().from(characters).where(eq(characters.id, id));
+const updateCharacterSkills = async (
+  id: string,
+  skillUpdates: Partial<CharacterData['skills']>,
+) => {
+  const character = await db
+    .select()
+    .from(characters)
+    .where(eq(characters.id, id));
   const updatedData = {
     ...character[0].characterData,
     skills: {
       ...character[0].characterData.skills,
-      ...skillUpdates
-    }
+      ...skillUpdates,
+    },
   };
-  
-  await db.update(characters)
-    .set({ 
+
+  await db
+    .update(characters)
+    .set({
       characterData: updatedData,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     })
     .where(eq(characters.id, id));
 };
 ```
 
 ### アクセス制御フロー
+
 1. **キャラクター作成**: accessToken自動生成
 2. **URL共有**: `/character/{accessToken}` でアクセス
 3. **パスワード設定**: isPasswordProtected + passwordHash更新
@@ -331,6 +462,7 @@ const updateCharacterSkills = async (id: string, skillUpdates: Partial<Character
 ## パフォーマンス最適化
 
 ### インデックス戦略
+
 - **Primary Key**: id (UUID) で高速ルックアップ
 - **Unique Index**: accessToken で URL アクセス最適化
 - **Regular Index**: updatedAt, name で検索・ソート最適化
@@ -339,16 +471,18 @@ const updateCharacterSkills = async (id: string, skillUpdates: Partial<Character
 ```sql
 -- JSON内容の検索用インデックス (必要に応じて)
 CREATE INDEX idx_character_data_gin ON characters USING GIN (character_data);
-CREATE INDEX idx_character_completed ON characters USING BTREE ((character_data->>'metadata'->>'isCompleted'));
+CREATE INDEX idx_character_completed ON characters USING BTREE ((character_data->>'metadata'->>'version'));
 ```
 
 ### JSON操作最適化
+
 - **部分更新**: PostgreSQL の jsonb_set() 関数使用
 - **バッチ操作**: 複数セクション同時更新で DB アクセス削減
 - **バリデーション**: クライアントサイドで事前チェック
 - **圧縮**: 大きなJSON データの圧縮保存検討
 
 ### マイグレーション戦略
+
 ```sql
 -- 初期テーブル作成
 CREATE TABLE characters (
@@ -370,33 +504,40 @@ CREATE INDEX idx_characters_name ON characters(name);
 ```
 
 ## 利点と制約
+
 **利点**:
+
 - **シンプル**: JOIN 不要で高速、開発・デプロイが簡単
-- **柔軟性**: キャラクターシート項目の追加・変更が容易  
+- **柔軟性**: キャラクターシート項目の追加・変更が容易
 - **小規模最適**: <100キャラの想定規模に適している
 - **アジャイル**: プロトタイプから本格運用への移行が簡単
 
 **制約**:
+
 - **検索制限**: JSON内での複雑クエリは困難
 - **正規化なし**: データ重複の可能性
-- **パフォーマンス**: JSONサイズ大でクエリが重くなる可能性  
+- **パフォーマンス**: JSONサイズ大でクエリが重くなる可能性
 - **型安全性**: JSON内でのTypeScript型チェック制限
 
 **推奨事項**:
+
 - 将来的にユーザー数が100を大幅に超える場合は正規化を検討
 - JSON内データの検索が頻繁になる場合は部分的正規化を検討
 - 現在の小規模TRPG用途には最適な設計
 
 ## 設計判断の記録
+
 **決定**: 単一テーブル + JSON カラム設計を採用  
-**理由**: 
+**理由**:
+
 1. 小規模TRPG (10ユーザー未満) に適している
 2. 開発速度を優先（アジャイル開発向け）
 3. キャラクターシート項目の変更が容易
 4. JOINクエリ不要でシンプル
 
 **代替案**: 正規化された複数テーブル設計  
-**却下理由**: 
+**却下理由**:
+
 1. 小規模アプリには複雑すぎる
 2. 開発・運用コストが高い
 3. TRPGシートの項目変更時の影響が大きい
