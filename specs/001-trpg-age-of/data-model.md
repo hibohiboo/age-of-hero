@@ -122,8 +122,6 @@ interface CharacterData {
   // メタデータ
   metadata: {
     version: string;             // データ構造バージョン
-    isCompleted: boolean;        // キャラクター作成完了フラグ
-    lastModifiedSection?: string; // 最後に更新されたセクション
   };
 }
 ```
@@ -235,9 +233,7 @@ const CharacterDataSchema = z.object({
   }),
   
   metadata: z.object({
-    version: z.string(),
-    isCompleted: z.boolean(),
-    lastModifiedSection: z.string().optional()
+    version: z.string()
   })
 });
 
@@ -303,7 +299,6 @@ export const charactersIndexes = {
 6. **ヒーロースキル選択**: characterData.heroSkills設定
 7. **必殺技・アイテム選択**: characterData.specialAttacks, items設定
 8. **最終ステータス算出**: characterData.status設定
-9. **完了**: characterData.metadata.isCompleted = true
 
 ### データ更新フロー
 ```typescript
@@ -315,10 +310,6 @@ const updateCharacterSkills = async (id: string, skillUpdates: Partial<Character
     skills: {
       ...character[0].characterData.skills,
       ...skillUpdates
-    },
-    metadata: {
-      ...character[0].characterData.metadata,
-      lastModifiedSection: 'skills'
     }
   };
   
