@@ -1,0 +1,510 @@
+openapi: 3.0.3
+info:
+  title: Age of Hero キャラクターシート API
+  description: Age of Hero TRPG キャラクターシート管理システムのREST API
+  version: 0.1.0
+  contact:
+    name: Age of Hero システム
+servers:
+  - url: https://api.age-of-hero.example.com
+    description: プロダクション環境
+  - url: http://localhost:3000
+    description: ローカル開発環境
+
+paths:
+  /api/game-data:
+    get:
+      summary: ゲームデータ取得
+      description: クラス、スキル、アイテム等のマスターデータを取得
+      tags:
+        - GameData
+      responses:
+        '200':
+          description: ゲームデータ取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameDataResponse'
+
+  /api/characters:
+    post:
+      summary: キャラクター作成
+      description: 新しいキャラクターを作成し、アクセストークンを発行
+      tags:
+        - Character
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCharacterRequest'
+      responses:
+        '201':
+          description: キャラクター作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCharacterResponse'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/characters/{accessToken}:
+    get:
+      summary: キャラクター取得
+      description: アクセストークンを使用してキャラクター情報を取得
+      tags:
+        - Character
+      parameters:
+        - name: accessToken
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: password
+          in: query
+          description: パスワード保護されている場合のパスワード
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: キャラクター取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterResponse'
+        '401':
+          description: パスワード認証エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: キャラクターが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: キャラクター更新
+      description: キャラクター情報を更新 (セッション中のステータス変更等)
+      tags:
+        - Character
+      parameters:
+        - name: accessToken
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCharacterRequest'
+      responses:
+        '200':
+          description: キャラクター更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterResponse'
+        '400':
+          description: バリデーションエラー
+        '401':
+          description: パスワード認証エラー
+        '404':
+          description: キャラクターが見つからない
+
+  /api/characters/{accessToken}/password:
+    put:
+      summary: パスワード設定/変更
+      description: キャラクターシートにパスワード保護を設定または変更
+      tags:
+        - Character
+      parameters:
+        - name: accessToken
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPasswordRequest'
+      responses:
+        '200':
+          description: パスワード設定成功
+        '401':
+          description: 既存パスワード認証エラー
+        '404':
+          description: キャラクターが見つからない
+
+components:
+  schemas:
+    GameDataResponse:
+      type: object
+      properties:
+        classes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassData'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkillData'
+        heroSkills:
+          type: array
+          items:
+            $ref: '#/components/schemas/HeroSkillData'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemData'
+
+    ClassData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "マッスル"
+        physicalBase:
+          type: integer
+          minimum: 0
+        reflexBase:
+          type: integer
+          minimum: 0
+        sensoryBase:
+          type: integer
+          minimum: 0
+        intellectualBase:
+          type: integer
+          minimum: 0
+        supernaturalBase:
+          type: integer
+          minimum: 0
+        hpBase:
+          type: integer
+          minimum: 1
+        spBase:
+          type: integer
+          minimum: 1
+        description:
+          type: string
+
+    SkillData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "パワー"
+        category:
+          type: string
+          enum: ["physical", "reflex", "sensory", "intellectual"]
+        description:
+          type: string
+        order:
+          type: integer
+
+    HeroSkillData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "《パワードライブ》"
+        maxLevel:
+          type: integer
+          minimum: 1
+        timing:
+          type: string
+          example: "メジャーアクション"
+        skill:
+          type: string
+          example: "白兵攻撃"
+        target:
+          type: string
+          example: "単体"
+        range:
+          type: string
+          example: "武器"
+        cost:
+          type: integer
+          minimum: 0
+        effect:
+          type: string
+        classRestriction:
+          type: array
+          items:
+            type: string
+          nullable: true
+
+    ItemData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "射撃武器（小）"
+        type:
+          type: string
+          example: "射撃武器"
+        skill:
+          type: string
+          example: "〈射撃〉"
+        modifier:
+          type: string
+          example: "+20%"
+        attackPower:
+          type: string
+          example: "+4"
+        guardValue:
+          type: string
+          example: "2"
+        range:
+          type: string
+          example: "近距離"
+        price:
+          type: integer
+          minimum: 0
+          example: 60
+        effect:
+          type: string
+          example: "拳銃など。"
+
+    CreateCharacterRequest:
+      type: object
+      required:
+        - name
+        - selectedClasses
+        - skillAllocations
+        - heroSkills
+        - specialAttacks
+        - items
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: "山田太郎"
+        selectedClasses:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 2
+          maxItems: 2
+          description: "選択した2つのクラスID (重複可)"
+        abilityBonus:
+          type: string
+          enum: ["physical", "reflex", "sensory", "intellectual", "supernatural"]
+          description: "能力値+1ボーナスの適用先"
+        skillAllocations:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+            maximum: 100
+          description: "技能ID → 割り振りポイントのマップ"
+        heroSkills:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              level:
+                type: integer
+                minimum: 1
+        specialAttacks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              level:
+                type: integer
+                minimum: 1
+        items:
+          type: array
+          items:
+            type: string
+            format: uuid
+        password:
+          type: string
+          nullable: true
+          minLength: 4
+          description: "オプションのパスワード"
+
+    CreateCharacterResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accessToken:
+          type: string
+          format: uuid
+        url:
+          type: string
+          example: "/character/123e4567-e89b-12d3-a456-426614174000"
+
+    CharacterResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        physicalAbility:
+          type: integer
+        reflexAbility:
+          type: integer
+        sensoryAbility:
+          type: integer
+        intellectualAbility:
+          type: integer
+        supernaturalAbility:
+          type: integer
+        hp:
+          type: integer
+        sp:
+          type: integer
+        actionValue:
+          type: integer
+        currentHp:
+          type: integer
+        currentSp:
+          type: integer
+        currentFc:
+          type: integer
+          nullable: true
+        classes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClassData'
+        skills:
+          type: array
+          items:
+            type: object
+            properties:
+              skill:
+                $ref: '#/components/schemas/SkillData'
+              baseValue:
+                type: integer
+              allocatedPoints:
+                type: integer
+              totalValue:
+                type: integer
+        heroSkills:
+          type: array
+          items:
+            type: object
+            properties:
+              skill:
+                $ref: '#/components/schemas/HeroSkillData'
+              level:
+                type: integer
+        specialAttacks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              level:
+                type: integer
+              effect:
+                type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemData'
+        isPasswordProtected:
+          type: boolean
+
+    UpdateCharacterRequest:
+      type: object
+      properties:
+        currentHp:
+          type: integer
+          minimum: 0
+        currentSp:
+          type: integer
+          minimum: 0
+        currentFc:
+          type: integer
+          minimum: 0
+          nullable: true
+        password:
+          type: string
+          nullable: true
+          description: "パスワード保護されている場合のパスワード"
+
+    SetPasswordRequest:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+          nullable: true
+          description: "現在のパスワード (変更時のみ)"
+        newPassword:
+          type: string
+          nullable: true
+          minLength: 4
+          description: "新しいパスワード (nullで保護解除)"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "バリデーションエラーが発生しました"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
