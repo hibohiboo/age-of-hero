@@ -142,12 +142,6 @@ interface CharacterData {
 - 能力値: 0-20の範囲
 - HP/SP: 正の整数
 - sessions: 配列形式
-- session.id: UUID v4 形式
-- session.sessionName: 1-100文字、必須
-- session.gmName: 1-50文字、必須
-- session.sessionDate: YYYY-MM-DD 形式
-- session.currentHp/currentSp: 0以上
-- session.experiencePoints: 0以上の整数
 
 ### 静的マスターデータ (コード内定義)
 
@@ -349,14 +343,14 @@ const CharacterDataSchema = z.object({
 
   sessions: z.array(
     z.object({
-      id: z.string().uuid(),
-      sessionName: z.string().min(1).max(100),
-      gmName: z.string().min(1).max(50),
-      sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-      currentHp: z.number().min(0),
-      currentSp: z.number().min(0),
+      id: z.string(),
+      sessionName: z.string(),
+      gmName: z.string(),
+      sessionDate: z.string(),
+      currentHp: z.number(),
+      currentSp: z.number(),
       currentFc: z.number().optional(),
-      experiencePoints: z.number().int().min(0),
+      experiencePoints: z.number(),
       memo: z.string().optional(),
       createdAt: z.string(),
     }),
@@ -458,19 +452,19 @@ const addSessionRecord = async (
     currentFc?: number;
     experiencePoints: number;
     memo?: string;
-  }
+  },
 ) => {
   const character = await db
     .select()
     .from(characters)
     .where(eq(characters.id, characterId));
-  
+
   const newSession = {
     id: crypto.randomUUID(),
     ...sessionData,
     createdAt: new Date().toISOString(),
   };
-  
+
   const updatedData = {
     ...character[0].characterData,
     sessions: [...character[0].characterData.sessions, newSession],
@@ -495,10 +489,10 @@ const getLatestSessionStatus = (character: Character) => {
       currentFc: 0,
     };
   }
-  
+
   // 配列は時系列順なので最後の要素が最新
   const latestSession = sessions[sessions.length - 1];
-  
+
   return {
     currentHp: latestSession.currentHp,
     currentSp: latestSession.currentSp,
@@ -514,17 +508,17 @@ const updateSessionRecord = async (
     sessionName: string;
     gmName: string;
     memo: string;
-  }>
+  }>,
 ) => {
   const character = await db
     .select()
     .from(characters)
     .where(eq(characters.id, characterId));
-  
-  const updatedSessions = character[0].characterData.sessions.map(session =>
-    session.id === sessionId ? { ...session, ...updates } : session
+
+  const updatedSessions = character[0].characterData.sessions.map((session) =>
+    session.id === sessionId ? { ...session, ...updates } : session,
   );
-  
+
   const updatedData = {
     ...character[0].characterData,
     sessions: updatedSessions,
