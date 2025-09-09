@@ -24,7 +24,6 @@ erDiagram
         varchar name
         timestamp created_at
         timestamp updated_at
-        uuid access_token UK
         varchar password_hash
         boolean is_password_protected
         timestamp last_accessed_at
@@ -41,13 +40,12 @@ erDiagram
 ```typescript
 interface Character {
   // 基本情報 (テーブル直下カラム)
-  id: string; // UUID v4
+  id: string; // UUID v4 (PK兼URL識別子)
   name: string; // キャラクター名
   createdAt: Date; // 作成日時
   updatedAt: Date; // 更新日時
 
   // アクセス制御 (テーブル直下カラム)
-  accessToken: string; // UUID v4 (URL識別子)
   passwordHash?: string; // bcrypt ハッシュ (オプション)
   isPasswordProtected: boolean; // パスワード保護フラグ
   lastAccessedAt?: Date; // 最終アクセス日時
@@ -130,8 +128,8 @@ interface CharacterData {
 
 **バリデーションルール**:
 
+- id: UUID v4 形式、ユニーク（PK）
 - name: 1-50文字、必須
-- accessToken: UUID v4 形式、ユニーク
 - characterData: JSON スキーマバリデーション
 - 能力値: 0-20の範囲
 - HP/SP: 正の整数
@@ -388,7 +386,6 @@ export const characters = pgTable('characters', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
   // アクセス制御
-  accessToken: uuid('access_token').defaultRandom().notNull().unique(),
   passwordHash: varchar('password_hash', { length: 255 }),
   isPasswordProtected: boolean('is_password_protected')
     .default(false)
@@ -401,9 +398,6 @@ export const characters = pgTable('characters', {
 
 // インデックス設定
 export const charactersIndexes = {
-  accessTokenIdx: uniqueIndex('idx_characters_access_token').on(
-    characters.accessToken,
-  ),
   updatedAtIdx: index('idx_characters_updated_at').on(characters.updatedAt),
   nameIdx: index('idx_characters_name').on(characters.name),
 };
@@ -454,8 +448,8 @@ const updateCharacterSkills = async (
 
 ### アクセス制御フロー
 
-1. **キャラクター作成**: accessToken自動生成
-2. **URL共有**: `/character/{accessToken}` でアクセス
+1. **キャラクター作成**: id（UUID）自動生成
+2. **URL共有**: `/character/{id}` でアクセス
 3. **パスワード設定**: isPasswordProtected + passwordHash更新
 4. **認証**: パスワード保護時のbcrypt検証
 
@@ -463,8 +457,7 @@ const updateCharacterSkills = async (
 
 ### インデックス戦略
 
-- **Primary Key**: id (UUID) で高速ルックアップ
-- **Unique Index**: accessToken で URL アクセス最適化
+- **Primary Key**: id (UUID) で高速ルックアップ・URL アクセス最適化
 - **Regular Index**: updatedAt, name で検索・ソート最適化
 - **JSON Index**: PostgreSQL GIN インデックスで JSON 内容検索
 
@@ -490,7 +483,6 @@ CREATE TABLE characters (
   name VARCHAR(50) NOT NULL,
   created_at TIMESTAMP DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
-  access_token UUID UNIQUE DEFAULT gen_random_uuid() NOT NULL,
   password_hash VARCHAR(255),
   is_password_protected BOOLEAN DEFAULT FALSE NOT NULL,
   last_accessed_at TIMESTAMP,
@@ -498,7 +490,6 @@ CREATE TABLE characters (
 );
 
 -- インデックス作成
-CREATE UNIQUE INDEX idx_characters_access_token ON characters(access_token);
 CREATE INDEX idx_characters_updated_at ON characters(updated_at);
 CREATE INDEX idx_characters_name ON characters(name);
 ```
