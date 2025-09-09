@@ -4,6 +4,7 @@
 **入力**: `/specs/001-trpg-age-of/spec.md` からの機能仕様書
 
 ## 実行フロー (/plan コマンドの範囲)
+
 ```
 1. 入力パスから機能仕様を読み込み
    → 成功: 完全な要件を含む機能仕様を読み込み完了
@@ -25,13 +26,16 @@
 ```
 
 **重要**: /plan コマンドはステップ7で停止します。フェーズ2-4は他のコマンドで実行:
+
 - フェーズ 2: /tasks コマンドが tasks.md を作成
 - フェーズ 3-4: 実装実行 (手動またはツール経由)
 
 ## 概要
+
 Age of Hero TRPG キャラクターシート管理システム - オンラインでTRPGキャラクターシートを作成、管理、アクセスするためのウェブアプリケーション。React/TypeScript フロントエンドと Hono API バックエンド、Cloudflare Pages デプロイ、Drizzle ORM を使用した PostgreSQL ストレージ。使いやすさのためのURLベースアクセス制御とオプションのパスワード保護。
 
 ## 技術コンテキスト
+
 **言語/バージョン**: TypeScript (最新), Node.js 18+  
 **主要依存関係**: React, Vite, Hono, Drizzle ORM, Tailwind CSS, React Router  
 **ストレージ**: PostgreSQL with Drizzle ORM - 単一テーブル + JSON カラム設計  
@@ -43,9 +47,11 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 **規模/スコープ**: 小規模TRPG ツール, <100キャラクターシート想定, データベース設計はシンプルな単一テーブル + JSON
 
 ## 憲章チェック
-*ゲート: フェーズ0研究前に通過必須。フェーズ1設計後に再チェック。*
+
+_ゲート: フェーズ0研究前に通過必須。フェーズ1設計後に再チェック。_
 
 **簡素性**:
+
 - プロジェクト: 7個 (apps: backend+frontend, packages: ui+schemas+shared+eslint-config-custom+typescript-config) - 最大3個を超過 ⚠️
   - 正当化: モノレポ構成により共通コード・設定重複を削減、型安全性向上、コード品質統一、保守性向上
 - フレームワークを直接使用? はい - 直接 React/Hono 使用 ✓
@@ -53,12 +59,14 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 - パターンを避ける? はい - 直接 ORM、不要な Repository/UoW なし ✓
 
 **アーキテクチャ**:
+
 - 全機能をライブラリとして? はい - キャラ作成、シート管理、ゲームルール、URLアクセス
 - ライブラリリスト: character-creator, sheet-manager, game-rules, url-access
 - ライブラリごとのCLI: はい - 各ライブラリで --help/--version/--format サポート
 - ライブラリドキュメント: はい - llms.txt 形式を計画 ✓
 
 **テスト (交渉不可)**:
+
 - RED-GREEN-リファクタサイクル強制? はい - テスト先行、失敗、次に実装 ✓
 - Gitコミットで実装前にテスト表示? はい - テストコミット先行を保証 ✓
 - 順序: Contract→Integration→E2E→Unit を厳守? はい ✓
@@ -67,11 +75,13 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 - 禁止事項: テスト前実装、RED フェーズスキップ ✓
 
 **監視性**:
+
 - 構造化ログを含む? はい - デバッグ用 JSON ログ ✓
 - フロントエンドログ → バックエンド? はい - 一元化ログ計画 ✓
 - エラーコンテキスト十分? はい - ID付き完全エラーコンテキスト ✓
 
 **バージョニング**:
+
 - バージョン番号割り当て済み? 0.1.0 (初期バージョン) ✓
 - 変更毎にBUILDインクリメント? はい - 自動バージョニング ✓
 - 破壊的変更への対処? はい - API バージョニング戦略 ✓
@@ -79,6 +89,7 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 ## プロジェクト構造
 
 ### ドキュメント (この機能)
+
 ```
 specs/001-trpg-age-of/
 ├── plan.md              # このファイル (/plan コマンド出力)
@@ -90,6 +101,7 @@ specs/001-trpg-age-of/
 ```
 
 ### ソースコード (リポジトリルート) - モノレポ構成
+
 ```
 # モノレポ構成: apps/ + packages/ アーキテクチャ
 apps/
@@ -141,14 +153,14 @@ packages/
 │   └── tests/           # 共通ライブラリテスト
 │
 ├── eslint-config-custom/
-│   ├── index.js          # ESLint共通設定
-│   ├── react.js          # React専用ルール
-│   └── node.js           # Node.js専用ルール
+│   ├── defaults.js          # ESLint共通設定
+│   ├── frontend.js          # React専用ルール
+│   └── backend.js           # Node.js専用ルール
 │
 └── typescript-config/
-    ├── base.json         # 基本TypeScript設定
-    ├── react.json        # React専用設定
-    └── node.json         # Node.js専用設定
+    ├── tsconfig.base.json         # 基本TypeScript設定
+    ├── tsconfig.frontend.json        # React専用設定
+    └── tsconfig.backend.json         # Node.js専用設定
 ```
 
 **構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(ui/schemas/shared/eslint-config-custom/typescript-config) 構成によるフロントエンド + バックエンド分離と共通ライブラリ・設定管理
