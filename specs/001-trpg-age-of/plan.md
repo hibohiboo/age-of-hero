@@ -46,8 +46,8 @@ Age of Hero TRPG キャラクターシート管理システム - オンライン
 *ゲート: フェーズ0研究前に通過必須。フェーズ1設計後に再チェック。*
 
 **簡素性**:
-- プロジェクト: 5個 (apps: backend+frontend, packages: ui+schemas+shared) - 最大3個を超過 ⚠️
-  - 正当化: モノレポ構成により共通コード重複を削減、型安全性向上、保守性向上
+- プロジェクト: 7個 (apps: backend+frontend, packages: ui+schemas+shared+eslint-config-custom+typescript-config) - 最大3個を超過 ⚠️
+  - 正当化: モノレポ構成により共通コード・設定重複を削減、型安全性向上、コード品質統一、保守性向上
 - フレームワークを直接使用? はい - 直接 React/Hono 使用 ✓
 - 単一データモデル? はい - packages/schemas で共有 TypeScript 型 ✓
 - パターンを避ける? はい - 直接 ORM、不要な Repository/UoW なし ✓
@@ -132,16 +132,26 @@ packages/
 │   │   └── validation/   # 共通バリデーションルール
 │   └── tests/           # スキーマテスト
 │
-└── shared/
-    ├── src/
-    │   ├── types/        # 共通型定義
-    │   ├── constants/    # 定数定義
-    │   ├── utils/        # 共通ユーティリティ関数
-    │   └── errors/       # エラー定義
-    └── tests/           # 共通ライブラリテスト
+├── shared/
+│   ├── src/
+│   │   ├── types/        # 共通型定義
+│   │   ├── constants/    # 定数定義
+│   │   ├── utils/        # 共通ユーティリティ関数
+│   │   └── errors/       # エラー定義
+│   └── tests/           # 共通ライブラリテスト
+│
+├── eslint-config-custom/
+│   ├── index.js          # ESLint共通設定
+│   ├── react.js          # React専用ルール
+│   └── node.js           # Node.js専用ルール
+│
+└── typescript-config/
+    ├── base.json         # 基本TypeScript設定
+    ├── react.json        # React専用設定
+    └── node.json         # Node.js専用設定
 ```
 
-**構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(ui/schemas/shared) 構成によるフロントエンド + バックエンド分離と共通ライブラリ管理
+**構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(ui/schemas/shared/eslint-config-custom/typescript-config) 構成によるフロントエンド + バックエンド分離と共通ライブラリ・設定管理
 
 ## フェーズ 0: 概要 & 研究
 
