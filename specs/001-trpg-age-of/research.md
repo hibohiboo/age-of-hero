@@ -36,18 +36,21 @@
 - Prisma: Bundle サイズが大きい、Workers に不適
 - 生SQL: 型安全性なし、開発効率低い
 
-### 3. React Query + Hono RPC 統合パターン
+### 3. Bun + React Query + Hono RPC 統合パターン
 
-**決定**: Hono RPC クライアント + TanStack Query の組み合わせ
+**決定**: Bun ランタイム + Hono RPC クライアント + TanStack Query の組み合わせ
 **根拠**:
 
+- Bun の高速なパッケージ管理とビルド性能
 - エンドツーエンド型安全性
 - 自動キャッシング・再取得
 - オフライン対応の基盤
 - リアルタイム更新対応
+- Node.js 22 の最新機能活用
 
 **検討した代替案**:
 
+- npm/yarn: Bun より低速なパッケージ管理
 - SWR: Hono RPC 型推論サポートなし
 - Apollo Client: GraphQL 不要、過剰な機能
 
@@ -83,8 +86,9 @@
 
 ### フロントエンド
 
-- **React 18** + **TypeScript 5+**
-- **Vite** (ビルドツール、高速HMR)
+- **React 19** + **TypeScript 5+**
+- **Bun** (ランタイム・パッケージマネージャー・ビルドツール)
+- **Vite** (ビルドツール、高速HMR - Bunと統合)
 - **Tailwind CSS** (ユーティリティファーストCSS)
 - **React Router v7** (SPA ルーティング)
 - **TanStack Query** (状態管理・キャッシング)
@@ -92,6 +96,8 @@
 
 ### バックエンド
 
+- **Node.js 22** (ランタイム環境)
+- **Bun** (ランタイム・パッケージマネージャー)
 - **Hono** (軽量ウェブフレームワーク)
 - **Drizzle ORM** (TypeScript ORM)
 - **PostgreSQL** (メインデータベース)
@@ -106,7 +112,8 @@
 
 ### 開発・テスト
 
-- **Vitest** (ユニット・統合テスト)
+- **Bun** (ランタイム・パッケージ管理・テストランナー)
+- **Vitest** (ユニット・統合テスト - Bunと統合)
 - **Playwright** (E2E テスト)
 - **TypeScript** (型チェック)
 - **ESLint** + **Prettier** (コード品質)
