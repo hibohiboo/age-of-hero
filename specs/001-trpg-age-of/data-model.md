@@ -108,15 +108,24 @@ interface CharacterData {
 
   // ステータス
   status: {
-    // 基本ステータス
     hp: number; // 最大HP
     sp: number; // 最大SP
     actionValue: number; // 行動値 (反射×2+知力)
+  };
 
-    // 現在値 (セッション中に変動)
-    currentHp: number;
-    currentSp: number;
-    currentFc?: number; // ファンチット (オプション)
+  // セッション履歴
+  sessions: {
+    [sessionId: string]: {
+      sessionName: string; // セッション名
+      gmName: string; // GM名
+      sessionDate: string; // セッション実施日 (YYYY-MM-DD)
+      currentHp: number; // セッション終了時HP
+      currentSp: number; // セッション終了時SP
+      currentFc?: number; // セッション終了時ファンチット
+      experiencePoints: number; // 獲得経験点
+      memo?: string; // セッションメモ
+      createdAt: string; // 記録作成日時 (ISO string)
+    };
   };
 
   // メタデータ
@@ -133,7 +142,12 @@ interface CharacterData {
 - characterData: JSON スキーマバリデーション
 - 能力値: 0-20の範囲
 - HP/SP: 正の整数
-- currentHp/currentSp: 0以上、最大値以下
+- sessionId: UUID v4 形式
+- sessionName: 1-100文字、必須
+- gmName: 1-50文字、必須
+- sessionDate: YYYY-MM-DD 形式
+- currentHp/currentSp: 0以上
+- experiencePoints: 0以上の整数
 
 ### 静的マスターデータ (コード内定義)
 
@@ -331,10 +345,21 @@ const CharacterDataSchema = z.object({
     hp: z.number().positive(),
     sp: z.number().positive(),
     actionValue: z.number().positive(),
-    currentHp: z.number().min(0),
-    currentSp: z.number().min(0),
-    currentFc: z.number().optional(),
   }),
+
+  sessions: z.record(
+    z.object({
+      sessionName: z.string().min(1).max(100),
+      gmName: z.string().min(1).max(50),
+      sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      currentHp: z.number().min(0),
+      currentSp: z.number().min(0),
+      currentFc: z.number().optional(),
+      experiencePoints: z.number().int().min(0),
+      memo: z.string().optional(),
+      createdAt: z.string(),
+    }),
+  ),
 
   metadata: z.object({
     version: z.string(),
@@ -415,24 +440,39 @@ export const charactersIndexes = {
 6. **ヒーロースキル選択**: characterData.heroSkills設定
 7. **必殺技・アイテム選択**: characterData.specialAttacks, items設定
 8. **最終ステータス算出**: characterData.status設定
+9. **セッション履歴初期化**: characterData.sessions を空のオブジェクトで初期化
 
 ### データ更新フロー
 
 ```typescript
-// 部分更新の例
-const updateCharacterSkills = async (
-  id: string,
-  skillUpdates: Partial<CharacterData['skills']>,
+// セッション記録の追加例
+const addSessionRecord = async (
+  characterId: string,
+  sessionData: {
+    sessionName: string;
+    gmName: string;
+    sessionDate: string;
+    currentHp: number;
+    currentSp: number;
+    currentFc?: number;
+    experiencePoints: number;
+    memo?: string;
+  }
 ) => {
+  const sessionId = crypto.randomUUID();
   const character = await db
     .select()
     .from(characters)
-    .where(eq(characters.id, id));
+    .where(eq(characters.id, characterId));
+  
   const updatedData = {
     ...character[0].characterData,
-    skills: {
-      ...character[0].characterData.skills,
-      ...skillUpdates,
+    sessions: {
+      ...character[0].characterData.sessions,
+      [sessionId]: {
+        ...sessionData,
+        createdAt: new Date().toISOString(),
+      },
     },
   };
 
@@ -442,7 +482,29 @@ const updateCharacterSkills = async (
       characterData: updatedData,
       updatedAt: new Date(),
     })
-    .where(eq(characters.id, id));
+    .where(eq(characters.id, characterId));
+};
+
+// 最新セッション情報取得
+const getLatestSessionStatus = (character: Character) => {
+  const sessions = Object.values(character.characterData.sessions);
+  if (sessions.length === 0) {
+    return {
+      currentHp: character.characterData.status.hp,
+      currentSp: character.characterData.status.sp,
+      currentFc: 0,
+    };
+  }
+  
+  const latestSession = sessions.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )[0];
+  
+  return {
+    currentHp: latestSession.currentHp,
+    currentSp: latestSession.currentSp,
+    currentFc: latestSession.currentFc || 0,
+  };
 };
 ```
 
