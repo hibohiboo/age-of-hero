@@ -36,7 +36,7 @@ describe('POST /api/characters', () => {
   // 基本的なキャラクターデータ
   const basicCharacterData = {
     name: '山田太郎',
-    selectedClasses: ['class-uuid-1', 'class-uuid-2'],
+    selectedClasses: ['マッスル', 'バイオ'],
     skillAllocations: {
       '550e8400-e29b-41d4-a716-446655440003': 20,
       '550e8400-e29b-41d4-a716-446655440004': 30,
@@ -53,7 +53,10 @@ describe('POST /api/characters', () => {
         level: 1,
       },
     ],
-    items: ['550e8400-e29b-41d4-a716-446655440007', '550e8400-e29b-41d4-a716-446655440008'],
+    items: [
+      '550e8400-e29b-41d4-a716-446655440007',
+      '550e8400-e29b-41d4-a716-446655440008',
+    ],
   };
 
   describe('正常系', () => {
