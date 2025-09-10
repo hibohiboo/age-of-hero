@@ -67,5 +67,20 @@ describe('POST /api/characters', () => {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       expect(data.id).toMatch(uuidRegex);
     });
+
+    it('異なるリクエストで異なるIDを返すこと', async () => {
+      const testData1 = { ...basicCharacterData, name: 'テスト太郎' };
+      const testData2 = { ...basicCharacterData, name: 'テスト花子' };
+      
+      const res1 = await createCharacter(testData1);
+      const res2 = await createCharacter(testData2);
+      
+      const data1 = await res1.json();
+      const data2 = await res2.json();
+      
+      expect(res1.status).toBe(201);
+      expect(res2.status).toBe(201);
+      expect(data1.id).not.toBe(data2.id); // 異なるIDであることを確認
+    });
   });
 });
