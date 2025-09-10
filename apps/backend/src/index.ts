@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { GAME_DATA } from './data/game-data';
 
 const app = new Hono();
 
@@ -27,14 +28,7 @@ app.get('/health', (c) =>
 );
 
 // API routes placeholder
-app.get('/api/game-data', (c) =>
-  c.json({ 
-    classes: [],
-    skills: [],
-    heroSkills: [],
-    items: []
-  }),
-);
+app.get('/api/game-data', (c) => c.json(GAME_DATA));
 
 const port = Number(process.env.PORT) || 3001;
 
