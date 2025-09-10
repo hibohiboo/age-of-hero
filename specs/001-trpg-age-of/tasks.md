@@ -39,8 +39,8 @@
 
 ## フェーズ 3.1: セットアップ
 - [x] T001 apps/ と packages/ ディレクトリでモノレポ構造を作成
-- [ ] T002 リポジトリルートで package.json を使用して Bun ワークスペースを初期化
-- [ ] T003 [P] packages/eslint-config-custom/ で ESLint 共有設定を構成
+- [x] T002 リポジトリルートで package.json を使用して Bun ワークスペースを初期化
+- [x] T003 [P] packages/eslint-config-custom/ で ESLint 共有設定を構成
 - [ ] T004 [P] packages/typescript-config/ で TypeScript 共有設定を構成
 - [ ] T005 [P] packages/shared/src/types/ で共有型パッケージを作成
 - [ ] T006 [P] packages/schemas/src/ でスキーマパッケージを作成

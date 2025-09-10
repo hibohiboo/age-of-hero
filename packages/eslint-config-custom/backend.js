@@ -1,17 +1,25 @@
-import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import customConfig from './defaults.js';
 
-export default defineConfig({
-  files: ['**/*.ts'],
-  ignores: ['dist'],
-  extends: [...customConfig],
-  languageOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module',
-    globals: {
-      ...globals.node,
-      myCustomGlobal: 'readonly',
+export default [
+  ...customConfig,
+  {
+    files: ['**/*.ts', '**/*.js'],
+    ignores: ['dist/**', 'node_modules/**', 'drizzle/**'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      // バックエンド固有のルール
+      'no-console': 'off', // サーバーログ用
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }],
     },
   },
-});
+];
