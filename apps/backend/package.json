@@ -15,7 +15,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "lint": "eslint . --fix && tsc -b",
+    "lint": "eslint . --fix && tsc -b  --noEmit",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

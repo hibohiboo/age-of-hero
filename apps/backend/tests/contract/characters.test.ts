@@ -61,7 +61,7 @@ describe('POST /api/characters', () => {
         name: character.name,
         createdAt: character.createdAt,
         updatedAt: character.updatedAt,
-        ...character.data,
+        ...(character.data as any),
       });
     });
   }, 60000); // 60秒のタイムアウト（コンテナ起動時間を考慮）
@@ -118,7 +118,7 @@ describe('POST /api/characters', () => {
 
     it('作成されたキャラクターのidとurlを返すこと', async () => {
       const res = await createCharacter(basicCharacterData);
-      const data = await res.json();
+      const data = (await res.json()) as any;
 
       expect(data).toHaveProperty('id');
       expect(data).toHaveProperty('url');
@@ -128,7 +128,7 @@ describe('POST /api/characters', () => {
 
     it('UUIDが正しい形式であること', async () => {
       const res = await createCharacter(basicCharacterData);
-      const data = await res.json();
+      const data = (await res.json()) as any;
 
       // UUID v4 形式の正規表現
       const uuidRegex =
@@ -143,8 +143,8 @@ describe('POST /api/characters', () => {
       const res1 = await createCharacter(testData1);
       const res2 = await createCharacter(testData2);
 
-      const data1 = await res1.json();
-      const data2 = await res2.json();
+      const data1 = (await res1.json()) as any;
+      const data2 = (await res2.json()) as any;
 
       expect(res1.status).toBe(201);
       expect(res2.status).toBe(201);
@@ -154,7 +154,7 @@ describe('POST /api/characters', () => {
     it('作成したキャラクターをGETで取得できること', async () => {
       // キャラクターを作成
       const createRes = await createCharacter(basicCharacterData);
-      const createData = await createRes.json();
+      const createData = (await createRes.json()) as any;
 
       expect(createRes.status).toBe(201);
       expect(createData).toHaveProperty('id');
@@ -169,7 +169,7 @@ describe('POST /api/characters', () => {
       const getRes = await app.fetch(getReq);
 
       expect(getRes.status).toBe(200);
-      const getData = await getRes.json();
+      const getData = (await getRes.json()) as any;
       expect(getData.id).toBe(createData.id);
       expect(getData.name).toBe(basicCharacterData.name);
     });

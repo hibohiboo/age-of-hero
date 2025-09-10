@@ -13,7 +13,7 @@ let testClient: ReturnType<typeof postgres>;
 
 export const setupTestDatabase = async () => {
   // PostgreSQLコンテナを起動
-  container = await new PostgreSqlContainer()
+  container = await new PostgreSqlContainer('postgres:18rc1-alpine')
     .withDatabase('test_age_of_hero')
     .withUsername('test_user')
     .withPassword('test_password')
