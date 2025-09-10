@@ -51,7 +51,7 @@
 
 ## フェーズ 3.2: テスト先行 (TDD) ⚠️ 3.3 の前に完了必須
 **重要: これらのテストは実装前に書かれ、失敗しなければならない**
-- [ ] T011 [P] apps/backend/tests/contract/test_game_data.ts で GET /api/game-data の契約テスト
+- [x] T011 [P] apps/backend/tests/contract/test_game_data.test.ts で GET /api/game-data の契約テスト
 - [ ] T012 [P] apps/backend/tests/contract/test_characters_post.ts で POST /api/characters の契約テスト
 - [ ] T013 [P] apps/backend/tests/contract/test_characters_get.ts で GET /api/characters/{id} の契約テスト
 - [ ] T014 [P] apps/backend/tests/contract/test_characters_put.ts で PUT /api/characters/{id} の契約テスト
