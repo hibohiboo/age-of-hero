@@ -8,9 +8,9 @@
 
 ### GET /api/game-data
 - [ ] **正常系**: ゲームデータ取得が成功すること
-  - [ ] ステータス200を返すこと
+  - [x] ステータス200を返すこと
   - [ ] application/jsonのContent-Typeを返すこと
-  - [ ] classes配列が含まれること
+  - [x] classes配列が含まれること
   - [ ] skills配列が含まれること  
   - [ ] heroSkills配列が含まれること
   - [ ] items配列が含まれること

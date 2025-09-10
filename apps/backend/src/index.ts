@@ -28,7 +28,9 @@ app.get('/health', (c) =>
 
 // API routes placeholder
 app.get('/api/game-data', (c) =>
-  c.json({ message: 'Game data endpoint - to be implemented' }),
+  c.json({ 
+    classes: []
+  }),
 );
 
 const port = Number(process.env.PORT) || 3001;
