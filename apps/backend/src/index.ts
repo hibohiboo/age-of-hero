@@ -2,6 +2,9 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { GAME_DATA } from './data/game-data';
+import { db } from './lib/db/connection';
+import { characters } from './lib/db/schema';
+import { eq } from 'drizzle-orm';
 
 const app = new Hono();
 
@@ -32,14 +35,39 @@ app.get('/api/game-data', (c) => c.json(GAME_DATA));
 
 // Characters API
 app.post('/api/characters', async (c) => {
-  // リクエストボディを取得（現時点では使用しない）
-  await c.req.json();
+  // リクエストボディを取得
+  const characterData = await c.req.json();
   
-  // 実際のUUIDを生成
-  const id = crypto.randomUUID();
-  const url = `/character/${id}`;
+  // データベースに保存
+  const [newCharacter] = await db.insert(characters).values({
+    name: characterData.name,
+    data: characterData
+  }).returning();
   
-  return c.json({ id, url }, 201);
+  const url = `/character/${newCharacter.id}`;
+  
+  return c.json({ id: newCharacter.id, url }, 201);
+});
+
+// Get character by ID
+app.get('/api/characters/:id', async (c) => {
+  const id = c.req.param('id');
+  
+  const [character] = await db.select().from(characters).where(eq(characters.id, id));
+  
+  if (!character) {
+    return c.json({ error: 'Character not found' }, 404);
+  }
+  
+  // キャラクター情報を返す（API仕様に合わせて構築）
+  return c.json({
+    id: character.id,
+    name: character.name,
+    createdAt: character.createdAt,
+    updatedAt: character.updatedAt,
+    // data内の情報を展開
+    ...character.data
+  });
 });
 
 const port = Number(process.env.PORT) || 3001;

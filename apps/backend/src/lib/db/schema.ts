@@ -1,9 +1,12 @@
-// Drizzleスキーマファイル（プレースホルダー）
-// TDD原則により、テスト作成後に実装予定
+import { pgTable, uuid, varchar, text, timestamp, jsonb } from 'drizzle-orm/pg-core';
 
-// 実装予定:
-// - characters テーブル定義
-// - インデックス設定
-// - 型エクスポート
+export const characters = pgTable('characters', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar('name', { length: 50 }).notNull(),
+  data: jsonb('data').notNull(), // キャラクターデータ全体をJSONBで格納
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
 
-export {};
+export type Character = typeof characters.$inferSelect;
+export type NewCharacter = typeof characters.$inferInsert;
