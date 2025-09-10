@@ -82,5 +82,25 @@ describe('POST /api/characters', () => {
       expect(res2.status).toBe(201);
       expect(data1.id).not.toBe(data2.id); // 異なるIDであることを確認
     });
+
+    it('作成したキャラクターをGETで取得できること', async () => {
+      // キャラクターを作成
+      const createRes = await createCharacter(basicCharacterData);
+      const createData = await createRes.json();
+      
+      expect(createRes.status).toBe(201);
+      expect(createData).toHaveProperty('id');
+      
+      // 作成したキャラクターをGETで取得
+      const getReq = new Request(`http://localhost/api/characters/${createData.id}`, {
+        method: 'GET',
+      });
+      const getRes = await app.fetch(getReq);
+      
+      expect(getRes.status).toBe(200);
+      const getData = await getRes.json();
+      expect(getData.id).toBe(createData.id);
+      expect(getData.name).toBe(basicCharacterData.name);
+    });
   });
 });
