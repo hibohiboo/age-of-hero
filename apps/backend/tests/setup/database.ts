@@ -5,6 +5,7 @@ import {
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
+import { setTestDb } from '../../src/lib/db/connection';
 import { characters } from '../../src/lib/db/schema';
 
 let container: StartedPostgreSqlContainer;
@@ -29,10 +30,16 @@ export const setupTestDatabase = async () => {
   // Drizzleマイグレーションを実行
   await migrate(testDb, { migrationsFolder: './drizzle/migrations' });
 
+  // アプリで使用するデータベース接続を差し替え
+  setTestDb(testDb);
+
   return { testDb, connectionString };
 };
 
 export const teardownTestDatabase = async () => {
+  // テストデータベース接続をリセット
+  setTestDb(null as any);
+
   if (testClient) {
     await testClient.end();
   }

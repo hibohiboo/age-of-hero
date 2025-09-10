@@ -3,7 +3,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { GAME_DATA } from './data/game-data';
-import { db } from './lib/db/connection';
+import { getDb } from './lib/db/connection';
 import { characters } from './lib/db/schema';
 
 const app = new Hono();
@@ -39,7 +39,7 @@ app.post('/api/characters', async (c) => {
   const characterData = await c.req.json();
 
   // データベースに保存
-  const [newCharacter] = await db
+  const [newCharacter] = await getDb()
     .insert(characters)
     .values({
       name: characterData.name,
@@ -56,7 +56,7 @@ app.post('/api/characters', async (c) => {
 app.get('/api/characters/:id', async (c) => {
   const id = c.req.param('id');
 
-  const [character] = await db
+  const [character] = await getDb()
     .select()
     .from(characters)
     .where(eq(characters.id, id));

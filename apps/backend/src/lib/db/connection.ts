@@ -13,6 +13,15 @@ const client = postgres(connectionString, {
 // Drizzle ORMインスタンス
 export const db = drizzle(client);
 
+// テスト用DB接続を差し替えるためのヘルパー
+let testDbInstance: ReturnType<typeof drizzle> | null = null;
+
+export const setTestDb = (testDb: ReturnType<typeof drizzle>) => {
+  testDbInstance = testDb;
+};
+
+export const getDb = () => testDbInstance || db;
+
 // 接続テスト用ヘルパー
 export const testConnection = async (): Promise<boolean> => {
   try {

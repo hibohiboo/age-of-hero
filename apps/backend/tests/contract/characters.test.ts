@@ -1,10 +1,5 @@
-import { eq } from 'drizzle-orm';
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { logger } from 'hono/logger';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { GAME_DATA } from '../../src/data/game-data';
-import { characters } from '../../src/lib/db/schema';
+import app from '../../src/index';
 import {
   setupTestDatabase,
   teardownTestDatabase,
@@ -12,58 +7,9 @@ import {
 } from '../setup/database';
 
 describe('POST /api/characters', () => {
-  let app: Hono;
-
   // テスト用データベースのセットアップ
   beforeAll(async () => {
-    const { testDb } = await setupTestDatabase();
-
-    // テスト用アプリを作成（本番のindex.tsと同じ構成）
-    app = new Hono();
-
-    // Middleware
-    app.use('*', logger());
-    app.use('*', cors({ origin: '*', credentials: true }));
-
-    // API routes
-    app.get('/api/game-data', (c) => c.json(GAME_DATA));
-
-    // Characters API（テスト用DB使用）
-    app.post('/api/characters', async (c) => {
-      const characterData = await c.req.json();
-
-      const [newCharacter] = await testDb
-        .insert(characters)
-        .values({
-          name: characterData.name,
-          data: characterData,
-        })
-        .returning();
-
-      const url = `/character/${newCharacter.id}`;
-      return c.json({ id: newCharacter.id, url }, 201);
-    });
-
-    app.get('/api/characters/:id', async (c) => {
-      const id = c.req.param('id');
-
-      const [character] = await testDb
-        .select()
-        .from(characters)
-        .where(eq(characters.id, id));
-
-      if (!character) {
-        return c.json({ error: 'Character not found' }, 404);
-      }
-
-      return c.json({
-        id: character.id,
-        name: character.name,
-        createdAt: character.createdAt,
-        updatedAt: character.updatedAt,
-        ...(character.data as any),
-      });
-    });
+    await setupTestDatabase();
   }, 60000); // 60秒のタイムアウト（コンテナ起動時間を考慮）
 
   afterAll(async () => {
