@@ -52,13 +52,13 @@
 ## フェーズ 3.2: テスト先行 (TDD) ⚠️ 3.3 の前に完了必須
 **重要: これらのテストは実装前に書かれ、失敗しなければならない**
 - [x] T011 [P] apps/backend/tests/contract/test_game_data.test.ts で GET /api/game-data の契約テスト
-- [ ] T012 [P] apps/backend/tests/contract/test_characters_post.ts で POST /api/characters の契約テスト
-- [ ] T013 [P] apps/backend/tests/contract/test_characters_get.ts で GET /api/characters/{id} の契約テスト
-- [ ] T014 [P] apps/backend/tests/contract/test_characters_put.ts で PUT /api/characters/{id} の契約テスト
-- [ ] T015 [P] apps/backend/tests/contract/test_password.ts で PUT /api/characters/{id}/password の契約テスト
-- [ ] T016 [P] apps/backend/tests/integration/test_character_creation.ts でキャラクター作成フローの統合テスト
-- [ ] T017 [P] apps/backend/tests/integration/test_session_history.ts でセッション履歴管理の統合テスト
-- [ ] T018 [P] apps/backend/tests/integration/test_password_protection.ts でパスワード保護の統合テスト
+- [ ] T012 [P] apps/backend/tests/contract/test_characters_post.test.ts で POST /api/characters の契約テスト
+- [ ] T013 [P] apps/backend/tests/contract/test_characters_get.test.ts で GET /api/characters/{id} の契約テスト
+- [ ] T014 [P] apps/backend/tests/contract/test_characters_put.test.ts で PUT /api/characters/{id} の契約テスト
+- [ ] T015 [P] apps/backend/tests/contract/test_password.test.ts で PUT /api/characters/{id}/password の契約テスト
+- [ ] T016 [P] apps/backend/tests/integration/test_character_creation.test.ts でキャラクター作成フローの統合テスト
+- [ ] T017 [P] apps/backend/tests/integration/test_session_history.test.ts でセッション履歴管理の統合テスト
+- [ ] T018 [P] apps/backend/tests/integration/test_password_protection.test.ts でパスワード保護の統合テスト
 
 ## フェーズ 3.3: コア実装 (テストが失敗した後のみ)
 - [ ] T019 [P] packages/schemas/src/character/character.ts でキャラクタースキーマ
@@ -96,10 +96,10 @@
 - [ ] T047 apps/frontend/src/lib/query-client.ts で TanStack Query 設定
 
 ## フェーズ 3.6: 仕上げ
-- [ ] T048 [P] packages/schemas/tests/ でスキーマのユニットテスト
-- [ ] T049 [P] packages/ui/tests/ で UI コンポーネントのユニットテスト
-- [ ] T050 [P] apps/backend/tests/unit/ でサービスのユニットテスト
-- [ ] T051 apps/frontend/tests/e2e/ で Playwright を使用した E2E テスト
+- [ ] T048 [P] packages/schemas/tests/ でスキーマのユニットテスト（*.test.ts）
+- [ ] T049 [P] packages/ui/tests/ で UI コンポーネントのユニットテスト（*.test.tsx）
+- [ ] T050 [P] apps/backend/tests/unit/ でサービスのユニットテスト（*.test.ts）
+- [ ] T051 apps/frontend/tests/e2e/ で Playwright を使用した E2E テスト（*.spec.ts）
 - [ ] T052 パフォーマンステスト (キャラクター作成<2秒, シート読み込み<500ms)
 - [ ] T053 [P] docs/ での API ドキュメント更新
 - [ ] T054 apps/frontend/src/lib/offline.ts で Service Worker を使用したオフライン対応
