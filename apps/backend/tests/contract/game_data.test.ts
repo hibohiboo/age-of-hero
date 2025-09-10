@@ -2,49 +2,35 @@ import { describe, it, expect } from 'vitest';
 import app from '../../src/index';
 
 describe('GET /api/game-data', () => {
-  it('ステータス200を返すこと', async () => {
+  // テストヘルパー関数
+  const fetchGameData = async () => {
     const req = new Request('http://localhost/api/game-data', {
       method: 'GET',
     });
+    return app.fetch(req);
+  };
 
-    const res = await app.fetch(req);
-
+  it('ステータス200を返すこと', async () => {
+    const res = await fetchGameData();
     expect(res.status).toBe(200);
   });
 
-  it('classes配列が含まれること', async () => {
-    const req = new Request('http://localhost/api/game-data', {
-      method: 'GET',
-    });
-
-    const res = await app.fetch(req);
-    const data = (await res.json()) as any;
-
-    expect(data).toHaveProperty('classes');
-    expect(Array.isArray(data.classes)).toBe(true);
+  it('Content-TypeがJSONであること', async () => {
+    const res = await fetchGameData();
+    expect(res.headers.get('content-type')).toContain('application/json');
   });
 
-  it('skills配列が含まれること', async () => {
-    const req = new Request('http://localhost/api/game-data', {
-      method: 'GET',
-    });
-
-    const res = await app.fetch(req);
+  // 必須フィールドの配列チェック
+  it.each([
+    ['classes'],
+    ['skills'], 
+    ['heroSkills'],
+    ['items']
+  ])('%s配列が含まれること', async (fieldName) => {
+    const res = await fetchGameData();
     const data = (await res.json()) as any;
-
-    expect(data).toHaveProperty('skills');
-    expect(Array.isArray(data.skills)).toBe(true);
-  });
-
-  it('heroSkills配列が含まれること', async () => {
-    const req = new Request('http://localhost/api/game-data', {
-      method: 'GET',
-    });
-
-    const res = await app.fetch(req);
-    const data = (await res.json()) as any;
-
-    expect(data).toHaveProperty('heroSkills');
-    expect(Array.isArray(data.heroSkills)).toBe(true);
+    
+    expect(data).toHaveProperty(fieldName);
+    expect(Array.isArray(data[fieldName])).toBe(true);
   });
 });
