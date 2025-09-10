@@ -12,6 +12,13 @@ export default defineConfig(
           'import/no-extraneous-dependencies': ['off'],
         },
       },
+      {
+        files: ['**/tests/**'],
+        rules: {
+          'import/no-extraneous-dependencies': ['off'],
+          '@typescript-eslint/no-explicit-any': ['off'],
+        },
+      },
     ],
   },
 );
