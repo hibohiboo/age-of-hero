@@ -7,13 +7,13 @@
 ## 📋 API エンドポイント テスト
 
 ### GET /api/game-data
-- [ ] **正常系**: ゲームデータ取得が成功すること
+- [x] **正常系**: ゲームデータ取得が成功すること
   - [x] ステータス200を返すこと
-  - [ ] application/jsonのContent-Typeを返すこと
+  - [x] application/jsonのContent-Typeを返すこと
   - [x] classes配列が含まれること
-  - [ ] skills配列が含まれること  
-  - [ ] heroSkills配列が含まれること
-  - [ ] items配列が含まれること
+  - [x] skills配列が含まれること  
+  - [x] heroSkills配列が含まれること
+  - [x] items配列が含まれること
 - [ ] **データ構造**: 各データが正しい構造を持つこと
   - [ ] クラスデータが必須フィールドを持つこと
   - [ ] スキルデータがcategoryを持つこと
