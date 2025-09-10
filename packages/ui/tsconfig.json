@@ -1,7 +1,7 @@
 {
-  "extends": "@age-of-hero/tsconfig/tsconfig.frontend",
+  "extends": "@age-of-hero/typescript-config/tsconfig.frontend",
   "include": ["./src", ".storybook"],
-  "exclude": ["node_modules", "dist","**/node_modules"],
+  "exclude": ["node_modules", "dist", "**/node_modules"],
   "compilerOptions": {
     "target": "ESNext",
     "outDir": "./dist",

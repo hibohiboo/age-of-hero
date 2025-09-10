@@ -19,13 +19,14 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@age-of-hero/schemas": "workspace:*",
     "hono": "^4.6.2",
     "drizzle-orm": "^0.33.0",
     "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@age-of-hero/eslint-config-custom": "workspace:*",
-    "@age-of-hero/tsconfig": "workspace:*",
+    "@age-of-hero/typescript-config": "workspace:*",
     "@testcontainers/postgresql": "^11.5.1",
     "@types/bun": "latest",
     "drizzle-kit": "^0.24.2",

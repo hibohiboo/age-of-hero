@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { validateCreateCharacter } from '@age-of-hero/schemas';
 import { GAME_DATA } from './data/game-data';
 import { getDb } from './lib/db/connection';
 import { characters } from './lib/db/schema';

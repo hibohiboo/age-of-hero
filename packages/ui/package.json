@@ -20,7 +20,7 @@
     "react-router": "^7.8.2"
   },
   "devDependencies": {
-    "@age-of-hero/tsconfig": "workspace:*",
+    "@age-of-hero/typescript-config": "workspace:*",
     "@storybook/addon-docs": "9.1.5",
     "@storybook/addon-links": "^9.1.5",
     "@storybook/addon-onboarding": "^9.1.5",

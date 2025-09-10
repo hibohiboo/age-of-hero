@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@age-of-hero/eslint-config-custom": "workspace:*",
-    "@age-of-hero/tsconfig": "workspace:*",
+    "@age-of-hero/typescript-config": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",

@@ -1,5 +1,5 @@
 {
-  "extends": "@age-of-hero/tsconfig/tsconfig.frontend",
+  "extends": "@age-of-hero/typescript-config/tsconfig.frontend",
   "compilerOptions": {
     "paths": {
       "@age-of-hero/frontend/*": ["./src/*"],
