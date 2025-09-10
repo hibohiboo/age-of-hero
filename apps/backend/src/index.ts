@@ -30,6 +30,15 @@ app.get('/health', (c) =>
 // API routes placeholder
 app.get('/api/game-data', (c) => c.json(GAME_DATA));
 
+// Characters API
+app.post('/api/characters', async (c) => {
+  // 最小実装: 固定UUIDを返す
+  const id = '12345678-1234-4567-8901-123456789012';
+  const url = `/character/${id}`;
+  
+  return c.json({ id, url }, 201);
+});
+
 const port = Number(process.env.PORT) || 3001;
 
 console.log(`🚀 Backend server running on port ${port}`);
