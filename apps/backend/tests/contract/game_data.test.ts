@@ -23,4 +23,28 @@ describe('GET /api/game-data', () => {
     expect(data).toHaveProperty('classes');
     expect(Array.isArray(data.classes)).toBe(true);
   });
+
+  it('skills配列が含まれること', async () => {
+    const req = new Request('http://localhost/api/game-data', {
+      method: 'GET',
+    });
+
+    const res = await app.fetch(req);
+    const data = (await res.json()) as any;
+
+    expect(data).toHaveProperty('skills');
+    expect(Array.isArray(data.skills)).toBe(true);
+  });
+
+  it('heroSkills配列が含まれること', async () => {
+    const req = new Request('http://localhost/api/game-data', {
+      method: 'GET',
+    });
+
+    const res = await app.fetch(req);
+    const data = (await res.json()) as any;
+
+    expect(data).toHaveProperty('heroSkills');
+    expect(Array.isArray(data.heroSkills)).toBe(true);
+  });
 });

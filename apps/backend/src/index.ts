@@ -29,7 +29,10 @@ app.get('/health', (c) =>
 // API routes placeholder
 app.get('/api/game-data', (c) =>
   c.json({ 
-    classes: []
+    classes: [],
+    skills: [],
+    heroSkills: [],
+    items: []
   }),
 );
 
