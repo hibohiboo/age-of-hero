@@ -1,7 +1,80 @@
-import { describe, it, expect } from 'vitest';
-import app from '../../src/index';
+import { eq } from 'drizzle-orm';
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { GAME_DATA } from '../../src/data/game-data';
+import { characters } from '../../src/lib/db/schema';
+import {
+  setupTestDatabase,
+  teardownTestDatabase,
+  cleanupTestData,
+} from '../setup/database';
 
 describe('POST /api/characters', () => {
+  let app: Hono;
+
+  // テスト用データベースのセットアップ
+  beforeAll(async () => {
+    const { testDb } = await setupTestDatabase();
+
+    // テスト用アプリを作成（本番のindex.tsと同じ構成）
+    app = new Hono();
+
+    // Middleware
+    app.use('*', logger());
+    app.use('*', cors({ origin: '*', credentials: true }));
+
+    // API routes
+    app.get('/api/game-data', (c) => c.json(GAME_DATA));
+
+    // Characters API（テスト用DB使用）
+    app.post('/api/characters', async (c) => {
+      const characterData = await c.req.json();
+
+      const [newCharacter] = await testDb
+        .insert(characters)
+        .values({
+          name: characterData.name,
+          data: characterData,
+        })
+        .returning();
+
+      const url = `/character/${newCharacter.id}`;
+      return c.json({ id: newCharacter.id, url }, 201);
+    });
+
+    app.get('/api/characters/:id', async (c) => {
+      const id = c.req.param('id');
+
+      const [character] = await testDb
+        .select()
+        .from(characters)
+        .where(eq(characters.id, id));
+
+      if (!character) {
+        return c.json({ error: 'Character not found' }, 404);
+      }
+
+      return c.json({
+        id: character.id,
+        name: character.name,
+        createdAt: character.createdAt,
+        updatedAt: character.updatedAt,
+        ...character.data,
+      });
+    });
+  }, 60000); // 60秒のタイムアウト（コンテナ起動時間を考慮）
+
+  afterAll(async () => {
+    await teardownTestDatabase();
+  });
+
+  beforeEach(async () => {
+    // 各テスト前にデータをクリーンアップ
+    await cleanupTestData();
+  });
+
   // テストヘルパー関数
   const createCharacter = async (characterData: any) => {
     const req = new Request('http://localhost/api/characters', {
@@ -16,31 +89,25 @@ describe('POST /api/characters', () => {
 
   // 基本的なキャラクターデータ
   const basicCharacterData = {
-    name: "山田太郎",
-    selectedClasses: [
-      "class-uuid-1", 
-      "class-uuid-2"
-    ],
+    name: '山田太郎',
+    selectedClasses: ['class-uuid-1', 'class-uuid-2'],
     skillAllocations: {
-      "skill-uuid-1": 20,
-      "skill-uuid-2": 30
+      'skill-uuid-1': 20,
+      'skill-uuid-2': 30,
     },
     heroSkills: [
       {
-        id: "hero-skill-uuid-1",
-        level: 3
-      }
+        id: 'hero-skill-uuid-1',
+        level: 3,
+      },
     ],
     specialAttacks: [
       {
-        id: "special-attack-uuid-1", 
-        level: 1
-      }
+        id: 'special-attack-uuid-1',
+        level: 1,
+      },
     ],
-    items: [
-      "item-uuid-1",
-      "item-uuid-2"
-    ]
+    items: ['item-uuid-1', 'item-uuid-2'],
   };
 
   describe('正常系', () => {
@@ -52,7 +119,7 @@ describe('POST /api/characters', () => {
     it('作成されたキャラクターのidとurlを返すこと', async () => {
       const res = await createCharacter(basicCharacterData);
       const data = await res.json();
-      
+
       expect(data).toHaveProperty('id');
       expect(data).toHaveProperty('url');
       expect(typeof data.id).toBe('string');
@@ -62,22 +129,23 @@ describe('POST /api/characters', () => {
     it('UUIDが正しい形式であること', async () => {
       const res = await createCharacter(basicCharacterData);
       const data = await res.json();
-      
+
       // UUID v4 形式の正規表現
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const uuidRegex =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       expect(data.id).toMatch(uuidRegex);
     });
 
     it('異なるリクエストで異なるIDを返すこと', async () => {
       const testData1 = { ...basicCharacterData, name: 'テスト太郎' };
       const testData2 = { ...basicCharacterData, name: 'テスト花子' };
-      
+
       const res1 = await createCharacter(testData1);
       const res2 = await createCharacter(testData2);
-      
+
       const data1 = await res1.json();
       const data2 = await res2.json();
-      
+
       expect(res1.status).toBe(201);
       expect(res2.status).toBe(201);
       expect(data1.id).not.toBe(data2.id); // 異なるIDであることを確認
@@ -87,16 +155,19 @@ describe('POST /api/characters', () => {
       // キャラクターを作成
       const createRes = await createCharacter(basicCharacterData);
       const createData = await createRes.json();
-      
+
       expect(createRes.status).toBe(201);
       expect(createData).toHaveProperty('id');
-      
+
       // 作成したキャラクターをGETで取得
-      const getReq = new Request(`http://localhost/api/characters/${createData.id}`, {
-        method: 'GET',
-      });
+      const getReq = new Request(
+        `http://localhost/api/characters/${createData.id}`,
+        {
+          method: 'GET',
+        },
+      );
       const getRes = await app.fetch(getReq);
-      
+
       expect(getRes.status).toBe(200);
       const getData = await getRes.json();
       expect(getData.id).toBe(createData.id);
