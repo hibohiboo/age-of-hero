@@ -36,24 +36,24 @@ describe('POST /api/characters', () => {
   // 基本的なキャラクターデータ
   const basicCharacterData = {
     name: '山田太郎',
-    selectedClasses: ['class-uuid-1', 'class-uuid-2'],
+    selectedClasses: ['550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440002'],
     skillAllocations: {
-      'skill-uuid-1': 20,
-      'skill-uuid-2': 30,
+      '550e8400-e29b-41d4-a716-446655440003': 20,
+      '550e8400-e29b-41d4-a716-446655440004': 30,
     },
     heroSkills: [
       {
-        id: 'hero-skill-uuid-1',
+        id: '550e8400-e29b-41d4-a716-446655440005',
         level: 3,
       },
     ],
     specialAttacks: [
       {
-        id: 'special-attack-uuid-1',
+        id: '550e8400-e29b-41d4-a716-446655440006',
         level: 1,
       },
     ],
-    items: ['item-uuid-1', 'item-uuid-2'],
+    items: ['550e8400-e29b-41d4-a716-446655440007', '550e8400-e29b-41d4-a716-446655440008'],
   };
 
   describe('正常系', () => {

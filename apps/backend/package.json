@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "@age-of-hero/schemas": "workspace:*",
+    "@hono/zod-validator": "^0.2.2",
     "hono": "^4.6.2",
     "drizzle-orm": "^0.33.0",
-    "postgres": "^3.4.4"
+    "postgres": "^3.4.4",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@age-of-hero/eslint-config-custom": "workspace:*",

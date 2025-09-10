@@ -1,8 +1,9 @@
+import { createCharacterSchema } from '@age-of-hero/schemas';
+import { zValidator } from '@hono/zod-validator';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
-import { validateCreateCharacter } from '@age-of-hero/schemas';
 import { GAME_DATA } from './data/game-data';
 import { getDb } from './lib/db/connection';
 import { characters } from './lib/db/schema';
@@ -35,31 +36,27 @@ app.get('/health', (c) =>
 app.get('/api/game-data', (c) => c.json(GAME_DATA));
 
 // Characters API
-app.post('/api/characters', async (c) => {
-  // リクエストボディを取得
-  const characterData = await c.req.json();
+app.post(
+  '/api/characters',
+  zValidator('json', createCharacterSchema),
+  async (c) => {
+    // バリデーション済みのデータを取得
+    const characterData = c.req.valid('json');
 
-  // バリデーション: name必須チェック
-  if (!characterData.name) {
-    return c.json(
-      { error: { code: 'VALIDATION_ERROR', message: 'name is required' } },
-      400,
-    );
-  }
+    // データベースに保存
+    const [newCharacter] = await getDb()
+      .insert(characters)
+      .values({
+        name: characterData.name,
+        data: characterData,
+      })
+      .returning();
 
-  // データベースに保存
-  const [newCharacter] = await getDb()
-    .insert(characters)
-    .values({
-      name: characterData.name,
-      data: characterData,
-    })
-    .returning();
+    const url = `/character/${newCharacter.id}`;
 
-  const url = `/character/${newCharacter.id}`;
-
-  return c.json({ id: newCharacter.id, url }, 201);
-});
+    return c.json({ id: newCharacter.id, url }, 201);
+  },
+);
 
 // Get character by ID
 app.get('/api/characters/:id', async (c) => {
