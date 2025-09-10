@@ -53,7 +53,7 @@
 **TDDサイクル: テストリスト → RED → GREEN → REFACTOR → 繰り返し**
 
 ### T011: TDDテストリスト作成
-- [ ] T011 apps/backend/test-list.md で網羅すべきテストシナリオのリスト作成
+- [x] T011 apps/backend/test-list.md で網羅すべきテストシナリオのリスト作成
 
 ### T012-T050: TDDサイクル実行（テストリストから1つずつ選択）
 **各タスクは以下の順序で実行:**
