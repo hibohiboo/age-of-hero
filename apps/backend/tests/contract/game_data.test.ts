@@ -21,23 +21,21 @@ describe('GET /api/game-data', () => {
   });
 
   // 必須フィールドの配列チェック
-  it.each([
-    ['classes'],
-    ['skills'], 
-    ['heroSkills'],
-    ['items']
-  ])('%s配列が含まれること', async (fieldName) => {
-    const res = await fetchGameData();
-    const data = (await res.json()) as any;
-    
-    expect(data).toHaveProperty(fieldName);
-    expect(Array.isArray(data[fieldName])).toBe(true);
-  });
+  it.each([['classes'], ['skills'], ['heroSkills'], ['items']])(
+    '%s配列が含まれること',
+    async (fieldName) => {
+      const res = await fetchGameData();
+      const data = (await res.json()) as any;
+
+      expect(data).toHaveProperty(fieldName);
+      expect(Array.isArray(data[fieldName])).toBe(true);
+    },
+  );
 
   it('期待するゲームデータ構造を返すこと', async () => {
     const res = await fetchGameData();
     const data = (await res.json()) as any;
-    
+
     expect(data).toEqual({
       classes: [
         {
@@ -50,8 +48,8 @@ describe('GET /api/game-data', () => {
           supernaturalBase: 0,
           hpBase: 38,
           spBase: 17,
-          description: expect.any(String)
-        }
+          description: expect.any(String),
+        },
       ],
       skills: [
         {
@@ -59,8 +57,8 @@ describe('GET /api/game-data', () => {
           name: 'パワー',
           category: 'physical',
           description: expect.any(String),
-          order: expect.any(Number)
-        }
+          order: expect.any(Number),
+        },
       ],
       heroSkills: [
         {
@@ -73,8 +71,8 @@ describe('GET /api/game-data', () => {
           range: '近接',
           cost: 3,
           effect: expect.any(String),
-          classRestriction: null
-        }
+          classRestriction: null,
+        },
       ],
       items: [
         {
@@ -87,9 +85,9 @@ describe('GET /api/game-data', () => {
           guardValue: '2',
           range: '近距離',
           price: 60,
-          effect: expect.any(String)
-        }
-      ]
+          effect: expect.any(String),
+        },
+      ],
     });
   });
 

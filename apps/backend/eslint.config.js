@@ -7,7 +7,7 @@ export default defineConfig(
     extends: [
       ...backendConfig,
       {
-        files: ['eslint.config.js', 'drizzle.config.ts'],
+        files: ['eslint.config.js', 'drizzle.config.ts', 'vitest.config.ts'],
         rules: {
           'import/no-extraneous-dependencies': ['off'],
         },

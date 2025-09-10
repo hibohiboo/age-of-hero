@@ -37,28 +37,35 @@ app.get('/api/game-data', (c) => c.json(GAME_DATA));
 app.post('/api/characters', async (c) => {
   // リクエストボディを取得
   const characterData = await c.req.json();
-  
+
   // データベースに保存
-  const [newCharacter] = await db.insert(characters).values({
-    name: characterData.name,
-    data: characterData
-  }).returning();
-  
+  const [newCharacter] = await db
+    .insert(characters)
+    .values({
+      name: characterData.name,
+      data: characterData,
+    })
+    .returning();
+
   const url = `/character/${newCharacter.id}`;
-  
+
   return c.json({ id: newCharacter.id, url }, 201);
 });
 
 // Get character by ID
 app.get('/api/characters/:id', async (c) => {
   const id = c.req.param('id');
-  
-  const [character] = await db.select().from(characters).where(eq(characters.id, id));
-  
+
+  const [character] = await db
+    .select()
+    .from(characters)
+    .where(eq(characters.id, id));
+
   if (!character) {
     return c.json({ error: 'Character not found' }, 404);
   }
-  
+  const data = character.data as object;
+
   // キャラクター情報を返す（API仕様に合わせて構築）
   return c.json({
     id: character.id,
@@ -66,7 +73,7 @@ app.get('/api/characters/:id', async (c) => {
     createdAt: character.createdAt,
     updatedAt: character.updatedAt,
     // data内の情報を展開
-    ...character.data
+    ...data,
   });
 });
 
