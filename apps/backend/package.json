@@ -1,0 +1,28 @@
+{
+  "name": "@age-of-hero/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun dist/index.js",
+    "test": "vitest",
+    "test:contract": "vitest run tests/contract",
+    "test:integration": "vitest run tests/integration",
+    "test:unit": "vitest run tests/unit",
+    "lint": "eslint . --fix && tsc -b",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vitest": "^3.2.4",
+    "eslint": "^9.11.1",
+    "typescript": "^5.6.2",
+    "@age-of-hero/eslint-config-custom": "workspace:*",
+    "@age-of-hero/tsconfig": "workspace:*"
+  }
+}

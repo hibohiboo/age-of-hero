@@ -4,7 +4,7 @@ import customConfig from './defaults.js';
 export default [
   ...customConfig,
   {
-    files: ['**/*.ts', '**/*.js'],
+    files: ['**/*.ts'],
     ignores: ['dist/**', 'node_modules/**', 'drizzle/**'],
     languageOptions: {
       ecmaVersion: 2022,
@@ -16,10 +16,13 @@ export default [
     rules: {
       // バックエンド固有のルール
       'no-console': 'off', // サーバーログ用
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_'
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ];
