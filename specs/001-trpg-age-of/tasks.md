@@ -49,116 +49,82 @@
 - [ ] T009 apps/frontend/ で React 19 + Vite を使用してフロントエンドアプリを初期化
 - [x] T010 apps/backend/ でデータベース接続と Drizzle ORM を設定
 
-## フェーズ 3.2: テスト先行 (TDD) ⚠️ 3.3 の前に完了必須
-**重要: これらのテストは実装前に書かれ、失敗しなければならない**
-- [x] T011 [P] apps/backend/tests/contract/test_game_data.test.ts で GET /api/game-data の契約テスト
-- [ ] T012 [P] apps/backend/tests/contract/test_characters_post.test.ts で POST /api/characters の契約テスト
-- [ ] T013 [P] apps/backend/tests/contract/test_characters_get.test.ts で GET /api/characters/{id} の契約テスト
-- [ ] T014 [P] apps/backend/tests/contract/test_characters_put.test.ts で PUT /api/characters/{id} の契約テスト
-- [ ] T015 [P] apps/backend/tests/contract/test_password.test.ts で PUT /api/characters/{id}/password の契約テスト
-- [ ] T016 [P] apps/backend/tests/integration/test_character_creation.test.ts でキャラクター作成フローの統合テスト
-- [ ] T017 [P] apps/backend/tests/integration/test_session_history.test.ts でセッション履歴管理の統合テスト
-- [ ] T018 [P] apps/backend/tests/integration/test_password_protection.test.ts でパスワード保護の統合テスト
+## フェーズ 3.2: テスト駆動開発 (TDD) ⚠️ 3.3 の前に完了必須
+**TDDサイクル: テストリスト → RED → GREEN → REFACTOR → 繰り返し**
 
-## フェーズ 3.3: コア実装 (テストが失敗した後のみ)
-- [ ] T019 [P] packages/schemas/src/character/character.ts でキャラクタースキーマ
-- [ ] T020 [P] packages/schemas/src/session/session.ts でセッションスキーマ
-- [ ] T021 [P] packages/schemas/src/api/contracts.ts で API 契約スキーマ
-- [ ] T022 [P] packages/shared/src/constants/game-data.ts でゲームデータ定数
-- [ ] T023 [P] packages/shared/src/errors/api-errors.ts でエラー定義
-- [ ] T024 apps/backend/src/models/character.ts で Drizzle を使用したキャラクターデータベースモデル
-- [ ] T025 apps/backend/src/services/character-service.ts でキャラクターサービス CRUD 操作
-- [ ] T026 apps/backend/src/services/game-data-service.ts でゲームデータサービス
-- [ ] T027 apps/backend/src/services/password-service.ts で bcrypt を使用したパスワードサービス
-- [ ] T028 apps/backend/src/api/game-data.ts で GET /api/game-data エンドポイント
-- [ ] T029 apps/backend/src/api/characters/create.ts で POST /api/characters エンドポイント
-- [ ] T030 apps/backend/src/api/characters/get.ts で GET /api/characters/{id} エンドポイント
-- [ ] T031 apps/backend/src/api/characters/update.ts で PUT /api/characters/{id} エンドポイント
-- [ ] T032 apps/backend/src/api/characters/password.ts で PUT /api/characters/{id}/password エンドポイント
+### T011: TDDテストリスト作成
+- [ ] T011 apps/backend/test-list.md で網羅すべきテストシナリオのリスト作成
 
-## フェーズ 3.4: 統合
-- [ ] T033 apps/backend/drizzle/ でデータベース接続とマイグレーション設定
-- [ ] T034 apps/backend/src/lib/validation.ts でリクエスト検証ミドルウェア
-- [ ] T035 apps/backend/src/lib/error-handler.ts でエラーハンドリングミドルウェア
-- [ ] T036 apps/backend/src/lib/cors.ts で CORS とセキュリティヘッダー
-- [ ] T037 apps/backend/src/lib/logger.ts で構造化ログ設定
-- [ ] T038 apps/backend/src/api/index.ts で API ルート登録
+### T012-T050: TDDサイクル実行（テストリストから1つずつ選択）
+**各タスクは以下の順序で実行:**
+1. テストリストから1つ選択
+2. RED: テストコード作成 → 失敗確認  
+3. GREEN: 最小実装でテスト通過
+4. REFACTOR: 設計改善
+5. テストリストに新たな気づきを追加
 
-## フェーズ 3.5: フロントエンド実装
-- [ ] T039 [P] packages/ui/src/components/character/ でキャラクター作成コンポーネント
-- [ ] T040 [P] packages/ui/src/components/session/ でセッション履歴コンポーネント
-- [ ] T041 [P] packages/ui/src/components/forms/ でフォームコンポーネントと検証
-- [ ] T042 [P] apps/frontend/src/services/api-client.ts で Hono RPC を使用した API クライアント設定
-- [ ] T043 [P] packages/ui/src/hooks/use-character-creation.ts でキャラクター作成フック
-- [ ] T044 apps/frontend/src/pages/CreateCharacter.tsx でキャラクター作成ページ
-- [ ] T045 apps/frontend/src/pages/CharacterSheet.tsx でキャラクターシートページ
-- [ ] T046 apps/frontend/src/App.tsx で React Router v7 を使用したルーター設定
-- [ ] T047 apps/frontend/src/lib/query-client.ts で TanStack Query 設定
+- [ ] T012 TDD: GET /api/game-data エンドポイント実装
+- [ ] T013 TDD: POST /api/characters エンドポイント実装  
+- [ ] T014 TDD: GET /api/characters/{id} エンドポイント実装
+- [ ] T015 TDD: PUT /api/characters/{id} エンドポイント実装
+- [ ] T016 TDD: PUT /api/characters/{id}/password エンドポイント実装
+- [ ] T017 TDD: キャラクター作成フロー実装
+- [ ] T018 TDD: セッション履歴管理実装
+- [ ] T019 TDD: パスワード保護機能実装
+- [ ] T020 TDD: ゲームデータサービス実装
+- [ ] T021 TDD: キャラクターサービス実装
+- [ ] T022 TDD: パスワードサービス実装
+- [ ] T023 TDD: データベーススキーマ実装
+- [ ] T024 TDD: バリデーション機能実装
+- [ ] T025 TDD: エラーハンドリング実装
 
-## フェーズ 3.6: 仕上げ
-- [ ] T048 [P] packages/schemas/tests/ でスキーマのユニットテスト（*.test.ts）
-- [ ] T049 [P] packages/ui/tests/ で UI コンポーネントのユニットテスト（*.test.tsx）
-- [ ] T050 [P] apps/backend/tests/unit/ でサービスのユニットテスト（*.test.ts）
-- [ ] T051 apps/frontend/tests/e2e/ で Playwright を使用した E2E テスト（*.spec.ts）
-- [ ] T052 パフォーマンステスト (キャラクター作成<2秒, シート読み込み<500ms)
-- [ ] T053 [P] docs/ での API ドキュメント更新
-- [ ] T054 apps/frontend/src/lib/offline.ts で Service Worker を使用したオフライン対応
-- [ ] T055 コード重複の削除とリファクタリング
+### T026: TDD完了後の統合作業
+- [ ] T026 TDD完了確認とテストリスト検証
 
-## 依存関係
-- セットアップ (T001-T010) がすべての前に
-- テスト (T011-T018) が実装 (T019-T032) の前に
-- スキーマ (T019-T023) がモデルとサービス (T024-T027) の前に
-- モデルとサービスがエンドポイント (T028-T032) の前に
-- コア実装が統合 (T033-T038) の前に
-- バックエンドがフロントエンド (T039-T047) の前に
-- すべてが仕上げ (T048-T055) の前に
+## フェーズ 3.3: 統合・デプロイ準備 (TDD後)
+- [ ] T027 API ルート統合とミドルウェア設定
+- [ ] T028 データベースマイグレーション実行
+- [ ] T029 フロントエンド統合（既存アプリとの接続）
+- [ ] T030 E2E テスト実行
+- [ ] T031 パフォーマンステスト実行
+- [ ] T032 デプロイ準備・最終確認
 
-## 並列実行例
-```
-# スキーマタスクを一緒に実行:
-Task: "packages/schemas/src/character/character.ts でキャラクタースキーマ"
-Task: "packages/schemas/src/session/session.ts でセッションスキーマ"
-Task: "packages/schemas/src/api/contracts.ts で API 契約スキーマ"
-Task: "packages/shared/src/constants/game-data.ts でゲームデータ定数"
-Task: "packages/shared/src/errors/api-errors.ts でエラー定義"
-```
+## 依存関係 (TDD準拠)
+- **セットアップ** (T001-T010) → すべての前提条件
+- **TDDテストリスト** (T011) → TDDサイクルの開始
+- **TDDサイクル** (T012-T025) → テストリストから1つずつ、RED→GREEN→REFACTORで実行  
+- **統合・デプロイ** (T027-T032) → TDD完了後の最終作業
 
-## 注意事項
-- [P] タスク = 異なるファイル、依存関係なし
-- 実装前にテストが失敗することを確認
-- 各タスク後にコミット
-- Bun をパッケージ管理とテストに使用
-- TDD に従う: RED-GREEN-リファクタサイクル
-- すべての API エンドポイントに対応する契約テストが必要
+**TDDルール**:
+- 各TDDタスクは独立して実行（テストリストから選択）
+- 実装前に必ずテスト作成・失敗確認 (RED)
+- 最小実装でテスト通過 (GREEN)  
+- 必要に応じてリファクタリング (REFACTOR)
 
-## タスク生成ルール
-*main() 実行中に適用*
+## TDD実行ガイド
 
-1. **契約から** (api-spec.yaml):
-   - 5つの API エンドポイント → 5つの契約テストタスク [P]
-   - 5つのエンドポイント → 5つの実装タスク
+### テストリスト作成のポイント (T011)
+1. API契約から必要なテストシナリオを抽出
+2. data-model.mdからデータ操作シナリオを抽出  
+3. 正常系・異常系・エッジケースを網羅
+4. 実装中に気づいたテストシナリオは随時追加
 
-2. **データモデルから**:
-   - Character エンティティ → モデル作成タスク [P]
-   - セッション履歴 → サービス層タスク
-   - スキーマ → 共有型定義 [P]
+### TDDサイクル実行のポイント (T012-T025)
+**RED フェーズ**:
+- 小さなテスト1つを選択
+- 具体的で実行可能なテストコード作成
+- テスト実行してRED（失敗）確認
 
-3. **プランアーキテクチャから**:
-   - モノレポ構造 → セットアップタスク
-   - 共有パッケージ → 並列パッケージ作成 [P]
-   - TDD 要件 → 実装前テスト
+**GREEN フェーズ**:
+- テストを通すための最小実装
+- 設計を気にせず、まずは動作させる
 
-4. **順序付け**:
-   - セットアップ → テスト → スキーマ → モデル → サービス → エンドポイント → フロントエンド → 仕上げ
-   - 依存関係が並列実行をブロック
+**REFACTOR フェーズ**:
+- テストが通った状態で設計改善
+- 重複除去、命名改善、構造整理
+- テストも同時にリファクタリング
 
-## 検証チェックリスト
-*main() が戻る前にチェック*
-
-- [x] すべての契約 (5エンドポイント) に対応するテストがある (T011-T015)
-- [x] すべてのエンティティ (Character, Session) にモデルタスクがある (T024, T020)
-- [x] すべてのテストが実装の前にある (T011-T018 が T019+ の前)
-- [x] 並列タスクが真に独立している (異なるファイル、共有状態なし)
-- [x] 各タスクが正確なファイルパスを指定
-- [x] [P] タスクが他の [P] タスクと同じファイルを変更しない
+### 完了基準
+- テストリストの全項目が実装済み
+- 全テストが通過
+- コードがリファクタリング済み
