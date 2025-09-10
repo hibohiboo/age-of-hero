@@ -319,7 +319,6 @@ components:
           type: array
           items:
             type: string
-            format: uuid
           minItems: 2
           maxItems: 2
           description: "選択した2つのクラスID (重複可)"

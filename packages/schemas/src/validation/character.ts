@@ -8,7 +8,7 @@ export const createCharacterSchema = z.object({
     .max(50, 'name は50文字以内で入力してください'),
   
   selectedClasses: z
-    .array(z.string().uuid('不正なクラスIDです'))
+    .array(z.string())
     .length(2, 'クラスは正確に2つ選択してください'),
   
   abilityBonus: z
