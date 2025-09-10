@@ -364,7 +364,6 @@ components:
         password:
           type: string
           nullable: true
-          minLength: 4
           description: "オプションのパスワード"
 
     CreateCharacterResponse:
@@ -535,7 +534,6 @@ components:
         newPassword:
           type: string
           nullable: true
-          minLength: 4
           description: "新しいパスワード (nullで保護解除)"
 
     ErrorResponse:
