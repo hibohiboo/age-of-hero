@@ -38,6 +38,14 @@ app.post('/api/characters', async (c) => {
   // リクエストボディを取得
   const characterData = await c.req.json();
 
+  // バリデーション: name必須チェック
+  if (!characterData.name) {
+    return c.json(
+      { error: { code: 'VALIDATION_ERROR', message: 'name is required' } },
+      400,
+    );
+  }
+
   // データベースに保存
   const [newCharacter] = await getDb()
     .insert(characters)

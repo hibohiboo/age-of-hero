@@ -120,4 +120,17 @@ describe('POST /api/characters', () => {
       expect(getData.name).toBe(basicCharacterData.name);
     });
   });
+
+  describe('バリデーション', () => {
+    it('nameがない場合は400エラーを返すこと', async () => {
+      const invalidData = { ...basicCharacterData };
+      delete (invalidData as any).name;
+
+      const res = await createCharacter(invalidData);
+      expect(res.status).toBe(400);
+
+      const data = (await res.json()) as any;
+      expect(data).toHaveProperty('error');
+    });
+  });
 });
