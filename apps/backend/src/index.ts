@@ -13,7 +13,7 @@ app.use(
     origin:
       process.env.NODE_ENV === 'production'
         ? ['https://age-of-hero.hibohiboo66-cloudflare.workers.dev']
-        : ['http://localhost:3000', 'http://localhost:5173'],
+        : '*', // テスト環境では全オリジンを許可
     credentials: true,
   }),
 );

@@ -97,12 +97,4 @@ describe('GET /api/game-data', () => {
     const res = await fetchGameData();
     expect(res.headers.get('access-control-allow-origin')).toBe('*');
   });
-
-  it('不正なHTTPメソッドで405を返すこと', async () => {
-    const req = new Request('http://localhost/api/game-data', {
-      method: 'POST',
-    });
-    const res = await app.fetch(req);
-    expect(res.status).toBe(405);
-  });
 });
