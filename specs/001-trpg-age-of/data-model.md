@@ -360,29 +360,6 @@ const CharacterDataSchema = z.object({
     version: z.string(),
   }),
 });
-
-// カスタムバリデーション
-const validateCharacterData = (data: CharacterData) => {
-  // スキルポイント合計チェック
-  const totalAllocatedPoints = Object.values(data.skills).reduce(
-    (sum, skill) => sum + skill.allocatedPoints,
-    0,
-  );
-  if (totalAllocatedPoints > 150) {
-    throw new Error('技能ポイント合計は150を超えることはできません');
-  }
-
-  // ヒーロースキルレベル合計チェック
-  const totalHeroSkillLevels = Object.values(data.heroSkills).reduce(
-    (sum, skill) => sum + skill.level,
-    0,
-  );
-  if (totalHeroSkillLevels > 7) {
-    throw new Error('ヒーロースキル合計は7レベルを超えることはできません');
-  }
-
-  return true;
-};
 ```
 
 ## データベーススキーマ (Drizzle)
