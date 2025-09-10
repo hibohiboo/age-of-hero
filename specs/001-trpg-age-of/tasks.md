@@ -47,7 +47,7 @@
 - [ ] T007 [P] packages/ui/src/components/ で UI コンポーネントパッケージを作成
 - [x] T008 apps/backend/ で Hono を使用してバックエンドアプリを初期化
 - [ ] T009 apps/frontend/ で React 19 + Vite を使用してフロントエンドアプリを初期化
-- [ ] T010 apps/backend/ でデータベース接続と Drizzle ORM を設定
+- [x] T010 apps/backend/ でデータベース接続と Drizzle ORM を設定
 
 ## フェーズ 3.2: テスト先行 (TDD) ⚠️ 3.3 の前に完了必須
 **重要: これらのテストは実装前に書かれ、失敗しなければならない**

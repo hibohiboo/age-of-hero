@@ -1,0 +1,30 @@
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+
+const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:5432/age_of_hero';
+
+// PostgreSQL接続設定
+const client = postgres(connectionString, {
+  max: 10,
+  idle_timeout: 20,
+  connect_timeout: 10,
+});
+
+// Drizzle ORMインスタンス
+export const db = drizzle(client);
+
+// 接続テスト用ヘルパー
+export const testConnection = async (): Promise<boolean> => {
+  try {
+    await client`SELECT 1`;
+    return true;
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    return false;
+  }
+};
+
+// 接続クリーンアップ
+export const closeConnection = async (): Promise<void> => {
+  await client.end();
+};
