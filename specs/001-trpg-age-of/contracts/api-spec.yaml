@@ -78,6 +78,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CharacterResponse'
+        '400':
+          description: 不正なUUID形式
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: パスワード認証エラー
           content:
@@ -117,7 +123,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CharacterResponse'
         '400':
-          description: バリデーションエラー
+          description: バリデーションエラー（不正なUUID形式含む）
         '401':
           description: パスワード認証エラー
         '404':
@@ -145,6 +151,8 @@ paths:
       responses:
         '200':
           description: パスワード設定成功
+        '400':
+          description: バリデーションエラー（不正なUUID形式含む）
         '401':
           description: 既存パスワード認証エラー
         '404':
