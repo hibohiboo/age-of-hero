@@ -14,14 +14,13 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "ncu": "ncu -u"
   },
   "dependencies": {
-    "zod": "^3.22.4"
+    "zod": "^4.1.8"
   },
   "devDependencies": {
-    "@age-of-hero/typescript-config": "*",
-    "typescript": "^5.0.0",
-    "vitest": "^1.0.0"
+    "@age-of-hero/typescript-config": "*"
   }
 }
