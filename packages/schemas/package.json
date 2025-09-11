@@ -15,7 +15,8 @@
     "dev": "tsc --watch",
     "test": "vitest",
     "type-check": "tsc --noEmit",
-    "ncu": "ncu -u"
+    "ncu": "ncu -u",
+    "lint": "eslint . --fix && tsc -b  --noEmit"
   },
   "dependencies": {
     "zod": "^4.1.8"
