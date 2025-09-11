@@ -214,4 +214,70 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(finalData.sessions[3].sessionName).toBe('第3回セッション'); // 重複した最後の追加
     });
   });
+
+  describe('パスワード認証', () => {
+    it('保護されたキャラクターはパスワード必須であること', async () => {
+      // パスワード保護されたキャラクターを作成
+      const protectedCharacterData = {
+        ...basicCharacterData,
+        password: 'test123'
+      };
+
+      const createRes = await createCharacter(protectedCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // パスワードなしでセッション追加を試行
+      const sessionData = {
+        session: {
+          sessionName: 'テストセッション',
+          gmName: 'GM太郎',
+          sessionDate: '2025-09-12',
+          currentHp: 25,
+          currentSp: 15,
+          experiencePoints: 10
+        }
+      };
+
+      const updateRes = await updateCharacter(createData.id, sessionData);
+      
+      // パスワードが必要なので401が返されることを期待
+      expect(updateRes.status).toBe(401);
+      
+      const errorData = (await updateRes.json()) as any;
+      expect(errorData).toHaveProperty('error');
+      expect(errorData.error).toMatch(/password/i);
+    });
+
+    it('正しいパスワードでセッション追加できること', async () => {
+      // パスワード保護されたキャラクターを作成
+      const protectedCharacterData = {
+        ...basicCharacterData,
+        password: 'test123'
+      };
+
+      const createRes = await createCharacter(protectedCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // 正しいパスワードでセッション追加
+      const sessionDataWithPassword = {
+        session: {
+          sessionName: 'テストセッション',
+          gmName: 'GM太郎',
+          sessionDate: '2025-09-12',
+          currentHp: 25,
+          currentSp: 15,
+          experiencePoints: 10
+        },
+        password: 'test123'
+      };
+
+      const updateRes = await updateCharacter(createData.id, sessionDataWithPassword);
+      
+      expect(updateRes.status).toBe(200);
+      
+      const updateData = (await updateRes.json()) as any;
+      expect(updateData.sessions).toHaveLength(1);
+      expect(updateData.sessions[0].sessionName).toBe('テストセッション');
+    });
+  });
 });

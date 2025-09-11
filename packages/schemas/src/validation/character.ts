@@ -68,6 +68,24 @@ export const createCharacterSchema = z.object({
 
 export type CreateCharacterRequest = z.infer<typeof createCharacterSchema>;
 
+// UpdateCharacterRequest のバリデーションスキーマ
+export const updateCharacterSchema = z.object({
+  session: z.object({
+    id: z.string().optional(),
+    sessionName: z.string().optional(),
+    gmName: z.string().optional(),
+    sessionDate: z.string().optional(),
+    currentHp: z.number().int().min(0).optional(),
+    currentSp: z.number().int().min(0).optional(),
+    currentFc: z.number().int().min(0).optional().nullable(),
+    experiencePoints: z.number().int().min(0).optional(),
+    memo: z.string().optional().nullable(),
+  }).optional(),
+  password: z.string().nullable().optional(),
+});
+
+export type UpdateCharacterRequest = z.infer<typeof updateCharacterSchema>;
+
 // バリデーション結果の型
 export type ValidationResult<T> =
   | {
@@ -91,6 +109,32 @@ export const validateCreateCharacter = (
   data: unknown,
 ): ValidationResult<CreateCharacterRequest> => {
   const result = createCharacterSchema.safeParse(data);
+
+  if (result.success) {
+    return {
+      success: true,
+      data: result.data,
+    };
+  }
+
+  return {
+    success: false,
+    error: {
+      code: 'VALIDATION_ERROR',
+      message: 'バリデーションエラーが発生しました',
+      details: result.error.errors.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      })),
+    },
+  };
+};
+
+// UpdateCharacterRequest バリデーション実行関数
+export const validateUpdateCharacter = (
+  data: unknown,
+): ValidationResult<UpdateCharacterRequest> => {
+  const result = updateCharacterSchema.safeParse(data);
 
   if (result.success) {
     return {

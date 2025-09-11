@@ -1,5 +1,9 @@
-import { createCharacterSchema } from '@age-of-hero/schemas';
+import {
+  createCharacterSchema,
+  updateCharacterSchema,
+} from '@age-of-hero/schemas';
 import { zValidator } from '@hono/zod-validator';
+import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
@@ -59,12 +63,22 @@ app.post(
     // バリデーション済みのデータを取得
     const characterData = c.req.valid('json');
 
+    // パスワードハッシュ化
+    let passwordHash: string | undefined;
+    if (characterData.password) {
+      passwordHash = await bcrypt.hash(characterData.password, 12);
+    }
+
+    // パスワードを除いたデータを準備
+    const { password, ...dataWithoutPassword } = characterData;
+
     // データベースに保存
     const [newCharacter] = await getDb()
       .insert(characters)
       .values({
         name: characterData.name,
-        data: characterData,
+        data: dataWithoutPassword,
+        passwordHash,
       })
       .returning();
 
@@ -83,8 +97,15 @@ app.get(
       id: z.string().uuid('Invalid ID format'),
     }),
   ),
+  zValidator(
+    'query',
+    z.object({
+      password: z.string().optional(),
+    }),
+  ),
   async (c) => {
     const { id } = c.req.valid('param');
+    const { password } = c.req.valid('query');
 
     const [character] = await getDb()
       .select()
@@ -93,6 +114,21 @@ app.get(
 
     if (!character) {
       return c.json({ error: 'Character not found' }, 404);
+    }
+
+    // パスワード認証が必要な場合
+    if (character.passwordHash) {
+      if (!password) {
+        return c.json({ error: 'Password is required' }, 401);
+      }
+
+      const isValidPassword = await bcrypt.compare(
+        password,
+        character.passwordHash,
+      );
+      if (!isValidPassword) {
+        return c.json({ error: 'Invalid password' }, 401);
+      }
     }
 
     const data = character.data as object;
@@ -103,67 +139,94 @@ app.get(
       name: character.name,
       createdAt: character.createdAt,
       updatedAt: character.updatedAt,
+      isPasswordProtected: !!character.passwordHash,
       ...data,
     });
   },
 );
 
 // Update character (add session)
-app.put('/api/characters/:id', zValidator('param', z.object({
-  id: z.string().uuid('Invalid ID format')
-})), async (c) => {
-  const { id } = c.req.valid('param');
-  const requestBody = await c.req.json();
+app.put(
+  '/api/characters/:id',
+  zValidator(
+    'param',
+    z.object({
+      id: z.string().uuid('Invalid ID format'),
+    }),
+  ),
+  zValidator('json', updateCharacterSchema),
+  async (c) => {
+    const { id } = c.req.valid('param');
+    const requestBody = c.req.valid('json');
 
-  try {
-    const [character] = await getDb()
-      .select()
-      .from(characters)
-      .where(eq(characters.id, id));
+    try {
+      const [character] = await getDb()
+        .select()
+        .from(characters)
+        .where(eq(characters.id, id));
 
-    if (!character) {
-      return c.json({ error: 'Character not found' }, 404);
+      if (!character) {
+        return c.json({ error: 'Character not found' }, 404);
+      }
+
+      // パスワード認証が必要な場合
+      if (character.passwordHash) {
+        if (!requestBody.password) {
+          return c.json({ error: 'Password is required' }, 401);
+        }
+
+        const isValidPassword = await bcrypt.compare(
+          requestBody.password,
+          character.passwordHash,
+        );
+        if (!isValidPassword) {
+          return c.json({ error: 'Invalid password' }, 401);
+        }
+      }
+
+      const characterData = character.data as any;
+
+      // セッション情報を追加
+      const newSession = {
+        id: crypto.randomUUID(),
+        ...requestBody.session,
+        createdAt: new Date().toISOString(),
+      };
+
+      const updatedSessions = [...(characterData.sessions || []), newSession];
+
+      const updatedData = {
+        ...characterData,
+        sessions: updatedSessions,
+      };
+
+      // データベースを更新
+      const [updatedCharacter] = await getDb()
+        .update(characters)
+        .set({
+          data: updatedData,
+          updatedAt: new Date(),
+        })
+        .where(eq(characters.id, id))
+        .returning();
+
+      // 更新されたキャラクター情報を返す
+      return c.json(
+        {
+          id: updatedCharacter.id,
+          name: updatedCharacter.name,
+          createdAt: updatedCharacter.createdAt,
+          updatedAt: updatedCharacter.updatedAt,
+          ...updatedData,
+        },
+        200,
+      );
+    } catch (error) {
+      console.error('Database error:', error);
+      return c.json({ error: 'Database error' }, 500);
     }
-
-    const characterData = character.data as any;
-    
-    // セッション情報を追加
-    const newSession = {
-      id: crypto.randomUUID(),
-      ...requestBody.session,
-      createdAt: new Date().toISOString(),
-    };
-
-    const updatedSessions = [...(characterData.sessions || []), newSession];
-    
-    const updatedData = {
-      ...characterData,
-      sessions: updatedSessions,
-    };
-
-    // データベースを更新
-    const [updatedCharacter] = await getDb()
-      .update(characters)
-      .set({
-        data: updatedData,
-        updatedAt: new Date(),
-      })
-      .where(eq(characters.id, id))
-      .returning();
-
-    // 更新されたキャラクター情報を返す
-    return c.json({
-      id: updatedCharacter.id,
-      name: updatedCharacter.name,
-      createdAt: updatedCharacter.createdAt,
-      updatedAt: updatedCharacter.updatedAt,
-      ...updatedData,
-    }, 200);
-  } catch (error) {
-    console.error('Database error:', error);
-    return c.json({ error: 'Database error' }, 500);
-  }
-});
+  },
+);
 
 const port = Number(process.env.PORT) || 3001;
 

@@ -25,8 +25,6 @@ erDiagram
         timestamp created_at
         timestamp updated_at
         varchar password_hash
-        boolean is_password_protected
-        timestamp last_accessed_at
         jsonb character_data
     }
 ```
@@ -47,8 +45,6 @@ interface Character {
 
   // アクセス制御 (テーブル直下カラム)
   passwordHash?: string; // bcrypt ハッシュ (オプション)
-  isPasswordProtected: boolean; // パスワード保護フラグ
-  lastAccessedAt?: Date; // 最終アクセス日時
 
   // キャラクターシート詳細情報 (JSON カラム)
   characterData: CharacterData;
@@ -384,10 +380,6 @@ export const characters = pgTable('characters', {
 
   // アクセス制御
   passwordHash: varchar('password_hash', { length: 255 }),
-  isPasswordProtected: boolean('is_password_protected')
-    .default(false)
-    .notNull(),
-  lastAccessedAt: timestamp('last_accessed_at'),
 
   // キャラクターシート詳細 (JSON)
   characterData: jsonb('character_data').notNull().$type<CharacterData>(),
@@ -549,8 +541,6 @@ CREATE TABLE characters (
   created_at TIMESTAMP DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
   password_hash VARCHAR(255),
-  is_password_protected BOOLEAN DEFAULT FALSE NOT NULL,
-  last_accessed_at TIMESTAMP,
   character_data JSONB NOT NULL
 );
 
