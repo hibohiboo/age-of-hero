@@ -70,7 +70,7 @@
 
 ### Lint修正タスク
 - [ ] **src/index.ts修正**:
-  - [ ] 未使用変数 'password' 修正 (line 73)
+  - [x] 未使用変数 'password' 修正 (line 73)
   - [ ] any型指定修正 (line 187)
 - [ ] **テストファイル修正**:
   - [ ] characters-put-simple.test.ts の未使用collection修正 (line 177)

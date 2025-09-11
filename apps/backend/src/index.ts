@@ -70,7 +70,7 @@ app.post(
     }
 
     // パスワードを除いたデータを準備
-    const { password, ...dataWithoutPassword } = characterData;
+    const { password: _password, ...dataWithoutPassword } = characterData;
 
     // データベースに保存
     const [newCharacter] = await getDb()
