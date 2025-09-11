@@ -129,35 +129,6 @@ paths:
         '404':
           description: キャラクターが見つからない
 
-  /api/characters/{id}/password:
-    put:
-      summary: パスワード設定/変更
-      description: キャラクターシートにパスワード保護を設定または変更
-      tags:
-        - Character
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SetPasswordRequest'
-      responses:
-        '200':
-          description: パスワード設定成功
-        '400':
-          description: バリデーションエラー（不正なUUID形式含む）
-        '401':
-          description: 既存パスワード認証エラー
-        '404':
-          description: キャラクターが見つからない
-
 components:
   schemas:
     GameDataResponse:
@@ -188,7 +159,7 @@ components:
           format: uuid
         name:
           type: string
-          example: "マッスル"
+          example: 'マッスル'
         physicalBase:
           type: integer
           minimum: 0
@@ -221,10 +192,10 @@ components:
           format: uuid
         name:
           type: string
-          example: "パワー"
+          example: 'パワー'
         category:
           type: string
-          enum: ["physical", "reflex", "sensory", "intellectual"]
+          enum: ['physical', 'reflex', 'sensory', 'intellectual']
         description:
           type: string
         order:
@@ -238,22 +209,22 @@ components:
           format: uuid
         name:
           type: string
-          example: "《パワードライブ》"
+          example: '《パワードライブ》'
         maxLevel:
           type: integer
           minimum: 1
         timing:
           type: string
-          example: "メジャーアクション"
+          example: 'メジャーアクション'
         skill:
           type: string
-          example: "白兵攻撃"
+          example: '白兵攻撃'
         target:
           type: string
-          example: "単体"
+          example: '単体'
         range:
           type: string
-          example: "武器"
+          example: '武器'
         cost:
           type: integer
           minimum: 0
@@ -273,32 +244,32 @@ components:
           format: uuid
         name:
           type: string
-          example: "射撃武器（小）"
+          example: '射撃武器（小）'
         type:
           type: string
-          example: "射撃武器"
+          example: '射撃武器'
         skill:
           type: string
-          example: "〈射撃〉"
+          example: '〈射撃〉'
         modifier:
           type: string
-          example: "+20%"
+          example: '+20%'
         attackPower:
           type: string
-          example: "+4"
+          example: '+4'
         guardValue:
           type: string
-          example: "2"
+          example: '2'
         range:
           type: string
-          example: "近距離"
+          example: '近距離'
         price:
           type: integer
           minimum: 0
           example: 60
         effect:
           type: string
-          example: "拳銃など。"
+          example: '拳銃など。'
 
     CreateCharacterRequest:
       type: object
@@ -314,23 +285,24 @@ components:
           type: string
           minLength: 1
           maxLength: 50
-          example: "山田太郎"
+          example: '山田太郎'
         selectedClasses:
           type: array
           items:
             type: string
           minItems: 2
           maxItems: 2
-          description: "選択した2つのクラスID (重複可)"
+          description: '選択した2つのクラスID (重複可)'
         abilityBonus:
           type: string
-          enum: ["physical", "reflex", "sensory", "intellectual", "supernatural"]
-          description: "能力値+1ボーナスの適用先"
+          enum:
+            ['physical', 'reflex', 'sensory', 'intellectual', 'supernatural']
+          description: '能力値+1ボーナスの適用先'
         skillAllocations:
           type: object
           additionalProperties:
             type: integer
-          description: "技能名 → 割り振りポイントのマップ"
+          description: '技能名 → 割り振りポイントのマップ'
         heroSkills:
           type: array
           items:
@@ -358,7 +330,7 @@ components:
         password:
           type: string
           nullable: true
-          description: "オプションのパスワード"
+          description: 'オプションのパスワード'
 
     CreateCharacterResponse:
       type: object
@@ -368,7 +340,7 @@ components:
           format: uuid
         url:
           type: string
-          example: "/character/123e4567-e89b-12d3-a456-426614174000"
+          example: '/character/123e4567-e89b-12d3-a456-426614174000'
 
     CharacterResponse:
       type: object
@@ -516,7 +488,7 @@ components:
         password:
           type: string
           nullable: true
-          description: "パスワード保護されている場合のパスワード"
+          description: 'パスワード保護されている場合のパスワード'
 
     SetPasswordRequest:
       type: object
@@ -524,11 +496,11 @@ components:
         currentPassword:
           type: string
           nullable: true
-          description: "現在のパスワード (変更時のみ)"
+          description: '現在のパスワード (変更時のみ)'
         newPassword:
           type: string
           nullable: true
-          description: "新しいパスワード (nullで保護解除)"
+          description: '新しいパスワード (nullで保護解除)'
 
     ErrorResponse:
       type: object
@@ -538,10 +510,10 @@ components:
           properties:
             code:
               type: string
-              example: "VALIDATION_ERROR"
+              example: 'VALIDATION_ERROR'
             message:
               type: string
-              example: "バリデーションエラーが発生しました"
+              example: 'バリデーションエラーが発生しました'
             details:
               type: array
               items:
