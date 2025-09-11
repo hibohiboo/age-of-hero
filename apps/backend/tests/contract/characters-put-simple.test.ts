@@ -313,4 +313,31 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(errorData.error).toMatch(/password/i);
     });
   });
+
+  describe('エラーハンドリング', () => {
+    it('存在しないIDで404を返すこと', async () => {
+      // 存在しない有効なUUIDを使用
+      const nonExistentId = '00000000-0000-0000-0000-000000000000';
+      
+      const sessionData = {
+        session: {
+          sessionName: 'テストセッション',
+          gmName: 'GM太郎',
+          sessionDate: '2025-09-12',
+          currentHp: 25,
+          currentSp: 15,
+          experiencePoints: 10
+        }
+      };
+
+      const updateRes = await updateCharacter(nonExistentId, sessionData);
+      
+      // 存在しないIDなので404が返されることを期待
+      expect(updateRes.status).toBe(404);
+      
+      const errorData = (await updateRes.json()) as any;
+      expect(errorData).toHaveProperty('error');
+      expect(errorData.error).toMatch(/not found|character.*not.*exist/i);
+    });
+  });
 });
