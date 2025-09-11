@@ -174,8 +174,6 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
         }
       ];
 
-      const createdAtTimes: Date[] = [];
-
       // セッションを順番に追加（時間差をつけて）
       for (let i = 0; i < sessions.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 50)); // より確実な時間差
@@ -187,10 +185,6 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
         
         expect(updateRes.status).toBe(200);
         expect(updateData.sessions).toHaveLength(i + 1);
-        
-        // 最新のセッションのcreatedAtを記録
-        const latestSession = updateData.sessions[updateData.sessions.length - 1];
-        createdAtTimes.push(new Date(latestSession.createdAt));
       }
 
       // 最終的な状態を確認
