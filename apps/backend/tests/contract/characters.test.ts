@@ -121,6 +121,29 @@ describe('POST /api/characters', () => {
     });
   });
 
+  describe('パスワード', () => {
+    it('パスワードありで作成できること', async () => {
+      const dataWithPassword = { ...basicCharacterData, password: 'secret123' };
+      const res = await createCharacter(dataWithPassword);
+      
+      expect(res.status).toBe(201);
+      
+      const data = (await res.json()) as any;
+      expect(data).toHaveProperty('id');
+      expect(data).toHaveProperty('url');
+    });
+
+    it('パスワードなしで作成できること', async () => {
+      const res = await createCharacter(basicCharacterData);
+      
+      expect(res.status).toBe(201);
+      
+      const data = (await res.json()) as any;
+      expect(data).toHaveProperty('id');
+      expect(data).toHaveProperty('url');
+    });
+  });
+
   describe('バリデーション', () => {
     it('nameがない場合は400エラーを返すこと', async () => {
       const invalidData = { ...basicCharacterData };
@@ -129,6 +152,37 @@ describe('POST /api/characters', () => {
       const res = await createCharacter(invalidData);
       expect(res.status).toBe(400);
 
+      const data = (await res.json()) as any;
+      expect(data).toHaveProperty('error');
+    });
+  });
+
+  describe('エラーハンドリング', () => {
+    it('不正なJSONで400を返すこと', async () => {
+      const req = new Request('http://localhost/api/characters', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: '{invalid json}', // 不正なJSON
+      });
+      
+      const res = await app.fetch(req);
+      expect(res.status).toBe(400);
+      
+      const data = (await res.json()) as any;
+      expect(data).toHaveProperty('error');
+    });
+
+    it('バリデーション失敗で400を返すこと', async () => {
+      const invalidData = { 
+        ...basicCharacterData, 
+        selectedClasses: ['マッスル'] // 1つしかない（2つ必須）
+      };
+      
+      const res = await createCharacter(invalidData);
+      expect(res.status).toBe(400);
+      
       const data = (await res.json()) as any;
       expect(data).toHaveProperty('error');
     });
