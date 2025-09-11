@@ -184,7 +184,7 @@ app.put(
         }
       }
 
-      const characterData = character.data as any;
+      const characterData = character.data as object;
 
       // セッション情報を追加
       const newSession = {
