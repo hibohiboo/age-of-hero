@@ -279,5 +279,38 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(updateData.sessions).toHaveLength(1);
       expect(updateData.sessions[0].sessionName).toBe('テストセッション');
     });
+
+    it('間違ったパスワードで401を返すこと', async () => {
+      // パスワード保護されたキャラクターを作成
+      const protectedCharacterData = {
+        ...basicCharacterData,
+        password: 'correct123'
+      };
+
+      const createRes = await createCharacter(protectedCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // 間違ったパスワードでセッション追加を試行
+      const sessionDataWithWrongPassword = {
+        session: {
+          sessionName: 'テストセッション',
+          gmName: 'GM太郎',
+          sessionDate: '2025-09-12',
+          currentHp: 25,
+          currentSp: 15,
+          experiencePoints: 10
+        },
+        password: 'wrong123'  // 間違ったパスワード
+      };
+
+      const updateRes = await updateCharacter(createData.id, sessionDataWithWrongPassword);
+      
+      // 間違ったパスワードなので401が返されることを期待
+      expect(updateRes.status).toBe(401);
+      
+      const errorData = (await updateRes.json()) as any;
+      expect(errorData).toHaveProperty('error');
+      expect(errorData.error).toMatch(/password/i);
+    });
   });
 });
