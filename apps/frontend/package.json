@@ -34,7 +34,7 @@
     "globals": "^16.4.0",
     "jsdom": "^26.1.0",
     "msw": "^2.11.2",
-    "npm-check-updates": "^18.1.0",
+    "npm-check-updates": "^18.1.1",
     "vite": "^7.1.5"
   },
   "msw": {
