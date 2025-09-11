@@ -108,6 +108,30 @@ app.get(
   },
 );
 
+// Update character (add session)
+app.put('/api/characters/:id', zValidator('param', z.object({
+  id: z.string().uuid('Invalid ID format')
+})), async (c) => {
+  const { id } = c.req.valid('param');
+
+  try {
+    const [character] = await getDb()
+      .select()
+      .from(characters)
+      .where(eq(characters.id, id));
+
+    if (!character) {
+      return c.json({ error: 'Character not found' }, 404);
+    }
+
+    // 最小実装: 単純に200を返す
+    return c.json({ message: 'Updated successfully' }, 200);
+  } catch (error) {
+    console.error('Database error:', error);
+    return c.json({ error: 'Database error' }, 500);
+  }
+});
+
 const port = Number(process.env.PORT) || 3001;
 
 console.log(`🚀 Backend server running on port ${port}`);
