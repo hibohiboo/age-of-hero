@@ -74,7 +74,7 @@
   - [x] any型指定修正 (line 187)
 - [ ] **テストファイル修正**:
   - [x] characters-put-simple.test.ts の未使用collection修正 (line 177)
-  - [ ] ループ内のunary operator修正 (line 180, 204)
+  - [x] ループ内のunary operator修正 (line 180, 204)
   - [ ] await in loop修正 (line 181, 183, 186)
   - [ ] 変数shadowingの修正 (line 230, 322)
   - [ ] ハードコードされたパスワード警告への対応 (line 223, 255, 271, 287, 303)

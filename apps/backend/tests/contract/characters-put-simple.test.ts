@@ -175,7 +175,7 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       ];
 
       // セッションを順番に追加（時間差をつけて）
-      for (let i = 0; i < sessions.length; i++) {
+      for (let i = 0; i < sessions.length; i += 1) {
         await new Promise(resolve => setTimeout(resolve, 50)); // より確実な時間差
         
         const updateRes = await updateCharacter(createData.id, {
@@ -195,7 +195,7 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(finalData.sessions).toHaveLength(4);
       
       // 全てのセッションが時系列順（古い順→新しい順）になっていることを確認
-      for (let i = 0; i < finalData.sessions.length - 1; i++) {
+      for (let i = 0; i < finalData.sessions.length - 1; i += 1) {
         const currentTime = new Date(finalData.sessions[i].createdAt).getTime();
         const nextTime = new Date(finalData.sessions[i + 1].createdAt).getTime();
         expect(currentTime).toBeLessThan(nextTime);
