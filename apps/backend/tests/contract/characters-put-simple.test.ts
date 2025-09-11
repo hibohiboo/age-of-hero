@@ -140,5 +140,78 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(updateData.specialAttacks).toEqual(basicCharacterData.specialAttacks);
       expect(updateData.items).toEqual(basicCharacterData.items);
     });
+
+    it('セッション履歴が時系列順になること', async () => {
+      // キャラクターを作成
+      const createRes = await createCharacter(basicCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // 複数のセッションを時間差をつけて追加
+      const sessions = [
+        {
+          sessionName: '第1回セッション',
+          gmName: 'GM太郎',
+          sessionDate: '2025-09-10',
+          currentHp: 25,
+          currentSp: 15,
+          experiencePoints: 5
+        },
+        {
+          sessionName: '第2回セッション',
+          gmName: 'GM花子',
+          sessionDate: '2025-09-12',
+          currentHp: 20,
+          currentSp: 10,
+          experiencePoints: 8
+        },
+        {
+          sessionName: '第3回セッション',
+          gmName: 'GM次郎',
+          sessionDate: '2025-09-14',
+          currentHp: 30,
+          currentSp: 20,
+          experiencePoints: 12
+        }
+      ];
+
+      const createdAtTimes: Date[] = [];
+
+      // セッションを順番に追加（時間差をつけて）
+      for (let i = 0; i < sessions.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 50)); // より確実な時間差
+        
+        const updateRes = await updateCharacter(createData.id, {
+          session: sessions[i]
+        });
+        const updateData = (await updateRes.json()) as any;
+        
+        expect(updateRes.status).toBe(200);
+        expect(updateData.sessions).toHaveLength(i + 1);
+        
+        // 最新のセッションのcreatedAtを記録
+        const latestSession = updateData.sessions[updateData.sessions.length - 1];
+        createdAtTimes.push(new Date(latestSession.createdAt));
+      }
+
+      // 最終的な状態を確認
+      const finalRes = await updateCharacter(createData.id, { session: sessions[sessions.length - 1] });
+      const finalData = (await finalRes.json()) as any;
+
+      // 3つのセッションが存在することを確認（最後の追加で4つ目になる）
+      expect(finalData.sessions).toHaveLength(4);
+      
+      // 全てのセッションが時系列順（古い順→新しい順）になっていることを確認
+      for (let i = 0; i < finalData.sessions.length - 1; i++) {
+        const currentTime = new Date(finalData.sessions[i].createdAt).getTime();
+        const nextTime = new Date(finalData.sessions[i + 1].createdAt).getTime();
+        expect(currentTime).toBeLessThan(nextTime);
+      }
+      
+      // セッション名も正しい順序になっていることを確認
+      expect(finalData.sessions[0].sessionName).toBe('第1回セッション');
+      expect(finalData.sessions[1].sessionName).toBe('第2回セッション');
+      expect(finalData.sessions[2].sessionName).toBe('第3回セッション');
+      expect(finalData.sessions[3].sessionName).toBe('第3回セッション'); // 重複した最後の追加
+    });
   });
 });
