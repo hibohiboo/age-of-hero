@@ -330,7 +330,7 @@ components:
           type: object
           additionalProperties:
             type: integer
-          description: "技能ID → 割り振りポイントのマップ"
+          description: "技能名 → 割り振りポイントのマップ"
         heroSkills:
           type: array
           items:
@@ -338,7 +338,6 @@ components:
             properties:
               id:
                 type: string
-                format: uuid
               level:
                 type: integer
                 minimum: 1
@@ -349,7 +348,6 @@ components:
             properties:
               id:
                 type: string
-                format: uuid
               level:
                 type: integer
                 minimum: 1
@@ -357,7 +355,6 @@ components:
           type: array
           items:
             type: string
-            format: uuid
         password:
           type: string
           nullable: true

@@ -16,23 +16,23 @@ export const createCharacterSchema = z.object({
     .optional(),
   
   skillAllocations: z
-    .record(z.string().uuid(), z.number().int().min(0, 'スキルポイントは0以上で入力してください'))
+    .record(z.string(), z.number().int().min(0, 'スキルポイントは0以上で入力してください'))
     .refine((data) => {
       const totalPoints = Object.values(data).reduce((sum, points) => sum + points, 0);
       return totalPoints >= 0;
     }, 'スキルポイントの合計が不正です'),
   
   heroSkills: z.array(z.object({
-    id: z.string().uuid('不正なヒーロースキルIDです'),
+    id: z.string(),
     level: z.number().int().min(1, 'ヒーロースキルレベルは1以上で入力してください')
   })),
   
   specialAttacks: z.array(z.object({
-    id: z.string().uuid('不正な特殊技IDです'),
+    id: z.string(),
     level: z.number().int().min(1, '特殊技レベルは1以上で入力してください')
   })),
   
-  items: z.array(z.string().uuid('不正なアイテムIDです')),
+  items: z.array(z.string()),
   
   password: z.string().nullable().optional()
 });

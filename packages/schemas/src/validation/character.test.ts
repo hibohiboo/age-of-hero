@@ -7,22 +7,22 @@ describe('validateCreateCharacter', () => {
     name: '山田太郎',
     selectedClasses: ['class-uuid-1', 'class-uuid-2'],
     skillAllocations: {
-      '550e8400-e29b-41d4-a716-446655440003': 20,
-      '550e8400-e29b-41d4-a716-446655440004': 30,
+      'パワー': 20,
+      'タフネス': 30,
     },
     heroSkills: [
       {
-        id: '550e8400-e29b-41d4-a716-446655440005',
+        id: 'パワードライブ',
         level: 3,
       },
     ],
     specialAttacks: [
       {
-        id: '550e8400-e29b-41d4-a716-446655440006',
+        id: 'パワースラッシュ',
         level: 1,
       },
     ],
-    items: ['550e8400-e29b-41d4-a716-446655440007'],
+    items: ['射撃武器（小）'],
   };
 
   describe('正常系', () => {
@@ -136,8 +136,8 @@ describe('validateCreateCharacter', () => {
         const invalidData = { 
           ...validCharacterData, 
           skillAllocations: {
-            '550e8400-e29b-41d4-a716-446655440003': -10,
-            '550e8400-e29b-41d4-a716-446655440004': 30,
+            'パワー': -10,
+            'タフネス': 30,
           }
         };
         const result = validateCreateCharacter(invalidData);
@@ -157,7 +157,7 @@ describe('validateCreateCharacter', () => {
         const invalidData = { 
           ...validCharacterData, 
           heroSkills: [{
-            id: '550e8400-e29b-41d4-a716-446655440005',
+            id: 'パワードライブ',
             level: 0
           }]
         };
