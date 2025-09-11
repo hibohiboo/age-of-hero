@@ -70,6 +70,7 @@ app.post(
     }
 
     // パスワードを除いたデータを準備
+    // eslint-disable-next-line sonarjs/no-unused-vars
     const { password: _password, ...dataWithoutPassword } = characterData;
 
     // データベースに保存
