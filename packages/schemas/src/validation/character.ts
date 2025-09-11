@@ -47,6 +47,22 @@ export const createCharacterSchema = z.object({
 
   items: z.array(z.string()),
 
+  // セッション履歴 (キャラクター作成時は通常空配列)
+  sessions: z.array(
+    z.object({
+      id: z.string(),
+      sessionName: z.string(),
+      gmName: z.string(), 
+      sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'セッション日付はYYYY-MM-DD形式で入力してください'),
+      currentHp: z.number().min(0, 'HPは0以上で入力してください'),
+      currentSp: z.number().min(0, 'SPは0以上で入力してください'),
+      currentFc: z.number().min(0, 'FCは0以上で入力してください').optional(),
+      experiencePoints: z.number().min(0, '経験点は0以上で入力してください'),
+      memo: z.string().optional(),
+      createdAt: z.string().datetime('作成日時はISO形式で入力してください'),
+    })
+  ).optional().default([]),
+
   password: z.string().nullable().optional(),
 });
 

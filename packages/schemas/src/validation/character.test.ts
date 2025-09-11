@@ -23,6 +23,7 @@ describe('validateCreateCharacter', () => {
       },
     ],
     items: ['射撃武器（小）'],
+    sessions: [],
   };
 
   describe('正常系', () => {
