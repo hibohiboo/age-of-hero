@@ -72,10 +72,20 @@
 4. REFACTOR: 設計改善
 5. テストリストに新たな気づきを追加
 
-- [ ] T012 TDD: GET /api/game-data エンドポイント実装
-- [ ] T013 TDD: POST /api/characters エンドポイント実装
-- [ ] T014 TDD: GET /api/characters/{id} エンドポイント実装
-- [ ] T015 TDD: PUT /api/characters/{id} エンドポイント実装
+**完了したTDDサイクル:**
+- [x] T012 TDD: GET /api/game-data エンドポイント実装 ✅
+- [x] T013 TDD: POST /api/characters エンドポイント実装 ✅
+  - ✅ Zodバリデーションスキーマ実装（packages/schemas）
+  - ✅ Honoのzod validator middleware統合
+  - ✅ パスワード処理（optional）
+  - ✅ エラーハンドリング（不正JSON、バリデーション失敗）
+- [x] T014 TDD: GET /api/characters/{id} エンドポイント実装 ✅
+  - ✅ UUIDバリデーション（Zod使用）
+  - ✅ sessions配列サポート
+  - ✅ 404/400エラーハンドリング
+
+**進行中のTDDサイクル:**
+- [ ] T015 TDD: PUT /api/characters/{id} エンドポイント実装 🔄
 - [ ] T017 TDD: キャラクター作成フロー実装
 - [ ] T018 TDD: セッション履歴管理実装
 - [ ] T019 TDD: パスワード保護機能実装
