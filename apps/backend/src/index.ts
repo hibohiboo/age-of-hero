@@ -5,6 +5,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
+import { z } from 'zod';
 import { GAME_DATA } from './data/game-data';
 import { getDb } from './lib/db/connection';
 import { characters } from './lib/db/schema';
@@ -74,29 +75,38 @@ app.post(
 );
 
 // Get character by ID
-app.get('/api/characters/:id', async (c) => {
-  const id = c.req.param('id');
+app.get(
+  '/api/characters/:id',
+  zValidator(
+    'param',
+    z.object({
+      id: z.string().uuid('Invalid ID format'),
+    }),
+  ),
+  async (c) => {
+    const { id } = c.req.valid('param');
 
-  const [character] = await getDb()
-    .select()
-    .from(characters)
-    .where(eq(characters.id, id));
+    const [character] = await getDb()
+      .select()
+      .from(characters)
+      .where(eq(characters.id, id));
 
-  if (!character) {
-    return c.json({ error: 'Character not found' }, 404);
-  }
-  const data = character.data as object;
+    if (!character) {
+      return c.json({ error: 'Character not found' }, 404);
+    }
 
-  // キャラクター情報を返す（API仕様に合わせて構築）
-  return c.json({
-    id: character.id,
-    name: character.name,
-    createdAt: character.createdAt,
-    updatedAt: character.updatedAt,
-    // data内の情報を展開
-    ...data,
-  });
-});
+    const data = character.data as object;
+
+    // キャラクター情報を返す（API仕様に合わせて構築）
+    return c.json({
+      id: character.id,
+      name: character.name,
+      createdAt: character.createdAt,
+      updatedAt: character.updatedAt,
+      ...data,
+    });
+  },
+);
 
 const port = Number(process.env.PORT) || 3001;
 
