@@ -185,7 +185,7 @@ app.put(
         }
       }
 
-      const characterData = character.data as object;
+      const characterData = character.data as { sessions?: unknown[] };
 
       // セッション情報を追加
       const newSession = {
