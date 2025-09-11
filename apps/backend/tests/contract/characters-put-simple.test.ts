@@ -89,5 +89,30 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       const res = await updateCharacter(createData.id, sessionData);
       expect(res.status).toBe(200);
     });
+
+    it('セッション情報を追加できること', async () => {
+      // キャラクターを作成
+      const createRes = await createCharacter(basicCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // セッション情報を追加
+      const updateRes = await updateCharacter(createData.id, sessionData);
+      const updateData = (await updateRes.json()) as any;
+
+      expect(updateRes.status).toBe(200);
+      expect(updateData).toHaveProperty('sessions');
+      expect(Array.isArray(updateData.sessions)).toBe(true);
+      expect(updateData.sessions).toHaveLength(1);
+      expect(updateData.sessions[0]).toMatchObject({
+        sessionName: 'テストセッション',
+        gmName: 'GM太郎',
+        sessionDate: '2025-09-12',
+        currentHp: 25,
+        currentSp: 15,
+        experiencePoints: 10
+      });
+      expect(updateData.sessions[0]).toHaveProperty('id');
+      expect(updateData.sessions[0]).toHaveProperty('createdAt');
+    });
   });
 });

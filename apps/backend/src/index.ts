@@ -113,6 +113,7 @@ app.put('/api/characters/:id', zValidator('param', z.object({
   id: z.string().uuid('Invalid ID format')
 })), async (c) => {
   const { id } = c.req.valid('param');
+  const requestBody = await c.req.json();
 
   try {
     const [character] = await getDb()
@@ -124,8 +125,40 @@ app.put('/api/characters/:id', zValidator('param', z.object({
       return c.json({ error: 'Character not found' }, 404);
     }
 
-    // 最小実装: 単純に200を返す
-    return c.json({ message: 'Updated successfully' }, 200);
+    const characterData = character.data as any;
+    
+    // セッション情報を追加
+    const newSession = {
+      id: crypto.randomUUID(),
+      ...requestBody.session,
+      createdAt: new Date().toISOString(),
+    };
+
+    const updatedSessions = [...(characterData.sessions || []), newSession];
+    
+    const updatedData = {
+      ...characterData,
+      sessions: updatedSessions,
+    };
+
+    // データベースを更新
+    const [updatedCharacter] = await getDb()
+      .update(characters)
+      .set({
+        data: updatedData,
+        updatedAt: new Date(),
+      })
+      .where(eq(characters.id, id))
+      .returning();
+
+    // 更新されたキャラクター情報を返す
+    return c.json({
+      id: updatedCharacter.id,
+      name: updatedCharacter.name,
+      createdAt: updatedCharacter.createdAt,
+      updatedAt: updatedCharacter.updatedAt,
+      ...updatedData,
+    }, 200);
   } catch (error) {
     console.error('Database error:', error);
     return c.json({ error: 'Database error' }, 500);
