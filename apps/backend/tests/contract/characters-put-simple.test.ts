@@ -114,5 +114,31 @@ describe('PUT /api/characters/{id} - TDD Step 1', () => {
       expect(updateData.sessions[0]).toHaveProperty('id');
       expect(updateData.sessions[0]).toHaveProperty('createdAt');
     });
+
+    it('更新されたキャラクター情報を返すこと', async () => {
+      // キャラクターを作成
+      const createRes = await createCharacter(basicCharacterData);
+      const createData = (await createRes.json()) as any;
+
+      // セッション情報を追加
+      const updateRes = await updateCharacter(createData.id, sessionData);
+      const updateData = (await updateRes.json()) as any;
+
+      expect(updateRes.status).toBe(200);
+      expect(updateData.id).toBe(createData.id);
+      expect(updateData.name).toBe(basicCharacterData.name);
+      expect(updateData).toHaveProperty('createdAt');
+      expect(updateData).toHaveProperty('updatedAt');
+      
+      // updatedAtが更新されていることを確認
+      expect(new Date(updateData.updatedAt).getTime()).toBeGreaterThan(new Date(updateData.createdAt).getTime());
+      
+      // 元のキャラクター情報も含まれていることを確認
+      expect(updateData.selectedClasses).toEqual(basicCharacterData.selectedClasses);
+      expect(updateData.skillAllocations).toEqual(basicCharacterData.skillAllocations);
+      expect(updateData.heroSkills).toEqual(basicCharacterData.heroSkills);
+      expect(updateData.specialAttacks).toEqual(basicCharacterData.specialAttacks);
+      expect(updateData.items).toEqual(basicCharacterData.items);
+    });
   });
 });
