@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 
 // CreateCharacterRequest のバリデーションスキーマ
@@ -15,18 +16,7 @@ export const createCharacterSchema = z.object({
     .enum(['physical', 'reflex', 'sensory', 'intellectual', 'supernatural'])
     .optional(),
 
-  skillAllocations: z
-    .record(
-      z.string(),
-      z.number().int().min(0, 'スキルポイントは0以上で入力してください'),
-    )
-    .refine((data) => {
-      const totalPoints = Object.values(data).reduce(
-        (sum, points) => sum + points,
-        0,
-      );
-      return totalPoints >= 0;
-    }, 'スキルポイントの合計が不正です'),
+  skillAllocations: z.record(z.string(), z.number().optional()),
 
   heroSkills: z.array(
     z.object({
@@ -48,20 +38,23 @@ export const createCharacterSchema = z.object({
   items: z.array(z.string()),
 
   // セッション履歴 (キャラクター作成時は通常空配列、寛容なバリデーション)
-  sessions: z.array(
-    z.object({
-      id: z.string().optional(),
-      sessionName: z.string().optional(),
-      gmName: z.string().optional(), 
-      sessionDate: z.string().optional(),
-      currentHp: z.number().optional(),
-      currentSp: z.number().optional(),
-      currentFc: z.number().optional(),
-      experiencePoints: z.number().optional(),
-      memo: z.string().optional(),
-      createdAt: z.string().optional(),
-    })
-  ).optional().default([]),
+  sessions: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        sessionName: z.string().optional(),
+        gmName: z.string().optional(),
+        sessionDate: z.string().optional(),
+        currentHp: z.number().optional(),
+        currentSp: z.number().optional(),
+        currentFc: z.number().optional(),
+        experiencePoints: z.number().optional(),
+        memo: z.string().optional(),
+        createdAt: z.string().optional(),
+      }),
+    )
+    .optional()
+    .default([]),
 
   password: z.string().nullable().optional(),
 });
@@ -70,17 +63,19 @@ export type CreateCharacterRequest = z.infer<typeof createCharacterSchema>;
 
 // UpdateCharacterRequest のバリデーションスキーマ
 export const updateCharacterSchema = z.object({
-  session: z.object({
-    id: z.string().optional(),
-    sessionName: z.string().optional(),
-    gmName: z.string().optional(),
-    sessionDate: z.string().optional(),
-    currentHp: z.number().int().min(0).optional(),
-    currentSp: z.number().int().min(0).optional(),
-    currentFc: z.number().int().min(0).optional().nullable(),
-    experiencePoints: z.number().int().min(0).optional(),
-    memo: z.string().optional().nullable(),
-  }).optional(),
+  session: z
+    .object({
+      id: z.string().optional(),
+      sessionName: z.string().optional(),
+      gmName: z.string().optional(),
+      sessionDate: z.string().optional(),
+      currentHp: z.number().int().min(0).optional(),
+      currentSp: z.number().int().min(0).optional(),
+      currentFc: z.number().int().min(0).optional().nullable(),
+      experiencePoints: z.number().int().min(0).optional(),
+      memo: z.string().optional().nullable(),
+    })
+    .optional(),
   password: z.string().nullable().optional(),
 });
 
@@ -122,7 +117,7 @@ export const validateCreateCharacter = (
     error: {
       code: 'VALIDATION_ERROR',
       message: 'バリデーションエラーが発生しました',
-      details: result.error.errors.map((err) => ({
+      details: result.error.errors.map((err: any) => ({
         field: err.path.join('.'),
         message: err.message,
       })),
@@ -148,7 +143,7 @@ export const validateUpdateCharacter = (
     error: {
       code: 'VALIDATION_ERROR',
       message: 'バリデーションエラーが発生しました',
-      details: result.error.errors.map((err) => ({
+      details: result.error.errors.map((err: any) => ({
         field: err.path.join('.'),
         message: err.message,
       })),
