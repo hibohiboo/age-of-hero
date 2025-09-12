@@ -24,4 +24,12 @@ describe('calculateAbilities', () => {
     expect(result.physical).toBe(6); // 3 * 2 = 6
     expect(result.reflex).toBe(4);   // 2 * 2 = 4
   });
+
+  it('+1ボーナスを指定した能力値に適用すること', () => {
+    // マッスル(3) + テクノロジー(1) = 4, physicalに+1ボーナス = 5
+    const result = calculateAbilities(['マッスル', 'テクノロジー'], 'physical');
+    
+    expect(result.physical).toBe(5); // 4 + 1 = 5
+    expect(result.reflex).toBe(4);   // ボーナス適用されず
+  });
 });
