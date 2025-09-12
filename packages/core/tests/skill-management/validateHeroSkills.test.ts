@@ -31,4 +31,17 @@ describe('validateHeroSkills', () => {
     expect(result.isValid).toBe(false);
     expect(result.totalLevel).toBe(9);
   });
+
+  it('スキルの最大レベルを超える場合は無効であること', () => {
+    // ボディウォールは最大Lv1だが、Lv2を指定（制限超過）
+    const selectedClasses = ['マッスル', 'マッスル'] as const;
+    const heroSkills = {
+      ボディウォール: 2, // 最大Lv1を超過
+    };
+    
+    const result = validateHeroSkills(selectedClasses, heroSkills);
+    
+    expect(result.isValid).toBe(false);
+    expect(result.errors).toContain('ボディウォール: 最大レベル1を超えています（指定レベル: 2）');
+  });
 });
