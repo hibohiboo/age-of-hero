@@ -2,10 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { calculateAbilities } from '../../src/ability-calculation/calculateAbilities';
 
 describe('calculateAbilities', () => {
-  it('マッスルとテクノロジーの物理能力値を正しく合算すること', () => {
-    // マッスル(physical: 3) + テクノロジー(physical: 1) = 4
+  it.each([
+    ['physical', 4], // マッスル(3) + テクノロジー(1) = 4
+    ['reflex', 4],   // マッスル(2) + テクノロジー(2) = 4
+  ])('マッスルとテクノロジーの%s能力値を正しく合算すること', (abilityName, expected) => {
     const result = calculateAbilities(['マッスル', 'テクノロジー']);
     
-    expect(result.physical).toBe(4);
+    expect(result[abilityName]).toBe(expected);
   });
 });
