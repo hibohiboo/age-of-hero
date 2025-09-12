@@ -8,5 +8,8 @@ export function calculateAbilities(classes: [ClassName, ClassName]) {
   return {
     physical: stats1.physical + stats2.physical,
     reflex: stats1.reflex + stats2.reflex,
+    sensory: stats1.sensory + stats2.sensory,
+    intellectual: stats1.intellectual + stats2.intellectual,
+    supernatural: stats1.supernatural + stats2.supernatural,
   };
 }
