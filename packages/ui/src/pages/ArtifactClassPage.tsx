@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiAncientSword,
@@ -10,6 +11,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const ArtifactClassPage: React.FC = () => {
+  const artifactHeroSkills = HERO_SKILLS['アーティファクト'];
+  const classSkills = Object.entries(artifactHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiAncientSword,
+      color: 'bg-orange-50 border-orange-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'アーティファクト',
     description: '遠い過去や神話の時代の武具を用いたり、それらの世界から現代にやってきたりといったヒーローだ。神代・古代の神秘的な力を持つ道具を使い、神からの寵愛を受ける。',
@@ -25,158 +35,7 @@ export const ArtifactClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 34, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 21, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《古代兵装》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 4,
-          effect:
-            'そのシーン中、以下のデータの武器を作成し、装備する。このヒーロースキルのレベルが３以上になったならば、この武器による攻撃によるダメージは防護点を－[Ｌｖ×２]して算出する。種別：白兵　技能：〈パワー〉〈技術〉　修正：０％　攻撃力：＋[Ｌｖ＋７]　ガード値：４　射程：至近',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《ミスティックアーマー》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 5,
-          timing: 'マイナー',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 4,
-          effect:
-            'あなたが装備している防具の防護点を[Ｌｖ×４]する。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《神聖なる献身》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 1,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '至近',
-          cost: 4,
-          effect:
-            '対象がリアクションを行った直前に使用する。対象への攻撃に対しカバーリングを行い、このメインプロセス中に受けるダメージを５点軽減する。あなたはこのヒーロースキルによるカバーリングで行動終了にならず、行動終了していても使用できる。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《守護神の加護》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 5,
-          timing: 'リアクション',
-          skill: '技能',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'ガード時に使用する。そのメインプロセス中、あなたのガード値を＋[Ｌｖ×４]する。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《オーラバトラー》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'このメインプロセス中、あなたがアーティファクトのヒーロースキルを使用した判定を行う際、判定値に＋[Ｌｖ×２０]％する。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《エンシェントスペル》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 1,
-          timing: 'メジャーアクション',
-          skill: '〈魔術〉',
-          target: '単体',
-          range: '中距離',
-          cost: 5,
-          effect:
-            '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに＋[装備している武器の攻撃力]する。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《グラディエーター》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '白兵攻撃',
-          target: '単体',
-          range: '武器',
-          cost: 3,
-          effect:
-            '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《黄金の果実》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 3,
-          timing: '行動値チェック',
-          skill: 'なし',
-          target: '単体',
-          range: '至近',
-          cost: 12,
-          effect:
-            '戦闘不能状態のキャラクターを対象とする。その戦闘不能状態を解除し、HPを[Ｌｖ×２０]点回復する。このヒーロースキルはあなたが戦闘不能状態でも使用できる。シナリオに１回使用可能。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《ランページオーラ》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 3,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 8,
-          effect:
-            'このメインプロセス中、あなたが行う攻撃に対してガードを行えない。１シナリオに１回。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-      {
-        name: '《ジャッジメントボルト》',
-        icon: GiAncientSword,
-        details: {
-          maxLv: 3,
-          timing: '行動値チェック',
-          skill: 'なし',
-          target: '単体',
-          range: '視界',
-          cost: 'ＦＣ',
-          effect:
-            'ファンチットを５枚消費する。対象に５DのHPダメージを与える。ラウンドに１回、シナリオにレベル回使用可能。',
-        },
-        color: 'bg-orange-50 border-orange-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '神話の武具を操る者',

@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiDna2,
@@ -10,6 +11,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const BioClassPage: React.FC = () => {
+  const bioHeroSkills = HERO_SKILLS['バイオ'];
+  const classSkills = Object.entries(bioHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiDna2,
+      color: 'bg-green-50 border-green-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'バイオ',
     description: '人類以外の生命体、獣や虫、植物といったものたちの能力をその身に宿したヒーローたち。人間の身体機能の外側をいく動作や知覚を行うことができる。',

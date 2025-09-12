@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiCrystalBall,
@@ -12,6 +13,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const MagicalClassPage: React.FC = () => {
+  const magicalHeroSkills = HERO_SKILLS['マジカル'];
+  const classSkills = Object.entries(magicalHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiCrystalBall,
+      color: 'bg-purple-50 border-purple-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'マジカル',
     description:
@@ -28,157 +38,7 @@ export const MagicalClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 23, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 32, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《マジカルアタック》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '〈魔術〉',
-          target: '単体',
-          range: '中距離',
-          cost: 5,
-          effect:
-            '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに[ＬＶ×２]する。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《ウィッチブルーム》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 5,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '単体',
-          range: '至近',
-          cost: 5,
-          effect:
-            '対象はそのラウンド中、ドッジの判定に[Ｌｖ×１０]％し、移動を妨害されずエンゲージの封鎖の影響を受けない。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《スマイルマジック》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 5,
-          timing: 'マイナー',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'あなたはこのメインプロセスで行う〈交渉〉か〈コネ〉の判定に＋[（Ｌｖ×10）＋10]％する。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《ハピネス》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 3,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '中距離',
-          cost: 4,
-          effect:
-            '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×２０]％する。１ラウンドに１回使用可能。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《支援魔術》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '〈魔術〉',
-          target: '単体',
-          range: '中距離',
-          cost: 5,
-          effect:
-            '対象が次に行う攻撃の判定値に＋２０％、ダメージに＋[Ｌｖ×４]＋１Ｄする。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《ヒーリングライト》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '〈魔術〉',
-          target: '単体',
-          range: '中距離',
-          cost: 4,
-          effect: '対象のＨＰを[Ｌｖ×５]＋３Ｄ回復する。コンボ２。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《マルチスペル》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 3,
-          timing: 'メジャー',
-          skill: '〈魔術〉',
-          target: '効果参照',
-          range: 'なし',
-          cost: 10,
-          effect:
-            'このヒーロースキルを組み合わせた行動の対象を[１＋Ｌｖ÷２(切り上げ)]体に変更する。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《マジカルチェンジ》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 3,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 12,
-          effect:
-            'あなたの能力値をふたつ選択する。そのラウンド中、選択した能力値の一方を＋１し、もう一方を－１する。シーンにＬｖ回使用可能。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《封印結界術式》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 1,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '中距離',
-          cost: 12,
-          effect:
-            '対象が何らかのスキルを使用した際に使用する。対象が使用したスキルひとつを選択し、その効果を無効化する。シナリオに１回使用可能。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-      {
-        name: '《奇跡の魔法》',
-        icon: GiCrystalBall,
-        details: {
-          maxLv: 1,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '中距離',
-          cost: 'ＦＣ',
-          effect:
-            '対象が何らかの判定を行った直後に使用する。ファンチットを任意の枚数消費する。その判定の出目を＋[消費したＦＣ×１０]か－[消費ＦＣ×１０]する。シナリオに１回使用可能。',
-        },
-        color: 'bg-purple-50 border-purple-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '不可思議な力の使い手',

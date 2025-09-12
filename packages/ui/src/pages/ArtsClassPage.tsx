@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiPunchingBag,
@@ -10,6 +11,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const ArtsClassPage: React.FC = () => {
+  const artsHeroSkills = HERO_SKILLS['アーツ'];
+  const classSkills = Object.entries(artsHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiPunchingBag,
+      color: 'bg-teal-50 border-teal-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'アーツ',
     description: '異能の力ではなく技術を磨き、異能に並び立つレベルに昇華させたヒーローたち。彼らは技術を一流の域に到達するまで磨き上げることでヒーローとして戦う力を確立させている。',
@@ -25,158 +35,7 @@ export const ArtsClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 32, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 23, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《コンバットアーツ》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 1,
-          timing: 'メジャーアクション',
-          skill: '〈技術〉',
-          target: '単体',
-          range: '武器',
-          cost: 2,
-          effect:
-            '対象に白兵攻撃または射撃攻撃を行う。コンボ２。この攻撃では武器に設定された技能に関わらず〈技術〉で判定を行う。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《技巧の極み》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 4,
-          effect:
-            'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《マルチウェポン》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 3,
-          timing: 'メジャーアクション',
-          skill: '〈技術〉',
-          target: '単体',
-          range: '武器',
-          cost: 6,
-          effect:
-            'このヒーロースキルを組み合わせた攻撃では装備している武器の攻撃力を合計することができる。この攻撃の判定値に－[４０－（Ｌｖ×10）]する。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《ドッジロール》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 5,
-          timing: 'リアクション',
-          skill: '〈運動〉',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'このヒーロースキルを組み合わせたドッジの判定値に＋[（Ｌｖ×１０）＋２０]％する。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《タクティクスコマンド》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 3,
-          timing: 'スタートプロセス',
-          skill: '〈情報〉〈心理〉',
-          target: '範囲選択',
-          range: '至近',
-          cost: 8,
-          effect:
-            '〈情報〉か〈心理〉の判定を行う。判定に成功した場合、対象がそのラウンド中に与えるダメージに＋[Ｌｖ×３]する。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《ウェポンキャプチャー》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 1,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 4,
-          effect:
-            'あなたがこのメインプロセスで行う白兵攻撃でダメージを与えたならば、BS捕縛を与える。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《アウトレンジスナイプ》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 3,
-          timing: 'メジャーアクション',
-          skill: '〈射撃〉',
-          target: '単体',
-          range: '効果参照',
-          cost: 8,
-          effect:
-            '対象に射撃攻撃を行う。コンボ２．このヒーロースキルを組み合わせた攻撃の射程は[使用した武器の射程＋１段階]となる。この攻撃に対するドッジの判定値に－[Ｌｖ×２０]％する。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《アンティルブレイク》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 3,
-          timing: 'メジャーアクション',
-          skill: '〈技術〉',
-          target: '単体',
-          range: '武器',
-          cost: 10,
-          effect:
-            '対象に白兵攻撃か射撃攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋２０％する。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。シナリオにＬｖ回使用可能。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《フォローアップショット》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 3,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '近距離',
-          cost: 8,
-          effect:
-            '対象が何らかの判定を行った直後に使用する。その判定を振り直させる。シーンにＬｖ回使用可能。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-      {
-        name: '《デッドカウンター》',
-        icon: GiPunchingBag,
-        details: {
-          maxLv: 1,
-          timing: 'リアクション',
-          skill: '〈運動〉',
-          target: '自身',
-          range: 'なし',
-          cost: 'ＦＣ',
-          effect:
-            'ファンチットを１０枚消費する。ドッジの判定に＋４０％する。その後、リアクションに成功した回数だけ装備した武器を使用した攻撃を行う。この攻撃の対象はリアクションの対決を行ったキャラクターとなり、この攻撃に対するリアクションは発生しない。シナリオに１回まで使用可能。',
-        },
-        color: 'bg-teal-50 border-teal-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '技術の極致',

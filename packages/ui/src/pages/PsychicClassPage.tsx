@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiBrain,
@@ -10,6 +11,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const PsychicClassPage: React.FC = () => {
+  const psychicHeroSkills = HERO_SKILLS['サイキック'];
+  const classSkills = Object.entries(psychicHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiBrain,
+      color: 'bg-pink-50 border-pink-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'サイキック',
     description:
@@ -26,158 +36,7 @@ export const PsychicClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 25, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 30, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《パワーオリジン》',
-        icon: GiBrain,
-        details: {
-          maxLv: 1,
-          timing: '常時',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 'なし',
-          effect:
-            'あなたは、《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。このヒーロースキルの効果で選択しなかった《オリジン：○○》は取得することができない。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：エレメント》',
-        icon: GiBrain,
-        details: {
-          maxLv: 3,
-          timing: 'メジャーアクション',
-          skill: '〈超能力〉',
-          target: '単体',
-          range: '中距離',
-          cost: 4,
-          effect:
-            '対象に特殊攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋３]',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：精神感応能力》',
-        icon: GiBrain,
-        details: {
-          maxLv: 3,
-          timing: 'オートアクション',
-          skill: 'なし',
-          target: '単体',
-          range: '中距離',
-          cost: 4,
-          effect:
-            '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×１0]％か－[Ｌｖ×１０]％する。１ラウンドに１回使用可能。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：身体機能強化》',
-        icon: GiBrain,
-        details: {
-          maxLv: 1,
-          timing: '常時',
-          skill: 'なし',
-          target: '自身',
-          range: '単体',
-          cost: 'なし',
-          effect:
-            '能力値をひとつ選択する。あなたの【超常】能力値を－１し、選択した能力値を＋１する。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：空間転移》',
-        icon: GiBrain,
-        details: {
-          maxLv: 1,
-          timing: 'ムーブアクション',
-          skill: 'なし',
-          target: '単体',
-          range: '至近',
-          cost: 4,
-          effect:
-            '対象をシーンの任意の距離に移動させる。この移動の際、対象は移動を妨害されない。同意を得た対象にのみ使用できる。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：プレコグニション》',
-        icon: GiBrain,
-        details: {
-          maxLv: 3,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 6,
-          effect:
-            'あなたはそのラウンド中、メジャーアクションとリアクションの判定の判定値に＋[Ｌｖ×１０]する。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《オリジン：物体動作支配》',
-        icon: GiBrain,
-        details: {
-          maxLv: 1,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '効果参照',
-          range: '中距離',
-          cost: 8,
-          effect:
-            '射程内のエンゲージをひとつ対象とする。対象のエンゲージを封鎖する。あなたは行動終了となる。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《サイコインパクト》',
-        icon: GiBrain,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 5,
-          effect:
-            '《オリジン：エレメント》《オリジン：空間転移》《オリジン：物体動作支配》のみ取得可能。あなたがこのメインプロセス中に行う攻撃のダメージに＋[Ｌｖ×２]する。また、その攻撃でダメージを与えた場合、ダメージを受けたキャラクターを１段階移動させてもよい。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《多重能力者》',
-        icon: GiBrain,
-        details: {
-          maxLv: 1,
-          timing: '常時',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 'なし',
-          effect:
-            'あなたは、取得していない《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-      {
-        name: '《能力暴走》',
-        icon: GiBrain,
-        details: {
-          maxLv: 3,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 8,
-          effect:
-            '《オリジン：エレメント》《オリジン：精神感応能力》《オリジン：物体動作支配》のみ取得可能。そのラウンド中、あなたが行う〈超能力〉判定の判定値に＋５０％し、メジャーアクションのコンボ数に＋１する。あなたはそのラウンド中、メインプロセスの終了時にＨＰが０になる。シーンにＬｖ回まで使用可能。',
-        },
-        color: 'bg-pink-50 border-pink-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '特殊な超能力の使い手',

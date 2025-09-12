@@ -1,3 +1,4 @@
+import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiStarFormation,
@@ -10,6 +11,15 @@ import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
 export const EsperantoClassPage: React.FC = () => {
+  const esperantoHeroSkills = HERO_SKILLS['エスペラント'];
+  const classSkills = Object.entries(esperantoHeroSkills).map(
+    ([skillName, skillData]) => ({
+      ...formatHeroSkillForUI(skillName, skillData),
+      icon: GiStarFormation,
+      color: 'bg-yellow-50 border-yellow-200',
+    }),
+  );
+
   const classData: ClassPageData = {
     className: 'エスペラント',
     description: '宇宙や未来の世界からやって来たヒーローたち。現代の地球に存在しない特殊な技術や進化した身体能力を駆使して戦う。',
@@ -25,158 +35,7 @@ export const EsperantoClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 27, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 28, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《スペースファクター》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 5,
-          timing: 'メジャー',
-          skill: '〈技術〉〈射撃〉',
-          target: '単体',
-          range: '武器',
-          cost: 4,
-          effect:
-            'このヒーロースキルを組み合わせた〈技術〉〈射撃〉技能の判定値を＋[（Ｌｖ×１０）＋１０]％する。攻撃に組み合わせて使用した場合、コンボ２として扱う。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《特殊相対性フィールド》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 5,
-          timing: 'スタートプロセス',
-          skill: 'なし',
-          target: '範囲',
-          range: '遠距離',
-          cost: 5,
-          effect:
-            'そのラウンド中、対象の行動値を－[Ｌｖ×３]する。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《空の音》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 5,
-          timing: 'メジャー',
-          skill: '〈超能力〉',
-          target: '単体',
-          range: '中距離',
-          cost: 6,
-          effect:
-            '対象が次に行う攻撃の判定値に＋[（Ｌｖ×１０）＋２０]％、ダメージに＋[Ｌｖ×３]する。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《パナシーア》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 1,
-          timing: 'オート',
-          skill: 'なし',
-          target: '単体',
-          range: '近距離',
-          cost: 4,
-          effect:
-            '対象の受けているバッドステータスをすべて解除する。ラウンド１回使用可能。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《ブロッカービット》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 5,
-          timing: 'メジャー',
-          skill: '〈技術〉',
-          target: '範囲選択',
-          range: '中距離',
-          cost: 6,
-          effect:
-            'そのシーン中、対象の防護点を＋[（Ｌｖ×３）＋２]する。この効果は重複しない。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《フラッシュバーン》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 1,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：放心を与える。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《フューチャールール》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '〈技術〉〈射撃〉',
-          target: '単体',
-          range: '武器',
-          cost: 6,
-          effect:
-            '対象に白兵攻撃か射撃攻撃を行う。コンボ２。攻撃のダメージに＋[（Ｌｖ×２）＋２]、判定値に＋２０％する。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《エナジードレイン》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 3,
-          timing: 'オート',
-          skill: 'なし',
-          target: '効果参照',
-          range: '中距離',
-          cost: 10,
-          effect:
-            'キャラクターをふたり選択する。選択した内の一方が次に行う判定の判定値に－４０％、もう一方の次に行う判定の判定値に＋４０％する。シナリオにＬｖ回使用可能。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《未来技術》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 1,
-          timing: 'オート',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 12,
-          effect:
-            'あなたはシーン中に使用されたスキルをひとつ選択し、そのスキルをこのシーン中、１レベルで修得する。シナリオに１回使用可能。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-      {
-        name: '《ギャラクシーガーディアン》',
-        icon: GiStarFormation,
-        details: {
-          maxLv: 1,
-          timing: 'マイナー',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 'ＦＣ',
-          effect:
-            'ファンチットを任意の枚数消費する。あなたはこのメインプロセスに行う行動の対象を[消費したＦＣ÷２]体に、射程を視界に変更する。ただし、メインプロセスに攻撃を行う場合、コンボ数は３以上にならない。シナリオに１回まで使用可能。',
-        },
-        color: 'bg-yellow-50 border-yellow-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '宇宙・未来からの来訪者',
