@@ -52,8 +52,9 @@ _ゲート: フェーズ0研究前に通過必須。フェーズ1設計後に再
 
 **簡素性**:
 
-- プロジェクト: 7個 (apps: backend+frontend, packages: ui+schemas+shared+eslint-config-custom+typescript-config) - 最大3個を超過 ⚠️
+- プロジェクト: 8個 (apps: backend+frontend, packages: core+ui+schemas+shared+eslint-config-custom+typescript-config) - 最大3個を超過 ⚠️
   - 正当化: モノレポ構成により共通コード・設定重複を削減、型安全性向上、コード品質統一、保守性向上
+  - 追加: packages/core でビジネスロジック分離、UI非依存テスト環境確立、再利用性向上
 - フレームワークを直接使用? はい - 直接 React/Hono 使用 ✓
 - 単一データモデル? はい - packages/schemas で共有 TypeScript 型 ✓
 - パターンを避ける? はい - 直接 ORM、不要な Repository/UoW なし ✓
@@ -155,6 +156,14 @@ packages/
 │   │   └── validation/   # 共通バリデーションルール
 │   └── tests/           # スキーマテスト
 │
+├── core/
+│   ├── src/
+│   │   ├── character-creation/  # キャラクター作成ビジネスロジック
+│   │   ├── ability-calculation/ # 能力値計算ロジック
+│   │   ├── skill-management/    # 技能管理ロジック
+│   │   └── game-data/          # Age of Hero マスターデータ
+│   └── tests/                  # ビジネスロジックテスト
+│
 ├── shared/
 │   ├── src/
 │   │   ├── types/        # 共通型定義
@@ -174,7 +183,9 @@ packages/
     └── tsconfig.backend.json         # Node.js専用設定
 ```
 
-**構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(ui/schemas/shared/eslint-config-custom/typescript-config) 構成によるフロントエンド + バックエンド分離と共通ライブラリ・設定管理
+**構造決定**: モノレポアーキテクチャ - apps/(backend/frontend) + packages/(core/ui/schemas/shared/eslint-config-custom/typescript-config) 構成によるフロントエンド + バックエンド分離と共通ライブラリ・設定管理
+
+**packages/core 追加理由**: Age of Hero ビジネスロジック（能力値計算、技能管理等）をUI層から分離し、テスト性・再利用性・保守性を向上させる
 
 ## フェーズ 0: 概要 & 研究
 

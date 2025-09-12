@@ -1,0 +1,15 @@
+{
+  "extends": "@age-of-hero/typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "tests/**/*",
+    "dist/**/*",
+    "node_modules/**/*"
+  ]
+}

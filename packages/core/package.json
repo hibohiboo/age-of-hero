@@ -1,0 +1,22 @@
+{
+  "name": "@age-of-hero/core",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --fix && tsc --noEmit",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@age-of-hero/schemas": "workspace:*"
+  },
+  "devDependencies": {
+    "@age-of-hero/eslint-config-custom": "workspace:*",
+    "@age-of-hero/typescript-config": "workspace:*",
+    "vitest": "^2.1.8",
+    "typescript": "^5.7.2"
+  }
+}
