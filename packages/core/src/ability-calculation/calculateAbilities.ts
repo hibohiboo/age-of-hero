@@ -23,5 +23,15 @@ export function calculateAbilities(
     baseAbilities[bonusAbility] += 1;
   }
 
-  return baseAbilities;
+  // HP/SP/行動値計算
+  const hp = stats1.hp + stats2.hp;
+  const sp = stats1.sp + stats2.sp;
+  const actionValue = baseAbilities.reflex * 2 + baseAbilities.intellectual;
+
+  return {
+    ...baseAbilities,
+    hp,
+    sp,
+    actionValue,
+  };
 }

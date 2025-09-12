@@ -32,4 +32,14 @@ describe('calculateAbilities', () => {
     expect(result.physical).toBe(5); // 4 + 1 = 5
     expect(result.reflex).toBe(4);   // ボーナス適用されず
   });
+
+  it('HP/SP/行動値を正しく計算すること', () => {
+    // マッスル(HP:38, SP:17) + テクノロジー(HP:30, SP:25)
+    // 反射:4, 知力:3 なので 行動値 = 4*2 + 3 = 11
+    const result = calculateAbilities(['マッスル', 'テクノロジー']);
+    
+    expect(result.hp).toBe(68);      // 38 + 30 = 68
+    expect(result.sp).toBe(42);      // 17 + 25 = 42
+    expect(result.actionValue).toBe(11); // 4*2 + 3 = 11
+  });
 });
