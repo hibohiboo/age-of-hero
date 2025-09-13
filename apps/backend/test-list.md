@@ -33,6 +33,10 @@
   - [x] nameが1-50文字であること
   - [x] selectedClassesが2つであること
   - [x] skillAllocationsが数値であること
+- [doing] **ヒーロースキル・必殺技データ構造**: 完全な情報セット対応
+  - [ ] heroSkillsが完全なスキル情報（name, level, maxLevel, timing, skill, target, range, cost, effect）を受け取ること
+  - [ ] specialAttacksが完全な必殺技情報（name, level, maxLevel, timing, skill, target, range, cost, effect）を受け取ること
+  - [ ] 既存のid+levelベース入力との互換性テスト
 - [x] **パスワード**: オプションのパスワード設定
   - [x] パスワードありで作成できること
   - [x] パスワードなしで作成できること
@@ -96,6 +100,7 @@
 - エラーハンドリング（400/401/404）
 - TestContainersによるテスト環境
 
+**現在の作業:** ヒーロースキル・必殺技データ構造修正対応  
 **次のフェーズ:** フロントエンド開発（ビジネスロジック実装）
 
 ## ✅ 実装済みセキュリティ機能
