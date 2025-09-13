@@ -17,10 +17,10 @@
     "upgrade-msw": "bunx msw init public --save"
   },
   "dependencies": {
-    "hono": "^4.9.6",
+    "hono": "^4.9.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router": "^7.8.2",
+    "react-router": "^7.9.1",
     "swr": "^2.3.6",
     "@age-of-hero/ui": "workspace:*"
   },
@@ -28,7 +28,7 @@
     "@age-of-hero/eslint-config-custom": "workspace:*",
     "@age-of-hero/typescript-config": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
-    "@types/react": "^19.1.12",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "globals": "^16.4.0",

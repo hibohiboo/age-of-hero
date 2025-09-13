@@ -18,7 +18,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
-    "react-router": "^7.8.2"
+    "react-router": "^7.9.1"
   },
   "devDependencies": {
     "@age-of-hero/typescript-config": "workspace:*",
@@ -29,7 +29,7 @@
     "@storybook/react-vite": "^9.1.5",
     "@storybook/testing-library": "^0.2.2",
     "@tailwindcss/postcss": "^4.1.13",
-    "@types/react": "^19.1.12",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
