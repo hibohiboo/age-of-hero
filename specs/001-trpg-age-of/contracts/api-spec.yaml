@@ -308,21 +308,63 @@ components:
           items:
             type: object
             properties:
-              id:
+              name:
                 type: string
+                example: 'パワードライブ'
               level:
                 type: integer
                 minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+                example: 'メジャーアクション'
+              skill:
+                type: string
+                example: '白兵攻撃'
+              target:
+                type: string
+                example: '単体'
+              range:
+                type: string
+                example: '武器'
+              cost:
+                type: integer
+                minimum: 0
+              effect:
+                type: string
         specialAttacks:
           type: array
           items:
             type: object
             properties:
-              id:
+              name:
                 type: string
+                example: '能力暴走'
               level:
                 type: integer
                 minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+                example: 'スタートプロセス'
+              skill:
+                type: string
+                example: 'なし'
+              target:
+                type: string
+                example: '自身'
+              range:
+                type: string
+                example: 'なし'
+              cost:
+                type: integer
+                minimum: 0
+              effect:
+                type: string
         items:
           type: array
           items:
@@ -428,22 +470,61 @@ components:
           items:
             type: object
             properties:
-              skill:
-                $ref: '#/components/schemas/HeroSkillData'
+              name:
+                type: string
+                example: 'パワードライブ'
               level:
                 type: integer
+                minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+                example: 'メジャーアクション'
+              skill:
+                type: string
+                example: '白兵攻撃'
+              target:
+                type: string
+                example: '単体'
+              range:
+                type: string
+                example: '武器'
+              cost:
+                type: integer
+                minimum: 0
+              effect:
+                type: string
         specialAttacks:
           type: array
           items:
             type: object
             properties:
-              id:
-                type: string
-                format: uuid
               name:
                 type: string
+                example: '能力暴走'
               level:
                 type: integer
+                minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+                example: 'スタートプロセス'
+              skill:
+                type: string
+                example: 'なし'
+              target:
+                type: string
+                example: '自身'
+              range:
+                type: string
+                example: 'なし'
+              cost:
+                type: integer
+                minimum: 0
               effect:
                 type: string
         items:

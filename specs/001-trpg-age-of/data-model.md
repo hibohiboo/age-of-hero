@@ -76,20 +76,33 @@ interface CharacterData {
     };
   };
 
-  // ヒーロースキル
+  // ヒーロースキル（完全なスキル情報セットを保存）
   heroSkills: {
     [skillName: string]: {
+      name: string; // スキル名
       level: number; // 習得レベル
       maxLevel: number; // 最大レベル
+      timing: string; // タイミング
+      skill: string; // 対応技能
+      target: string; // 対象
+      range: string; // 射程
+      cost: number; // コスト
       effect: string; // 効果説明
     };
   };
 
-  // 必殺技
+  // 必殺技（完全な技情報セットを保存）
   specialAttacks: {
     [attackName: string]: {
-      level: number;
-      effect: string;
+      name: string; // 必殺技名
+      level: number; // レベル
+      maxLevel: number; // 最大レベル
+      timing: string; // タイミング
+      skill: string; // 対応技能
+      target: string; // 対象
+      range: string; // 射程
+      cost: number; // コスト
+      effect: string; // 効果説明
     };
   };
 
