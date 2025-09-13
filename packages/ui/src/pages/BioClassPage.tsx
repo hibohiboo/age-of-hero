@@ -22,7 +22,8 @@ export const BioClassPage: React.FC = () => {
 
   const classData: ClassPageData = {
     className: 'バイオ',
-    description: '人類以外の生命体、獣や虫、植物といったものたちの能力をその身に宿したヒーローたち。人間の身体機能の外側をいく動作や知覚を行うことができる。',
+    description:
+      '人類以外の生命体、獣や虫、植物といったものたちの能力をその身に宿したヒーローたち。人間の身体機能の外側をいく動作や知覚を行うことができる。',
     classIcon: '🧬',
     abilityStats: [
       { name: '肉体', value: 2, icon: GiBiceps, color: 'bg-red-100' },
@@ -35,158 +36,7 @@ export const BioClassPage: React.FC = () => {
       { name: 'ＨＰ', value: 36, color: 'bg-red-100' },
       { name: 'ＳＰ', value: 19, color: 'bg-blue-100' },
     ],
-    classSkills: [
-      {
-        name: '《疾風の健脚》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: '常時',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 'なし',
-          effect:
-            'あなたの行動値に常に＋[（Ｌｖ×２）＋２]する。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《ネイチャーセンス》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'マイナー',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'あなたはこのメインプロセスで行う〈知覚〉か〈心理〉の判定に＋[（Ｌｖ×10）＋10]％する。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《限定獣化》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'マイナー',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 3,
-          effect:
-            'そのシーン中、あなたの素手のデータを以下のように変更する。種別：白兵　技能：〈パワー〉　修正：＋１０％　攻撃力：＋[Ｌｖ＋６]　ガード値：２　射程：至近',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《エンタングルアーム》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '白兵攻撃',
-          target: '単体',
-          range: '近',
-          cost: 4,
-          effect:
-            '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃の射程を「近距離」に変更し、ダメージに＋[Ｌｖ×２]する。このヒーロースキルのＬｖが４以上になったならば、射程を「中距離」に変更する。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《バイオパワー》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 4,
-          effect:
-            'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《ラッシングライフ》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'メジャーアクション',
-          skill: '白兵攻撃',
-          target: '単体',
-          range: '武器',
-          cost: 3,
-          effect:
-            '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋２]点する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《スリップショック》',
-        icon: GiDna2,
-        details: {
-          maxLv: 5,
-          timing: 'マイナーアクション',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 5,
-          effect:
-            'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：スリップ（Ｌｖ）とＢＳ：硬直を与える。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《刹那の間隙》',
-        icon: GiDna2,
-        details: {
-          maxLv: 3,
-          timing: 'オート',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 6,
-          effect:
-            '何らかの判定を行う直前に使用する。その判定の判定値に＋[〈知覚〉判定値÷２]する。シーンにＬｖ回使用可能。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《強制神経加速》',
-        icon: GiDna2,
-        details: {
-          maxLv: 3,
-          timing: 'メジャーアクション',
-          skill: '白兵攻撃',
-          target: '単体',
-          range: '武器',
-          cost: 8,
-          effect:
-            '対象に白兵攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋３０％する。あなたはこのヒーロースキルを使用したメインプロセスの終了時に１０点のＨＰダメージを受ける。シナリオにＬｖ回使用可能。',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-      {
-        name: '《ビーストウィズイン》',
-        icon: GiDna2,
-        details: {
-          maxLv: 1,
-          timing: 'セットアップ',
-          skill: 'なし',
-          target: '自身',
-          range: 'なし',
-          cost: 'ＦＣ',
-          effect:
-            'ファンチットを任意の枚数消費する。あなたはそのラウンド中、消費したファンチット５枚ごとに以下の内から効果を１つ選び受ける。シナリオに１回使用可能。「与えるダメージ＋１Ｄ」「メジャーアクションの判定値＋４０％」「リアクションの判定値＋４０％」「行動値＋５」「防護点＋１０」',
-        },
-        color: 'bg-green-50 border-green-200',
-      },
-    ],
+    classSkills,
     characteristics: [
       {
         title: '生命体の能力を宿す',
@@ -229,9 +79,12 @@ export const BioClassPage: React.FC = () => {
         description: '何らかの要因で突然変異を起こし、生命体の能力が発現した',
       },
     ],
-    originsDescription: 'バイオヒーローの生命体能力がどのようにして得られたかは様々である。キャラクター作成時に、自分のバイオヒーローがどのような経緯で能力を得たのかを考えてみよう。',
-    originsNote: 'いずれの起源であっても、その能力は人間の限界を超えた生命体の力であり、使い手にとって特別な存在なのだ。',
-    abilityNote: 'バイオは全能力値がバランス良く2に配分されたオールラウンダークラス。超常能力は持たないが、高いHPと生命体特有の能力で多様な戦術が可能。',
+    originsDescription:
+      'バイオヒーローの生命体能力がどのようにして得られたかは様々である。キャラクター作成時に、自分のバイオヒーローがどのような経緯で能力を得たのかを考えてみよう。',
+    originsNote:
+      'いずれの起源であっても、その能力は人間の限界を超えた生命体の力であり、使い手にとって特別な存在なのだ。',
+    abilityNote:
+      'バイオは全能力値がバランス良く2に配分されたオールラウンダークラス。超常能力は持たないが、高いHPと生命体特有の能力で多様な戦術が可能。',
     playStyles: [
       {
         title: '戦闘での役割',
