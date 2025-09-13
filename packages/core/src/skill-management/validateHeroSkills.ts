@@ -1,6 +1,4 @@
-import { HERO_SKILLS } from '../game-data/heroSkills';
-
-type ClassName = keyof typeof HERO_SKILLS;
+type ClassName = string;
 
 // ヒーロースキル取得時の完全なデータ構造
 export interface AcquiredHeroSkill {
@@ -29,27 +27,15 @@ export function validateHeroSkills(
   for (const skill of heroSkills) {
     const skillName = skill.name;
     const level = skill.level || 0;
+    const maxLevel = skill.maxLevel;
     
     if (!skillName || level <= 0) {
       continue; // 空のスキルはスキップ（寛容な処理）
     }
     
-    let skillFound = false;
-    
-    // 全クラスからスキルを検索
-    for (const [className, classSkills] of Object.entries(HERO_SKILLS)) {
-      const skillData = classSkills[skillName as keyof typeof classSkills];
-      if (skillData) {
-        skillFound = true;
-        if (level > skillData.maxLevel) {
-          errors.push(`${skillName}: 最大レベル${skillData.maxLevel}を超えています（指定レベル: ${level}）`);
-        }
-        break;
-      }
-    }
-    
-    if (!skillFound) {
-      errors.push(`${skillName}: 存在しないヒーロースキルです`);
+    // レベル制約チェック（maxLevelが設定されている場合のみ）
+    if (maxLevel && level > maxLevel) {
+      errors.push(`${skillName}: 最大レベル${maxLevel}を超えています（指定レベル: ${level}）`);
     }
     
     totalLevel += level;

@@ -6,7 +6,7 @@ describe('validateHeroSkills', () => {
       const selectedClasses = ['マッスル', 'マッスル'] as const;
       const heroSkills: AcquiredHeroSkill[] = [
         {
-          name: 'パワードライブ',
+          name: 'オリジナルスキル1',
           level: 2,
           maxLevel: 5,
           timing: 'メジャーアクション',
@@ -17,7 +17,7 @@ describe('validateHeroSkills', () => {
           effect: '対象に白兵攻撃を行う。コンボ２。'
         },
         {
-          name: 'マッスルチャージ',
+          name: 'オリジナルスキル2',
           level: 3,
           maxLevel: 5,
           timing: 'セットアップ',
@@ -28,7 +28,7 @@ describe('validateHeroSkills', () => {
           effect: 'そのシーン中、パワー判定に+30%'
         },
         {
-          name: 'バイタルアップ',
+          name: 'オリジナルスキル3',
           level: 2,
           maxLevel: 5,
           timing: 'パッシブ',
@@ -50,12 +50,12 @@ describe('validateHeroSkills', () => {
       const selectedClasses = ['マッスル', 'マッスル'] as const;
       const heroSkills: AcquiredHeroSkill[] = [
         {
-          name: 'パワードライブ',
+          name: 'オリジナルスキル1',
           level: 4,
           maxLevel: 5
         },
         {
-          name: 'マッスルチャージ',
+          name: 'オリジナルスキル2',
           level: 4,
           maxLevel: 5
         }
@@ -72,7 +72,7 @@ describe('validateHeroSkills', () => {
       const heroSkills: AcquiredHeroSkill[] = [
         {}, // 空のスキル
         {
-          name: 'パワードライブ',
+          name: 'カスタムスキル1',
           level: 3,
           maxLevel: 5
         },
@@ -81,7 +81,7 @@ describe('validateHeroSkills', () => {
           level: 2
         },
         {
-          name: 'バイタルアップ',
+          name: 'カスタムスキル2',
           level: 0 // レベル0
         }
       ];
@@ -89,41 +89,61 @@ describe('validateHeroSkills', () => {
       const result = validateHeroSkills(selectedClasses, heroSkills);
       
       expect(result.isValid).toBe(true);
-      expect(result.totalLevel).toBe(3); // パワードライブLv3のみカウント
+      expect(result.totalLevel).toBe(3); // カスタムスキル1 Lv3のみカウント
     });
 
-    it('スキルの最大レベルを超える場合は無効であること', () => {
+    it('maxLevelが設定されている場合、最大レベルを超えると無効であること', () => {
       const selectedClasses = ['マッスル', 'マッスル'] as const;
       const heroSkills: AcquiredHeroSkill[] = [
         {
-          name: 'ボディウォール',
-          level: 2, // 最大Lv1を超過
-          maxLevel: 1
+          name: 'カスタムスキル',
+          level: 2,
+          maxLevel: 1 // 最大Lv1だが、Lv2を指定（制限超過）
         }
       ];
       
       const result = validateHeroSkills(selectedClasses, heroSkills);
       
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('ボディウォール: 最大レベル1を超えています（指定レベル: 2）');
+      expect(result.errors).toContain('カスタムスキル: 最大レベル1を超えています（指定レベル: 2）');
     });
 
-    it('混合クラススキルも検証可能であること', () => {
+    it('maxLevelが未設定の場合、任意のレベルで有効であること（拡張性重視）', () => {
+      const selectedClasses = ['マッスル', 'マッスル'] as const;
+      const heroSkills: AcquiredHeroSkill[] = [
+        {
+          name: 'オリジナルスキル1',
+          level: 10 // maxLevel未設定なので制限なし
+        },
+        {
+          name: 'オリジナルスキル2',
+          level: 5 // maxLevel未設定なので制限なし
+        }
+      ];
+      
+      const result = validateHeroSkills(selectedClasses, heroSkills);
+      
+      expect(result.isValid).toBe(false); // 合計15Lv > 7Lvなので無効
+      expect(result.totalLevel).toBe(15);
+      expect(result.errors).toHaveLength(0); // レベル制約エラーはなし
+    });
+
+    it('混合クラススキルも検証可能であること（拡張性重視）', () => {
       // マッスル + テクノロジーの混合スキル選択（拡張可能性を確保）
       const selectedClasses = ['マッスル', 'テクノロジー'] as const;
       const heroSkills: AcquiredHeroSkill[] = [
         {
-          name: 'パワードライブ',
+          name: 'フィジカルブースト',
           level: 2,
           maxLevel: 5
         },
         {
-          name: 'スペシャルツール',
+          name: 'テックツール',
           level: 1,
           maxLevel: 3
         },
         {
-          name: 'バイタルアップ',
+          name: 'ハイブリッドスキル',
           level: 4,
           maxLevel: 5
         }
