@@ -5,37 +5,49 @@ import { z } from 'zod';
 export const createCharacterSchema = z.object({
   name: z
     .string()
-    .min(1, 'name は必須です')
-    .max(50, 'name は50文字以内で入力してください'),
+    .max(50, 'name は50文字以内で入力してください')
+    .optional(),
 
   selectedClasses: z
     .array(z.string())
-    .length(2, 'クラスは正確に2つ選択してください'),
+    .optional()
+    .default([]),
 
   abilityBonus: z
     .enum(['physical', 'reflex', 'sensory', 'intellectual', 'supernatural'])
     .optional(),
 
-  skillAllocations: z.record(z.string(), z.number().optional()),
+  skillAllocations: z.record(z.string(), z.number().optional()).optional().default({}),
 
   heroSkills: z.array(
     z.object({
-      id: z.string(),
-      level: z
-        .number()
-        .int()
-        .min(1, 'ヒーロースキルレベルは1以上で入力してください'),
+      name: z.string().optional(),
+      level: z.number().int().min(0).optional(),
+      maxLevel: z.number().int().min(0).optional(),
+      timing: z.string().optional(),
+      skill: z.string().optional(),
+      target: z.string().optional(),
+      range: z.string().optional(),
+      cost: z.number().int().min(0).optional(),
+      effect: z.string().optional(),
     }),
-  ),
+  ).optional().default([]),
 
   specialAttacks: z.array(
     z.object({
-      id: z.string(),
-      level: z.number().int().min(1, '特殊技レベルは1以上で入力してください'),
+      name: z.string().optional(),
+      level: z.number().int().min(0).optional(),
+      maxLevel: z.number().int().min(0).optional(),
+      timing: z.string().optional(),
+      skill: z.string().optional(),
+      target: z.string().optional(),
+      range: z.string().optional(),
+      cost: z.number().int().min(0).optional(),
+      effect: z.string().optional(),
     }),
-  ),
+  ).optional().default([]),
 
-  items: z.array(z.string()),
+  items: z.array(z.string()).optional().default([]),
 
   // セッション履歴 (キャラクター作成時は通常空配列、寛容なバリデーション)
   sessions: z

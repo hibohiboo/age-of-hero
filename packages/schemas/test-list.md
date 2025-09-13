@@ -6,32 +6,40 @@
 
 ## 🔄 データ構造修正対応
 
-### ヒーロースキル・必殺技スキーマ更新 🔄 **修正中**
-- [doing] **heroSkills スキーマ修正**: id+level → 完全なスキル情報セット
-  - [ ] name (string): スキル名
-  - [ ] level (number): 取得レベル  
-  - [ ] maxLevel (number): 最大レベル
-  - [ ] timing (string): タイミング
-  - [ ] skill (string): 対応技能
-  - [ ] target (string): 対象
-  - [ ] range (string): 射程
-  - [ ] cost (number): コスト
-  - [ ] effect (string): 効果説明
+### ヒーロースキル・必殺技スキーマ更新 ✅ **完了**
+- [x] **heroSkills スキーマ修正**: id+level → 完全なスキル情報セット（寛容なバリデーション）
+  - [x] name (string, optional): スキル名
+  - [x] level (number, optional, min: 0): 取得レベル  
+  - [x] maxLevel (number, optional, min: 0): 最大レベル
+  - [x] timing (string, optional): タイミング
+  - [x] skill (string, optional): 対応技能
+  - [x] target (string, optional): 対象
+  - [x] range (string, optional): 射程
+  - [x] cost (number, optional, min: 0): コスト
+  - [x] effect (string, optional): 効果説明
 
-- [doing] **specialAttacks スキーマ修正**: id+level → 完全な必殺技情報セット  
-  - [ ] name (string): 必殺技名
-  - [ ] level (number): 取得レベル
-  - [ ] maxLevel (number): 最大レベル
-  - [ ] timing (string): タイミング
-  - [ ] skill (string): 対応技能
-  - [ ] target (string): 対象
-  - [ ] range (string): 射程
-  - [ ] cost (number): コスト
-  - [ ] effect (string): 効果説明
+- [x] **specialAttacks スキーマ修正**: id+level → 完全な必殺技情報セット（寛容なバリデーション）
+  - [x] name (string, optional): 必殺技名
+  - [x] level (number, optional, min: 0): 取得レベル
+  - [x] maxLevel (number, optional, min: 0): 最大レベル
+  - [x] timing (string, optional): タイミング
+  - [x] skill (string, optional): 対応技能
+  - [x] target (string, optional): 対象
+  - [x] range (string, optional): 射程
+  - [x] cost (number, optional, min: 0): コスト
+  - [x] effect (string, optional): 効果説明
+
+### 寛容なバリデーション対応 ✅ **完了**
+- [x] **全フィールドoptional**: 空欄でも保存可能な設計
+- [x] **name**: 必須制約を削除、50文字上限のみ維持
+- [x] **selectedClasses**: 必須制約を削除、空配列デフォルト
+- [x] **skillAllocations**: 空オブジェクトデフォルト
+- [x] **heroSkills/specialAttacks**: 空配列デフォルト、全フィールドoptional
+- [x] **items**: 空配列デフォルト
 
 ### バリデーション互換性対応
+- [x] **型定義更新**: CreateCharacterRequest 型の自動更新
 - [ ] **新旧スキーマ両方対応**: 移行期間中の互換性維持
-- [ ] **型定義更新**: CreateCharacterRequest 型の更新
 - [ ] **エラーメッセージ更新**: 新フィールド対応のエラーメッセージ
 
 ## ✅ 既存バリデーション（修正不要）
