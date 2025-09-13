@@ -11,10 +11,22 @@ export function validateHeroSkills(
   
   // 個別スキルレベル制約チェック
   for (const [skillName, level] of Object.entries(heroSkills)) {
-    // マッスルクラスのスキルから検索
-    const muscleSkill = HERO_SKILLS.マッスル[skillName as keyof typeof HERO_SKILLS.マッスル];
-    if (muscleSkill && level > muscleSkill.maxLevel) {
-      errors.push(`${skillName}: 最大レベル${muscleSkill.maxLevel}を超えています（指定レベル: ${level}）`);
+    let skillFound = false;
+    
+    // 全クラスからスキルを検索
+    for (const [className, classSkills] of Object.entries(HERO_SKILLS)) {
+      const skillData = classSkills[skillName as keyof typeof classSkills];
+      if (skillData) {
+        skillFound = true;
+        if (level > skillData.maxLevel) {
+          errors.push(`${skillName}: 最大レベル${skillData.maxLevel}を超えています（指定レベル: ${level}）`);
+        }
+        break;
+      }
+    }
+    
+    if (!skillFound) {
+      errors.push(`${skillName}: 存在しないヒーロースキルです`);
     }
   }
   

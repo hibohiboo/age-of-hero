@@ -44,4 +44,19 @@ describe('validateHeroSkills', () => {
     expect(result.isValid).toBe(false);
     expect(result.errors).toContain('ボディウォール: 最大レベル1を超えています（指定レベル: 2）');
   });
+
+  it('混合クラススキルも検証可能であること', () => {
+    // マッスル + テクノロジーの混合スキル選択（拡張可能性を確保）
+    const selectedClasses = ['マッスル', 'テクノロジー'] as const;
+    const heroSkills = {
+      パワードライブ: 2,     // マッスルスキル
+      スペシャルツール: 1,   // テクノロジースキル
+      バイタルアップ: 4,     // マッスルスキル
+    };
+    
+    const result = validateHeroSkills(selectedClasses, heroSkills);
+    
+    expect(result.isValid).toBe(true);
+    expect(result.totalLevel).toBe(7);
+  });
 });
