@@ -49,14 +49,28 @@ describe('GET /api/characters/{id}', () => {
     },
     heroSkills: [
       {
-        id: 'パワードライブ',
+        name: 'パワードライブ',
         level: 3,
+        maxLevel: 5,
+        timing: 'メジャーアクション',
+        skill: '白兵攻撃',
+        target: '単体',
+        range: '武器',
+        cost: 4,
+        effect: '対象に白兵攻撃を行う。'
       },
     ],
     specialAttacks: [
       {
-        id: 'パワースラッシュ',
+        name: 'パワースラッシュ',
         level: 1,
+        maxLevel: 3,
+        timing: 'メジャーアクション',
+        skill: '白兵攻撃',
+        target: '単体',
+        range: '武器',
+        cost: 8,
+        effect: '強力な一撃'
       },
     ],
     items: ['射撃武器（小）', 'ブレード（小）'],
