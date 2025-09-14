@@ -73,11 +73,11 @@ app.post(
     // eslint-disable-next-line sonarjs/no-unused-vars
     const { password: _password, ...dataWithoutPassword } = characterData;
 
-    // データベースに保存
+    // データベースに保存（nameがない場合はデフォルト値を設定）
     const [newCharacter] = await getDb()
       .insert(characters)
       .values({
-        name: characterData.name,
+        name: characterData.name || '無名のヒーロー',
         data: dataWithoutPassword,
         passwordHash,
       })
