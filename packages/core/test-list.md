@@ -53,10 +53,16 @@
 - [ ] **validateHeroSkills関数更新**: 新しいデータ構造に対応
 - [ ] **テスト更新**: 新しいデータ構造に対応したテストケース修正
 
-### 必殺技制約  
-- [ ] **データ構造定義**: 完全な必殺技情報セット（name, level, maxLevel, timing, skill, target, range, cost, effect）
-- [ ] **レベル制約**: レベルが1以上であること
+### 必殺技制約 ✅ **完了**
+- [x] **データ構造定義**: 完全な必殺技情報セット（name, level, maxLevel, timing, skill, target, range, cost, effect）
+- [x] **レベル制約**: レベルが1以上であること
+- [x] **最大レベル制約**: レベルがmaxLevelを超えないこと
 - [ ] **取得制約**: 1Lvの必殺技を1つ取得
+
+**実装完了**: `validateSpecialAttackConstraints(characterData)` 関数
+- 4つのテスト全通過
+- TypeScript型安全性確保
+- レベル制約の完全な検証
 
 ### アイテム制約
 - [ ] **価格制約**: 価格20点分のアイテム選択
