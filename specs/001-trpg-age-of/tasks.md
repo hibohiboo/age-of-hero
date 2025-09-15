@@ -105,7 +105,12 @@
   - ✅ validateSpecialAttackConstraints関数実装
   - ✅ レベル制約チェック（1以上、maxLevel以下）
   - ✅ 4つのテスト全通過
-- [ ] F006 TDD: キャラクター作成フォームUI実装
+- [x] F006 TDD: キャラクター作成フォームUI実装 ✅
+  - ✅ CharacterFormコンポーネント実装（FSDアーキテクチャ準拠）
+  - ✅ フォームバリデーション・エラー表示機能
+  - ✅ packages/core統合（calculateAbilities関数使用）
+  - ✅ vitest + React Testing Library環境構築
+  - ✅ 10のテストケース全通過
 - [ ] F007 TDD: セッション管理UI実装
 - [ ] F008 E2E: キャラクター作成フロー統合テスト
 - [ ] F009 E2E: パスワード保護フロー統合テスト
