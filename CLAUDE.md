@@ -21,3 +21,41 @@
 2. ユーザーに確認・指示を仰ぐ
 3. 次のステップに進む
 4. 過剰な情報は削除・簡素化する
+
+## テスト実行方法 - 重要
+
+### フロントエンド（Reactコンポーネント）
+```bash
+# ✅ 正しい方法
+cd /mnt/d/projects/age-of-hero/apps/frontend
+bun run test [テストファイルパス]
+
+# ❌ 間違い - 直接bunコマンドは使わない
+bun test [テストファイルパス]
+```
+
+### バックエンド（API・サーバー）
+```bash
+# ✅ 正しい方法
+cd /mnt/d/projects/age-of-hero/apps/backend
+bun test [テストファイルパス]
+```
+
+### パッケージ（Core・Schemas等）
+```bash
+# ✅ 正しい方法
+cd /mnt/d/projects/age-of-hero/packages/core
+bun test [テストファイルパス]
+
+cd /mnt/d/projects/age-of-hero/packages/schemas
+bun test [テストファイルパス]
+```
+
+### 全体テスト実行
+```bash
+# プロジェクトルートで
+cd /mnt/d/projects/age-of-hero
+bun test
+```
+
+**重要**: フロントエンドは `bun run test`、それ以外は `bun test` を使用

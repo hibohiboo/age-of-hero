@@ -13,7 +13,7 @@ describe('CharacterForm', () => {
     it('フォームが表示されること', () => {
       render(<CharacterForm onSubmit={mockOnSubmit} />);
 
-      expect(screen.getByText('キャラクター作成')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'キャラクター作成' })).toBeInTheDocument();
     });
 
     it('名前入力フィールドが表示されること', () => {
@@ -113,7 +113,7 @@ describe('CharacterForm', () => {
       });
 
       // 送信
-      fireEvent.click(screen.getByText('キャラクター作成'));
+      fireEvent.click(screen.getByRole('button', { name: 'キャラクター作成' }));
 
       expect(mockOnSubmit).toHaveBeenCalledWith({
         name: '山田太郎',
@@ -125,7 +125,7 @@ describe('CharacterForm', () => {
     it('必須項目が未入力の場合はエラー表示すること', () => {
       render(<CharacterForm onSubmit={mockOnSubmit} />);
 
-      fireEvent.click(screen.getByText('キャラクター作成'));
+      fireEvent.click(screen.getByRole('button', { name: 'キャラクター作成' }));
 
       expect(screen.getByText('キャラクター名は必須です')).toBeInTheDocument();
       expect(
