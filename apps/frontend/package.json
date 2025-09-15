@@ -22,12 +22,15 @@
     "react-dom": "^19.1.1",
     "react-router": "^7.9.1",
     "swr": "^2.3.6",
-    "@age-of-hero/ui": "workspace:*"
+    "@age-of-hero/ui": "workspace:*",
+    "@age-of-hero/core": "workspace:*"
   },
   "devDependencies": {
     "@age-of-hero/eslint-config-custom": "workspace:*",
     "@age-of-hero/typescript-config": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.0.1",
@@ -35,7 +38,8 @@
     "jsdom": "^27.0.0",
     "msw": "^2.11.2",
     "npm-check-updates": "^18.1.1",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
   },
   "msw": {
     "workerDirectory": [

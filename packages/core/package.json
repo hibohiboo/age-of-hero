@@ -2,6 +2,7 @@
   "name": "@age-of-hero/core",
   "type": "module",
   "exports": {
+    ".": "./src/index.ts",
     "./*": "./src/*.ts"
   },
   "scripts": {
