@@ -27,7 +27,7 @@
     "drizzle-orm": "^0.44.5",
     "hono": "^4.9.7",
     "postgres": "^3.4.7",
-    "zod": "^4.1.8"
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@age-of-hero/eslint-config-custom": "workspace:*",
