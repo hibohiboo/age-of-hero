@@ -1,4 +1,37 @@
 import React, { useState } from 'react';
+import { FaEye, FaPlus, FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
+import {
+  GiRobotAntennas,
+  GiCrystalBall,
+  GiBrain,
+  GiDna2,
+  GiStarFormation,
+  GiAncientSword,
+  GiPunchingBag,
+  GiBiceps,
+  GiBookshelf,
+  GiMagicSwirl,
+  GiMuscleUp,
+  GiFist,
+  GiShield,
+  GiHeartPlus,
+  GiSteeringWheel,
+  GiCrosshair,
+  GiWalk,
+  GiTinker,
+  GiMusicalNotes,
+  GiMagnifyingGlass,
+  GiSpeaker,
+  GiMedicalPack,
+  GiSpellBook,
+  GiThirdEye,
+  GiKnifeThrust,
+  GiAbstract061,
+  GiBackpack,
+  GiStarsStack,
+  GiMagicLamp,
+} from 'react-icons/gi';
+import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
 import { Card } from './Card';
 
 interface HeroSkill {
@@ -47,42 +80,122 @@ interface CharacterCreationFormProps {
 }
 
 const CLASSES = [
-  'マッスル',
-  'テクノロジー',
-  'マジカル',
-  'サイキック',
-  'バイオ',
-  'エスペラント',
-  'アーティファクト',
-  'アーツ',
+  { name: 'マッスル', icon: GiMuscleUp, color: 'text-red-600' },
+  { name: 'テクノロジー', icon: GiRobotAntennas, color: 'text-blue-600' },
+  { name: 'マジカル', icon: GiCrystalBall, color: 'text-purple-600' },
+  { name: 'サイキック', icon: GiBrain, color: 'text-pink-600' },
+  { name: 'バイオ', icon: GiDna2, color: 'text-green-600' },
+  { name: 'エスペラント', icon: GiStarFormation, color: 'text-yellow-600' },
+  { name: 'アーティファクト', icon: GiAncientSword, color: 'text-orange-600' },
+  { name: 'アーツ', icon: GiPunchingBag, color: 'text-teal-600' },
 ] as const;
 
 const ABILITIES = [
-  { key: 'physical', label: '肉体' },
-  { key: 'reflex', label: '反射' },
-  { key: 'sensory', label: '感覚' },
-  { key: 'intellectual', label: '知力' },
-  { key: 'supernatural', label: '超常' },
+  { key: 'physical', label: '肉体', icon: GiBiceps, color: 'text-red-600' },
+  { key: 'reflex', label: '反射', icon: MdOutlineBolt, color: 'text-blue-600' },
+  { key: 'sensory', label: '感覚', icon: FaEye, color: 'text-green-600' },
+  {
+    key: 'intellectual',
+    label: '知力',
+    icon: GiBookshelf,
+    color: 'text-purple-600',
+  },
+  {
+    key: 'supernatural',
+    label: '超常',
+    icon: GiMagicSwirl,
+    color: 'text-indigo-600',
+  },
 ] as const;
 
 const SKILLS = [
-  'パワー',
-  'タフネス',
-  'スタミナ',
-  '技術',
-  '運動',
-  '操縦',
-  '射撃',
-  '知覚',
-  '製作',
-  '芸術',
-  '情報',
-  '交渉',
-  '心理',
-  '医療',
-  '魔術',
-  '超能力',
-  '第六感',
+  { name: 'パワー', icon: GiFist, category: 'physical', color: 'text-red-600' },
+  {
+    name: 'タフネス',
+    icon: GiShield,
+    category: 'physical',
+    color: 'text-red-600',
+  },
+  {
+    name: 'スタミナ',
+    icon: GiHeartPlus,
+    category: 'physical',
+    color: 'text-red-600',
+  },
+  {
+    name: '技術',
+    icon: GiKnifeThrust,
+    category: 'reflex',
+    color: 'text-blue-600',
+  },
+  { name: '運動', icon: GiWalk, category: 'reflex', color: 'text-blue-600' },
+  {
+    name: '操縦',
+    icon: GiSteeringWheel,
+    category: 'reflex',
+    color: 'text-blue-600',
+  },
+  {
+    name: '射撃',
+    icon: GiCrosshair,
+    category: 'sensory',
+    color: 'text-green-600',
+  },
+  { name: '知覚', icon: FaEye, category: 'sensory', color: 'text-green-600' },
+  {
+    name: '製作',
+    icon: GiTinker,
+    category: 'sensory',
+    color: 'text-green-600',
+  },
+  {
+    name: '芸術',
+    icon: GiMusicalNotes,
+    category: 'sensory',
+    color: 'text-green-600',
+  },
+  {
+    name: '情報',
+    icon: GiMagnifyingGlass,
+    category: 'intellectual',
+    color: 'text-purple-600',
+  },
+  {
+    name: '交渉',
+    icon: GiSpeaker,
+    category: 'intellectual',
+    color: 'text-purple-600',
+  },
+  {
+    name: '心理',
+    icon: MdOutlinePsychology,
+    category: 'intellectual',
+    color: 'text-purple-600',
+  },
+  {
+    name: '医療',
+    icon: GiMedicalPack,
+    category: 'intellectual',
+    color: 'text-purple-600',
+  },
+  {
+    name: '魔術',
+    icon: GiSpellBook,
+    category: 'supernatural',
+    color: 'text-indigo-600',
+  },
+  {
+    name: '超能力',
+    icon: GiThirdEye,
+    category: 'supernatural',
+    color: 'text-indigo-600',
+  },
+  {
+    name: '第六感',
+    icon: GiAbstract061,
+    category: 'supernatural',
+    color: 'text-indigo-600',
+  },
 ] as const;
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
@@ -91,7 +204,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
 }) => {
   const [formData, setFormData] = useState<CharacterFormData>({
     name: '',
-    selectedClasses: ['マッスル', 'マッスル'],
+    selectedClasses: [CLASSES[0].name, CLASSES[0].name],
     abilityBonus: 'physical',
     skillAllocations: {},
     heroSkills: [],
@@ -114,6 +227,15 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       },
     }));
   };
+
+  const skillTotal = Object.values(formData.skillAllocations).reduce(
+    (sum, val) => sum + val,
+    0,
+  );
+  const heroSkillLevelTotal = formData.heroSkills.reduce(
+    (sum, skill) => sum + skill.level,
+    0,
+  );
 
   const addHeroSkill = () => {
     const newSkill: HeroSkill = {
@@ -215,7 +337,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <Card>
-        <h2 className="text-xl font-semibold mb-4">基本情報</h2>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <FaUser className="text-blue-600" />
+          基本情報
+        </h2>
         <div className="space-y-4">
           <div>
             <label
@@ -238,7 +363,8 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <GiStarFormation className="text-purple-600" />
               クラス選択 *（2つ選択、同じクラス可）
             </label>
             <div className="grid grid-cols-2 gap-4">
@@ -264,9 +390,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   required
                 >
-                  {CLASSES.map((className) => (
-                    <option key={className} value={className}>
-                      {className}
+                  {CLASSES.map((classItem) => (
+                    <option key={classItem.name} value={classItem.name}>
+                      {classItem.name}
                     </option>
                   ))}
                 </select>
@@ -293,9 +419,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   required
                 >
-                  {CLASSES.map((className) => (
-                    <option key={className} value={className}>
-                      {className}
+                  {CLASSES.map((classItem) => (
+                    <option key={classItem.name} value={classItem.name}>
+                      {classItem.name}
                     </option>
                   ))}
                 </select>
@@ -306,8 +432,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           <div>
             <label
               htmlFor="abilityBonus"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
             >
+              <GiBiceps className="text-orange-600" />
               能力値ボーナス (+1) *
             </label>
             <select
@@ -333,52 +460,103 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       </Card>
 
       <Card>
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <GiStarsStack className="text-purple-600" />
           技能ポイント分配（150%まで）
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {SKILLS.map((skill) => (
-            <div key={skill} className="flex items-center space-x-2">
-              <label className="flex-1 text-sm font-medium text-gray-700">
-                {skill}
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                value={formData.skillAllocations[skill] || 0}
-                onChange={(e) =>
-                  handleSkillAllocationChange(
-                    skill,
-                    parseInt(e.target.value) || 0,
-                  )
-                }
-                className="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              <span className="text-sm text-gray-500">%</span>
+        <div className="space-y-6">
+          {[
+            {
+              category: 'physical',
+              label: '肉体系',
+              icon: GiBiceps,
+              color: 'text-red-600',
+            },
+            {
+              category: 'reflex',
+              label: '反射系',
+              icon: MdOutlineBolt,
+              color: 'text-blue-600',
+            },
+            {
+              category: 'sensory',
+              label: '感覚系',
+              icon: FaEye,
+              color: 'text-green-600',
+            },
+            {
+              category: 'intellectual',
+              label: '知力系',
+              icon: GiBookshelf,
+              color: 'text-purple-600',
+            },
+            {
+              category: 'supernatural',
+              label: '超常系',
+              icon: GiMagicSwirl,
+              color: 'text-indigo-600',
+            },
+          ].map((categoryInfo) => (
+            <div key={categoryInfo.category} className="space-y-2">
+              <h3
+                className={`text-sm font-semibold flex items-center gap-2 ${categoryInfo.color}`}
+              >
+                <categoryInfo.icon size={18} />
+                {categoryInfo.label}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-6">
+                {SKILLS.filter(
+                  (skill) => skill.category === categoryInfo.category,
+                ).map((skill) => (
+                  <div key={skill.name} className="flex items-center space-x-2">
+                    <label
+                      className={`flex-1 text-sm font-medium flex items-center gap-2 ${skill.color}`}
+                    >
+                      <skill.icon size={14} />
+                      {skill.name}
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={formData.skillAllocations[skill.name] || 0}
+                      onChange={(e) =>
+                        handleSkillAllocationChange(
+                          skill.name,
+                          parseInt(e.target.value) || 0,
+                        )
+                      }
+                      className="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <span className="text-sm text-gray-500">%</span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-        <div className="mt-4 text-sm text-gray-600">
-          合計:{' '}
-          {Object.values(formData.skillAllocations).reduce(
-            (sum, val) => sum + val,
-            0,
+        <div
+          className={`mt-4 text-sm ${skillTotal > 150 ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
+        >
+          合計: {skillTotal}% / 150%
+          {skillTotal > 150 && (
+            <span className="ml-2">⚠️ 上限を超えています</span>
           )}
-          % / 150%
         </div>
       </Card>
 
       <Card>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <GiMagicLamp className="text-orange-600" />
             ヒーロースキル（合計7レベル）
           </h2>
           <button
             type="button"
             onClick={addHeroSkill}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center gap-2"
           >
+            <FaPlus size={14} />
             追加
           </button>
         </div>
@@ -504,27 +682,35 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               <button
                 type="button"
                 onClick={() => removeHeroSkill(index)}
-                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
               >
+                <FaTrash size={12} />
                 削除
               </button>
             </div>
           ))}
         </div>
-        <div className="mt-4 text-sm text-gray-600">
-          合計レベル:{' '}
-          {formData.heroSkills.reduce((sum, skill) => sum + skill.level, 0)} / 7
+        <div
+          className={`mt-4 text-sm ${heroSkillLevelTotal > 7 ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
+        >
+          合計レベル: {heroSkillLevelTotal} / 7
+          {heroSkillLevelTotal > 7 && (
+            <span className="ml-2">⚠️ 上限を超えています</span>
+          )}
         </div>
       </Card>
 
       <Card>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">必殺技（1レベル）</h2>
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            必殺技（1レベル）
+          </h2>
           <button
             type="button"
             onClick={addSpecialAttack}
-            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 flex items-center gap-2"
           >
+            <FaPlus size={14} />
             追加
           </button>
         </div>
@@ -650,8 +836,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               <button
                 type="button"
                 onClick={() => removeSpecialAttack(index)}
-                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
               >
+                <FaTrash size={12} />
                 削除
               </button>
             </div>
@@ -661,12 +848,16 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
 
       <Card>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">アイテム（価格20点分）</h2>
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <GiBackpack className="text-green-600" />
+            アイテム（価格20点分）
+          </h2>
           <button
             type="button"
             onClick={addItem}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center gap-2"
           >
+            <FaPlus size={14} />
             追加
           </button>
         </div>
@@ -683,8 +874,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               <button
                 type="button"
                 onClick={() => removeItem(index)}
-                className="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
               >
+                <FaTrash size={12} />
                 削除
               </button>
             </div>
@@ -693,7 +885,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       </Card>
 
       <Card>
-        <h2 className="text-xl font-semibold mb-4">セキュリティ設定</h2>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <FaShieldAlt className="text-gray-600" />
+          セキュリティ設定
+        </h2>
         <div>
           <label
             htmlFor="password"
