@@ -1,6 +1,7 @@
 // Components
 export { Layout } from './components/Layout';
 export { Card } from './components/Card';
+export { CharacterCreationForm } from './components/CharacterCreationForm';
 export { PageHeader } from './components/PageHeader';
 export { Section } from './components/Section';
 export { StepList } from './components/StepList';
