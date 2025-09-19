@@ -1,37 +1,17 @@
 import React, { useState } from 'react';
-import { FaEye, FaPlus, FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
 import {
-  GiRobotAntennas,
-  GiCrystalBall,
-  GiBrain,
-  GiDna2,
-  GiStarFormation,
-  GiAncientSword,
-  GiPunchingBag,
-  GiBiceps,
-  GiBookshelf,
-  GiMagicSwirl,
-  GiMuscleUp,
-  GiFist,
-  GiShield,
-  GiHeartPlus,
-  GiSteeringWheel,
-  GiCrosshair,
-  GiWalk,
-  GiTinker,
-  GiMusicalNotes,
-  GiMagnifyingGlass,
-  GiSpeaker,
-  GiMedicalPack,
-  GiSpellBook,
-  GiThirdEye,
-  GiKnifeThrust,
-  GiAbstract061,
   GiBackpack,
   GiStarsStack,
   GiMagicLamp,
+  GiSwordsPower,
 } from 'react-icons/gi';
-import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
+import {
+  CLASSES,
+  ABILITIES,
+  SKILLS,
+  ABILITY_CATEGORIES,
+} from '../constants/gameData';
 import { Card } from './Card';
 
 interface HeroSkill {
@@ -78,125 +58,6 @@ interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
   isLoading?: boolean;
 }
-
-const CLASSES = [
-  { name: 'マッスル', icon: GiMuscleUp, color: 'text-red-600' },
-  { name: 'テクノロジー', icon: GiRobotAntennas, color: 'text-blue-600' },
-  { name: 'マジカル', icon: GiCrystalBall, color: 'text-purple-600' },
-  { name: 'サイキック', icon: GiBrain, color: 'text-pink-600' },
-  { name: 'バイオ', icon: GiDna2, color: 'text-green-600' },
-  { name: 'エスペラント', icon: GiStarFormation, color: 'text-yellow-600' },
-  { name: 'アーティファクト', icon: GiAncientSword, color: 'text-orange-600' },
-  { name: 'アーツ', icon: GiPunchingBag, color: 'text-teal-600' },
-] as const;
-
-const ABILITIES = [
-  { key: 'physical', label: '肉体', icon: GiBiceps, color: 'text-red-600' },
-  { key: 'reflex', label: '反射', icon: MdOutlineBolt, color: 'text-blue-600' },
-  { key: 'sensory', label: '感覚', icon: FaEye, color: 'text-green-600' },
-  {
-    key: 'intellectual',
-    label: '知力',
-    icon: GiBookshelf,
-    color: 'text-purple-600',
-  },
-  {
-    key: 'supernatural',
-    label: '超常',
-    icon: GiMagicSwirl,
-    color: 'text-indigo-600',
-  },
-] as const;
-
-const SKILLS = [
-  { name: 'パワー', icon: GiFist, category: 'physical', color: 'text-red-600' },
-  {
-    name: 'タフネス',
-    icon: GiShield,
-    category: 'physical',
-    color: 'text-red-600',
-  },
-  {
-    name: 'スタミナ',
-    icon: GiHeartPlus,
-    category: 'physical',
-    color: 'text-red-600',
-  },
-  {
-    name: '技術',
-    icon: GiKnifeThrust,
-    category: 'reflex',
-    color: 'text-blue-600',
-  },
-  { name: '運動', icon: GiWalk, category: 'reflex', color: 'text-blue-600' },
-  {
-    name: '操縦',
-    icon: GiSteeringWheel,
-    category: 'reflex',
-    color: 'text-blue-600',
-  },
-  {
-    name: '射撃',
-    icon: GiCrosshair,
-    category: 'sensory',
-    color: 'text-green-600',
-  },
-  { name: '知覚', icon: FaEye, category: 'sensory', color: 'text-green-600' },
-  {
-    name: '製作',
-    icon: GiTinker,
-    category: 'sensory',
-    color: 'text-green-600',
-  },
-  {
-    name: '芸術',
-    icon: GiMusicalNotes,
-    category: 'sensory',
-    color: 'text-green-600',
-  },
-  {
-    name: '情報',
-    icon: GiMagnifyingGlass,
-    category: 'intellectual',
-    color: 'text-purple-600',
-  },
-  {
-    name: '交渉',
-    icon: GiSpeaker,
-    category: 'intellectual',
-    color: 'text-purple-600',
-  },
-  {
-    name: '心理',
-    icon: MdOutlinePsychology,
-    category: 'intellectual',
-    color: 'text-purple-600',
-  },
-  {
-    name: '医療',
-    icon: GiMedicalPack,
-    category: 'intellectual',
-    color: 'text-purple-600',
-  },
-  {
-    name: '魔術',
-    icon: GiSpellBook,
-    category: 'supernatural',
-    color: 'text-indigo-600',
-  },
-  {
-    name: '超能力',
-    icon: GiThirdEye,
-    category: 'supernatural',
-    color: 'text-indigo-600',
-  },
-  {
-    name: '第六感',
-    icon: GiAbstract061,
-    category: 'supernatural',
-    color: 'text-indigo-600',
-  },
-] as const;
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   onSubmit,
@@ -364,7 +225,6 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-              <GiStarFormation className="text-purple-600" />
               クラス選択 *（2つ選択、同じクラス可）
             </label>
             <div className="grid grid-cols-2 gap-4">
@@ -434,7 +294,6 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               htmlFor="abilityBonus"
               className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
             >
-              <GiBiceps className="text-orange-600" />
               能力値ボーナス (+1) *
             </label>
             <select
@@ -465,38 +324,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           技能ポイント分配（150%まで）
         </h2>
         <div className="space-y-6">
-          {[
-            {
-              category: 'physical',
-              label: '肉体系',
-              icon: GiBiceps,
-              color: 'text-red-600',
-            },
-            {
-              category: 'reflex',
-              label: '反射系',
-              icon: MdOutlineBolt,
-              color: 'text-blue-600',
-            },
-            {
-              category: 'sensory',
-              label: '感覚系',
-              icon: FaEye,
-              color: 'text-green-600',
-            },
-            {
-              category: 'intellectual',
-              label: '知力系',
-              icon: GiBookshelf,
-              color: 'text-purple-600',
-            },
-            {
-              category: 'supernatural',
-              label: '超常系',
-              icon: GiMagicSwirl,
-              color: 'text-indigo-600',
-            },
-          ].map((categoryInfo) => (
+          {ABILITY_CATEGORIES.map((categoryInfo) => (
             <div key={categoryInfo.category} className="space-y-2">
               <h3
                 className={`text-sm font-semibold flex items-center gap-2 ${categoryInfo.color}`}
@@ -703,6 +531,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       <Card>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold flex items-center gap-2">
+            <GiSwordsPower className="text-red-600" />
             必殺技（1レベル）
           </h2>
           <button

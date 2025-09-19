@@ -1,248 +1,23 @@
 import React from 'react';
-import { FaEye } from 'react-icons/fa';
-import { FaRegHandshake } from 'react-icons/fa6';
-import {
-  GiRobotAntennas,
-  GiCrystalBall,
-  GiBrain,
-  GiDna2,
-  GiStarFormation,
-  GiAncientSword,
-  GiPunchingBag,
-  GiBiceps,
-  GiBookshelf,
-  GiMagicSwirl,
-  GiMuscleUp,
-  GiFist,
-  GiShield,
-  GiHeartPlus,
-  GiSteeringWheel,
-  GiCrosshair,
-  GiWalk,
-  GiTinker,
-  GiMusicalNotes,
-  GiMagnifyingGlass,
-  GiSpeaker,
-  GiMedicalPack,
-  GiSpellBook,
-  GiThirdEye,
-  GiKnifeThrust,
-  GiAbstract061,
-  GiModernCity,
-  GiFireSilhouette,
-  GiAlliedStar,
-} from 'react-icons/gi';
-import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
 import { Link } from 'react-router';
 import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { StepList } from '../components/StepList';
+import { CLASSES, SKILLS, COMMON_SKILLS, ABILITY_CATEGORIES } from '../constants/gameData';
 
 export const CharacterCreationPage: React.FC = () => {
-  const classes = [
-    {
-      name: 'マッスル',
-      icon: GiMuscleUp,
-      color: 'bg-red-100 text-red-800 border-red-300',
-      path: 'character/muscle',
-    },
-    {
-      name: 'テクノロジー',
-      icon: GiRobotAntennas,
-      color: 'bg-blue-100 text-blue-800 border-blue-300',
-      path: 'character/technology',
-    },
-    {
-      name: 'マジカル',
-      icon: GiCrystalBall,
-      color: 'bg-purple-100 text-purple-800 border-purple-300',
-      path: 'character/magical',
-    },
-    {
-      name: 'サイキック',
-      icon: GiBrain,
-      color: 'bg-pink-100 text-pink-800 border-pink-300',
-      path: 'character/psychic',
-    },
-    {
-      name: 'バイオ',
-      icon: GiDna2,
-      color: 'bg-green-100 text-green-800 border-green-300',
-      path: 'character/bio',
-    },
-    {
-      name: 'エスペラント',
-      icon: GiStarFormation,
-      color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      path: 'character/esperanto',
-    },
-    {
-      name: 'アーティファクト',
-      icon: GiAncientSword,
-      color: 'bg-orange-100 text-orange-800 border-orange-300',
-      path: 'character/artifact',
-    },
-    {
-      name: 'アーツ',
-      icon: GiPunchingBag,
-      color: 'bg-teal-100 text-teal-800 border-teal-300',
-      path: 'character/arts',
-    },
+  const classColors = [
+    'bg-red-100 text-red-800 border-red-300',
+    'bg-blue-100 text-blue-800 border-blue-300',
+    'bg-purple-100 text-purple-800 border-purple-300',
+    'bg-pink-100 text-pink-800 border-pink-300',
+    'bg-green-100 text-green-800 border-green-300',
+    'bg-yellow-100 text-yellow-800 border-yellow-300',
+    'bg-orange-100 text-orange-800 border-orange-300',
+    'bg-teal-100 text-teal-800 border-teal-300',
   ];
 
-  const abilities = [
-    {
-      category: '【肉体】',
-      icon: GiBiceps,
-      description: '肉体的な力やその身体が持つ耐久力を表す能力値だ。',
-      skills: [
-        {
-          name: '〈パワー〉',
-          icon: GiFist,
-          description:
-            '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。',
-        },
-        {
-          name: '〈タフネス〉',
-          icon: GiShield,
-          description:
-            '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。',
-        },
-        {
-          name: '〈スタミナ〉',
-          icon: GiHeartPlus,
-          description:
-            '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。',
-        },
-      ],
-      color: 'text-red-700',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-200',
-    },
-    {
-      category: '【反射】',
-      icon: MdOutlineBolt,
-      description: '手先の器用さや反射神経の良さを表す能力値だ。',
-      skills: [
-        {
-          name: '〈技術〉',
-          icon: GiKnifeThrust,
-          description:
-            '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。',
-        },
-        {
-          name: '〈運動〉',
-          icon: GiWalk,
-          description:
-            '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。',
-        },
-        {
-          name: '〈操縦〉',
-          icon: GiSteeringWheel,
-          description:
-            '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。',
-        },
-      ],
-      color: 'text-blue-700',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
-    },
-    {
-      category: '【感覚】',
-      icon: GiAlliedStar,
-      description: '天性のセンスや感受性の高さなどを表す能力値だ。',
-      skills: [
-        {
-          name: '〈射撃〉',
-          icon: GiCrosshair,
-          description:
-            '銃や弓を用いて射撃を行う技能。長距離狙撃からガンカタまで。',
-        },
-        {
-          name: '〈知覚〉',
-          icon: FaEye,
-          description:
-            '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。',
-        },
-        {
-          name: '〈製作〉',
-          icon: GiTinker,
-          description:
-            '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。',
-        },
-        {
-          name: '〈芸術〉',
-          icon: GiMusicalNotes,
-          description:
-            'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。',
-        },
-      ],
-      color: 'text-green-700',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
-    },
-    {
-      category: '【知力】',
-      icon: GiBookshelf,
-      description: '知識や頭脳をどれだけ上手く運用できるかを表す能力値だ。',
-      skills: [
-        {
-          name: '〈情報〉',
-          icon: GiMagnifyingGlass,
-          description:
-            '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。',
-        },
-        {
-          name: '〈交渉〉',
-          icon: GiSpeaker,
-          description:
-            '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。',
-        },
-        {
-          name: '〈心理〉',
-          icon: MdOutlinePsychology,
-          description:
-            '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。',
-        },
-        {
-          name: '〈医療〉',
-          icon: GiMedicalPack,
-          description:
-            'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。',
-        },
-      ],
-      color: 'text-purple-700',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200',
-    },
-    {
-      category: '【超常】',
-      icon: GiMagicSwirl,
-      description: '通常では考えられないような超常的な力を表す能力値だ。',
-      skills: [
-        {
-          name: '〈魔術〉',
-          icon: GiSpellBook,
-          description: '魔術を用いる技能。魔術の種類は多岐にわたる。',
-        },
-        {
-          name: '〈超能力〉',
-          icon: GiThirdEye,
-          description: 'ESPやサイコキネシスなどの超能力を用いる技能。',
-        },
-        {
-          name: '〈第六感〉',
-          icon: GiAbstract061,
-          description:
-            '五感以外の感覚でものをとらえる技能。時に周囲の助けとなる。',
-        },
-      ],
-      color: 'text-indigo-700',
-      bgColor: 'bg-indigo-50',
-      borderColor: 'border-indigo-200',
-    },
-  ];
 
   const steps = [
     {
@@ -288,24 +63,6 @@ export const CharacterCreationPage: React.FC = () => {
     },
   ];
 
-  const commonSkills = [
-    {
-      name: '〈社会〉',
-      icon: GiModernCity,
-      description:
-        'どのような社会や組織に所属しているかを表す技能。代表的なものはヒーロー協会、企業、警察、裏社会などだ。取得時には〈社会：ヒーロー協会〉といった形で記載し、それぞれ別技能として扱う。',
-    },
-    {
-      name: '〈コネ〉',
-      icon: FaRegHandshake,
-      description: 'どのような人物とコネクションを持っているかを表す技能。',
-    },
-    {
-      name: '〈意志〉',
-      icon: GiFireSilhouette,
-      description: '心の強さを表す技能。ヒーローに必須の力だ。',
-    },
-  ];
 
   return (
     <article className="max-w-4xl mx-auto">
@@ -329,13 +86,13 @@ export const CharacterCreationPage: React.FC = () => {
             クラスはその能力の系統ごとに八種類に分かれている。PCはこれらの内からクラスを二つ選ぶことになる。
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {classes.map((classItem) => {
+            {CLASSES.map((classItem, index) => {
               const IconComponent = classItem.icon;
               return (
                 <Link to={`/${classItem.path}`} key={classItem.name}>
                   <div
                     key={classItem.name}
-                    className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+                    className={`p-3 sm:p-4 rounded-lg border-2 ${classColors[index]} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
                   >
                     <IconComponent className="mx-auto mb-2" size={24} />
                     {classItem.name}
@@ -356,33 +113,36 @@ export const CharacterCreationPage: React.FC = () => {
             各能力値と技能の詳細は以下の通り。
           </p>
           <div className="grid gap-8">
-            {abilities.map((ability) => (
-              <div
-                key={ability.category}
-                className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}
-              >
-                <h3
-                  className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color} flex items-center gap-2`}
+            {ABILITY_CATEGORIES.map((ability) => {
+              const skillsInCategory = SKILLS.filter(skill => skill.category === ability.category);
+              return (
+                <div
+                  key={ability.category}
+                  className={`p-4 sm:p-6 rounded-lg border-2 ${ability.bgColor} ${ability.borderColor}`}
                 >
-                  <ability.icon size={24} />
-                  {ability.category}
-                </h3>
-                <p className="text-gray-600 mb-4">{ability.description}</p>
-                <div className="space-y-4">
-                  {ability.skills.map((skill) => (
-                    <div key={skill.name} className="ml-4">
-                      <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                        <skill.icon size={18} />
-                        {skill.name}
-                      </h4>
-                      <p className="text-gray-600 text-sm mt-1">
-                        {skill.description}
-                      </p>
-                    </div>
-                  ))}
+                  <h3
+                    className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color} flex items-center gap-2`}
+                  >
+                    <ability.icon size={24} />
+                    【{ability.label}】
+                  </h3>
+                  <p className="text-gray-600 mb-4">{ability.description}</p>
+                  <div className="space-y-4">
+                    {skillsInCategory.map((skill) => (
+                      <div key={skill.name} className="ml-4">
+                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                          <skill.icon size={18} />
+                          〈{skill.name}〉
+                        </h4>
+                        <p className="text-gray-600 text-sm mt-1">
+                          {skill.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Section>
 
@@ -391,7 +151,7 @@ export const CharacterCreationPage: React.FC = () => {
             能力値に左右されない技能を指す。以下の三つが存在する。
           </p>
           <div className="space-y-6">
-            {commonSkills.map((skill) => (
+            {COMMON_SKILLS.map((skill) => (
               <div
                 key={skill.name}
                 className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg"
@@ -434,13 +194,13 @@ export const CharacterCreationPage: React.FC = () => {
                <Link to="/character/hero-skill-guide">ヒーロースキルの見方    </Link>
                
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                {classes.map((classItem) => {
+                {CLASSES.map((classItem, index) => {
                   const IconComponent = classItem.icon;
                   return (
                     <Link to={`/${classItem.path}`} key={classItem.name}>
                       <div
                         key={classItem.name}
-                        className={`p-3 sm:p-4 rounded-lg border-2 ${classItem.color} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
+                        className={`p-3 sm:p-4 rounded-lg border-2 ${classColors[index]} text-center font-medium hover:scale-105 transition-transform cursor-pointer`}
                       >
                         <IconComponent className="mx-auto mb-2" size={24} />
                         {classItem.name}

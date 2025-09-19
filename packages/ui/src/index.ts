@@ -7,6 +7,9 @@ export { Section } from './components/Section';
 export { StepList } from './components/StepList';
 export { LinkCard } from './components/LinkCard';
 
+// Constants
+export * from './constants/gameData';
+
 // Pages
 export { HomePage } from './pages/HomePage';
 export { RulesPage } from './pages/RulesPage';
