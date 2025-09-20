@@ -152,42 +152,48 @@ export const SKILLS: SkillData[] = [
     icon: GiFist,
     category: 'physical',
     color: 'text-red-600',
-    description: '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。',
+    description:
+      '主に素手で攻撃や武器による力任せな攻撃に用いる技能。物をどかすなど災害救助にも役立つ。',
   },
   {
     name: 'タフネス',
     icon: GiShield,
     category: 'physical',
     color: 'text-red-600',
-    description: '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。',
+    description:
+      '身体がどれだけダメージに耐えられるかを表す技能。防御などに用い、誰かを守るために必要だ。',
   },
   {
     name: 'スタミナ',
     icon: GiHeartPlus,
     category: 'physical',
     color: 'text-red-600',
-    description: '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。',
+    description:
+      '身体の持久力や回復力を表す技能。長丁場や連続する任務で重要となる。',
   },
   {
     name: '技術',
     icon: GiKnifeThrust,
     category: 'reflex',
     color: 'text-blue-600',
-    description: '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。',
+    description:
+      '主に武器や道具を上手く扱うために用いる技能。鍛錬次第で様々なことに役立つ。',
   },
   {
     name: '運動',
     icon: GiWalk,
     category: 'reflex',
     color: 'text-blue-600',
-    description: '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。',
+    description:
+      '反射的な回避や素早い運動に用いる技能。ヴィランから人質を素早く取り戻すのにも役に立つ。',
   },
   {
     name: '操縦',
     icon: GiSteeringWheel,
     category: 'reflex',
     color: 'text-blue-600',
-    description: '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。',
+    description:
+      '車や船、飛行機などの乗り物を乗りこなすための技能。車などでいち早く現場に駆けつけることもできる。',
   },
   {
     name: '射撃',
@@ -201,49 +207,56 @@ export const SKILLS: SkillData[] = [
     icon: FaEye,
     category: 'sensory',
     color: 'text-green-600',
-    description: '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。',
+    description:
+      '様々なことに気づきやすくなる技能。ヴィランの奇襲から周囲を守ることもできる。',
   },
   {
     name: '製作',
     icon: GiTinker,
     category: 'sensory',
     color: 'text-green-600',
-    description: '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。',
+    description:
+      '武器や道具、乗り物を作るのに用いる技能。自分の持物にギミックを仕込み事前の準備をする。',
   },
   {
     name: '芸術',
     icon: GiMusicalNotes,
     category: 'sensory',
     color: 'text-green-600',
-    description: 'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。',
+    description:
+      'センスを用いて歌や絵画などを作る技能。センス次第で人々の荒れた心を癒すことも可能だ。',
   },
   {
     name: '情報',
     icon: GiMagnifyingGlass,
     category: 'intellectual',
     color: 'text-purple-600',
-    description: '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。',
+    description:
+      '自分の力で情報を集める技能。逆に情報戦を仕掛けヴィランをかく乱することもできる。',
   },
   {
     name: '交渉',
     icon: GiSpeaker,
     category: 'intellectual',
     color: 'text-purple-600',
-    description: '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。',
+    description:
+      '他人と交渉するために用いる技能。物品や情報を調達する際にも役立つ。',
   },
   {
     name: '心理',
     icon: MdOutlinePsychology,
     category: 'intellectual',
     color: 'text-purple-600',
-    description: '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。',
+    description:
+      '相手の心情を読み取るのに用いる技能。相手の行動を先読みすることもできる。',
   },
   {
     name: '医療',
     icon: GiMedicalPack,
     category: 'intellectual',
     color: 'text-purple-600',
-    description: 'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。',
+    description:
+      'ケガや病に対処するのに用いる技能。傷病者の命を救うのに必要だ。',
   },
   {
     name: '魔術',
@@ -290,7 +303,7 @@ export const COMMON_SKILLS: CommonSkillData[] = [
 export const ABILITY_CATEGORIES = [
   {
     category: 'physical' as const,
-    label: '肉体系',
+    label: '肉体',
     icon: GiBiceps,
     color: 'text-red-600',
     bgColor: 'bg-red-50',
@@ -299,7 +312,7 @@ export const ABILITY_CATEGORIES = [
   },
   {
     category: 'reflex' as const,
-    label: '反射系',
+    label: '反射',
     icon: MdOutlineBolt,
     color: 'text-blue-600',
     bgColor: 'bg-blue-50',
@@ -308,7 +321,7 @@ export const ABILITY_CATEGORIES = [
   },
   {
     category: 'sensory' as const,
-    label: '感覚系',
+    label: '感覚',
     icon: GiAlliedStar,
     color: 'text-green-600',
     bgColor: 'bg-green-50',
@@ -317,7 +330,7 @@ export const ABILITY_CATEGORIES = [
   },
   {
     category: 'intellectual' as const,
-    label: '知力系',
+    label: '知力',
     icon: GiBookshelf,
     color: 'text-purple-600',
     bgColor: 'bg-purple-50',
@@ -326,7 +339,7 @@ export const ABILITY_CATEGORIES = [
   },
   {
     category: 'supernatural' as const,
-    label: '超常系',
+    label: '超常',
     icon: GiMagicSwirl,
     color: 'text-indigo-600',
     bgColor: 'bg-indigo-50',

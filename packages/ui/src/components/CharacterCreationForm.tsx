@@ -152,17 +152,20 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       <Card>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <FaUser className="text-green-600" />
-          計算された能力値
+          基礎能力値
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {ABILITY_CATEGORIES.map((ability) => {
-            const abilityKey = ability.category as keyof typeof calculatedAbilities;
+            const abilityKey =
+              ability.category as keyof typeof calculatedAbilities;
             const value = calculatedAbilities[abilityKey];
             if (typeof value !== 'number') return null;
 
             return (
               <div key={ability.category} className="text-center">
-                <div className={`text-sm font-medium ${ability.color} flex items-center justify-center gap-1 mb-1`}>
+                <div
+                  className={`text-sm font-medium ${ability.color} flex items-center justify-center gap-1 mb-1`}
+                >
                   <ability.icon size={16} />
                   {ability.label}
                 </div>
