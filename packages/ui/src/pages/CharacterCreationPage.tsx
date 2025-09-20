@@ -4,7 +4,12 @@ import { ClassStatsTable } from '../components/ClassStatsTable';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { StepList } from '../components/StepList';
-import { CLASSES, SKILLS, COMMON_SKILLS, ABILITY_CATEGORIES } from '../constants/gameData';
+import {
+  CLASSES,
+  SKILLS,
+  COMMON_SKILLS,
+  ABILITY_CATEGORIES,
+} from '../constants/gameData';
 
 export const CharacterCreationPage: React.FC = () => {
   const classColors = [
@@ -17,7 +22,6 @@ export const CharacterCreationPage: React.FC = () => {
     'bg-orange-100 text-orange-800 border-orange-300',
     'bg-teal-100 text-teal-800 border-teal-300',
   ];
-
 
   const steps = [
     {
@@ -62,7 +66,6 @@ export const CharacterCreationPage: React.FC = () => {
       description: '戦闘時の行動順序を決める値を算出',
     },
   ];
-
 
   return (
     <article className="max-w-4xl mx-auto">
@@ -114,7 +117,9 @@ export const CharacterCreationPage: React.FC = () => {
           </p>
           <div className="grid gap-8">
             {ABILITY_CATEGORIES.map((ability) => {
-              const skillsInCategory = SKILLS.filter(skill => skill.category === ability.category);
+              const skillsInCategory = SKILLS.filter(
+                (skill) => skill.category === ability.category,
+              );
               return (
                 <div
                   key={ability.category}
@@ -123,16 +128,14 @@ export const CharacterCreationPage: React.FC = () => {
                   <h3
                     className={`text-lg sm:text-xl font-semibold mb-3 ${ability.color} flex items-center gap-2`}
                   >
-                    <ability.icon size={24} />
-                    【{ability.label}】
+                    <ability.icon size={24} />【{ability.label}】
                   </h3>
                   <p className="text-gray-600 mb-4">{ability.description}</p>
                   <div className="space-y-4">
                     {skillsInCategory.map((skill) => (
                       <div key={skill.name} className="ml-4">
                         <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                          <skill.icon size={18} />
-                          〈{skill.name}〉
+                          <skill.icon size={18} />〈{skill.name}〉
                         </h4>
                         <p className="text-gray-600 text-sm mt-1">
                           {skill.description}
@@ -190,9 +193,9 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-pink-50 border-l-4 border-pink-400 rounded">
             <p className="text-gray-700">
               ヒーロースキルを合計７Ｌｖ分習得する。
-              
-               <Link to="/character/hero-skill-guide">ヒーロースキルの見方    </Link>
-               
+              <Link to="/character/hero-skill-guide">
+                ヒーロースキルの見方{' '}
+              </Link>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {CLASSES.map((classItem, index) => {
                   const IconComponent = classItem.icon;
