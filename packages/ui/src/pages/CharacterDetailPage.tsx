@@ -32,6 +32,8 @@ import {
 } from 'react-icons/gi';
 import { MdOutlineBolt } from 'react-icons/md';
 import { Link } from 'react-router';
+import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
+import { SKILLS } from '../constants/gameData';
 
 // 技能名からアイコンを取得するヘルパー関数
 const getSkillIcon = (skillName: string) => {
@@ -155,9 +157,64 @@ export interface CharacterData {
   };
 }
 
-// 詳細情報を含む拡張型
+// APIレスポンス形式に合わせた詳細型
 export interface CharacterDetail extends Character {
-  characterData: CharacterData;
+  // API直接プロパティ
+  selectedClasses?: [string, string];
+  abilityBonus?: string;
+  skillAllocations?: Record<string, number>;
+  heroSkills?: {
+    name: string;
+    level: number;
+    maxLevel: number;
+    timing: string;
+    skill: string;
+    target: string;
+    range: string;
+    cost: number;
+    effect: string;
+  }[];
+  specialAttacks?: {
+    name: string;
+    level: number;
+    maxLevel: number;
+    timing: string;
+    skill: string;
+    target: string;
+    range: string;
+    cost: number;
+    effect: string;
+  }[];
+  items?: {
+    name: string;
+    type: string;
+    skill?: string;
+    modifier?: string;
+    attackPower?: string;
+    guardValue?: string;
+    range?: string;
+    dodge?: string;
+    actionValue?: string;
+    protection?: string;
+    price: number;
+    effect?: string;
+    quantity?: number;
+  }[];
+  sessions?: {
+    id: string;
+    sessionName: string;
+    gmName: string;
+    sessionDate: string;
+    currentHp: number;
+    currentSp: number;
+    currentFc?: number;
+    experiencePoints: number;
+    memo?: string;
+    createdAt: string;
+  }[];
+
+  // 互換性のため（将来的に削除予定）
+  characterData?: CharacterData;
 }
 
 interface CharacterDetailPageProps {
@@ -212,6 +269,49 @@ const CharacterDetail: React.FC<{
   character: CharacterDetailPageProps['character'];
 }> = ({ character }) => {
   if (!character) return <> </>;
+
+  // 能力値計算
+  const calculatedAbilities = calculateAbilities(
+    character.selectedClasses as [string, string],
+    character.abilityBonus || 'physical'
+  );
+
+  // 技能データ構築
+  const skills = Object.entries(character.skillAllocations || {}).reduce(
+    (acc: any, [skillName, allocatedPoints]) => {
+      const skillDef = SKILLS.find((s) => s.name === skillName);
+      let baseValue = 0;
+      if (skillDef) {
+        switch (skillDef.category) {
+          case 'physical':
+            baseValue = calculatedAbilities.physical * 10;
+            break;
+          case 'reflex':
+            baseValue = calculatedAbilities.reflex * 10;
+            break;
+          case 'sensory':
+            baseValue = calculatedAbilities.sensory * 10;
+            break;
+          case 'intellectual':
+            baseValue = calculatedAbilities.intellectual * 10;
+            break;
+          case 'supernatural':
+            baseValue = calculatedAbilities.supernatural * 10;
+            break;
+          default:
+            baseValue = calculatedAbilities.physical * 10;
+        }
+      }
+      acc[skillName] = {
+        baseValue,
+        allocatedPoints: allocatedPoints as number,
+        totalValue: baseValue + (allocatedPoints as number),
+      };
+      return acc;
+    },
+    {}
+  );
+
   return (
     <div className="space-y-6">
       {/* ヘッダー */}
@@ -233,9 +333,7 @@ const CharacterDetail: React.FC<{
                 {new Date(character.updatedAt).toLocaleDateString('ja-JP')}
               </span>
               <span className="mx-2">•</span>
-              <span>
-                バージョン: {character.characterData.metadata.version}
-              </span>
+              <span>バージョン: 1.0</span>
             </div>
           </div>
           <div className="flex space-x-2">
@@ -263,25 +361,23 @@ const CharacterDetail: React.FC<{
             <div className="flex space-x-2">
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
                 {React.createElement(
-                  getClassIcon(character.characterData.selectedClasses.primary),
+                  getClassIcon(character.selectedClasses?.[0] || ''),
                   {
                     size: 16,
                     className: 'text-blue-600',
                   },
                 )}
-                {character.characterData.selectedClasses.primary}
+                {character.selectedClasses?.[0] || ''}
               </span>
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
                 {React.createElement(
-                  getClassIcon(
-                    character.characterData.selectedClasses.secondary,
-                  ),
+                  getClassIcon(character.selectedClasses?.[1] || ''),
                   {
                     size: 16,
                     className: 'text-blue-600',
                   },
                 )}
-                {character.characterData.selectedClasses.secondary}
+                {character.selectedClasses?.[1] || ''}
               </span>
             </div>
           </div>
@@ -297,7 +393,7 @@ const CharacterDetail: React.FC<{
                   HP
                 </div>
                 <div className="text-xl font-bold text-red-500">
-                  {character.characterData.status.hp}
+                  {calculatedAbilities.hp}
                 </div>
               </div>
               <div className="text-center">
@@ -306,7 +402,7 @@ const CharacterDetail: React.FC<{
                   SP
                 </div>
                 <div className="text-xl font-bold text-blue-500">
-                  {character.characterData.status.sp}
+                  {calculatedAbilities.sp}
                 </div>
               </div>
               <div className="text-center">
@@ -315,7 +411,7 @@ const CharacterDetail: React.FC<{
                   行動値
                 </div>
                 <div className="text-xl font-bold text-green-500">
-                  {character.characterData.status.actionValue}
+                  {calculatedAbilities.actionValue}
                 </div>
               </div>
             </div>
@@ -336,7 +432,7 @@ const CharacterDetail: React.FC<{
               肉体
             </div>
             <div className="text-2xl font-bold text-red-600">
-              {character.characterData.abilities.physical}
+              {calculatedAbilities.physical}
             </div>
           </div>
           <div className="text-center p-3 bg-blue-50 rounded">
@@ -345,7 +441,7 @@ const CharacterDetail: React.FC<{
               反射
             </div>
             <div className="text-2xl font-bold text-blue-600">
-              {character.characterData.abilities.reflex}
+              {calculatedAbilities.reflex}
             </div>
           </div>
           <div className="text-center p-3 bg-green-50 rounded">
@@ -354,7 +450,7 @@ const CharacterDetail: React.FC<{
               感覚
             </div>
             <div className="text-2xl font-bold text-green-600">
-              {character.characterData.abilities.sensory}
+              {calculatedAbilities.sensory}
             </div>
           </div>
           <div className="text-center p-3 bg-purple-50 rounded">
@@ -363,7 +459,7 @@ const CharacterDetail: React.FC<{
               知力
             </div>
             <div className="text-2xl font-bold text-purple-600">
-              {character.characterData.abilities.intellectual}
+              {calculatedAbilities.intellectual}
             </div>
           </div>
           <div className="text-center p-3 bg-yellow-50 rounded">
@@ -372,21 +468,21 @@ const CharacterDetail: React.FC<{
               超常
             </div>
             <div className="text-2xl font-bold text-yellow-600">
-              {character.characterData.abilities.supernatural}
+              {calculatedAbilities.supernatural}
             </div>
           </div>
         </div>
       </div>
 
       {/* 技能 */}
-      {Object.keys(character.characterData.skills).length > 0 && (
+      {Object.keys(skills).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiFist className="text-blue-600" />
             技能
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(character.characterData.skills).map(
+            {Object.entries(skills).map(
               ([skillName, skill]) => {
                 const SkillIcon = getSkillIcon(skillName);
                 return (
@@ -415,14 +511,14 @@ const CharacterDetail: React.FC<{
       )}
 
       {/* ヒーロースキル */}
-      {character.characterData.heroSkills.length > 0 && (
+      {(character.heroSkills || []).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiStarsStack className="text-purple-600" />
             ヒーロースキル
           </h2>
           <div className="space-y-3">
-            {character.characterData.heroSkills.map((skill, index) => (
+            {(character.heroSkills || []).map((skill, index) => (
               <div key={index} className="border border-gray-200 rounded p-4">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-semibold text-lg">{skill.name}</h3>
@@ -456,14 +552,14 @@ const CharacterDetail: React.FC<{
       )}
 
       {/* 必殺技 */}
-      {character.characterData.specialAttacks.length > 0 && (
+      {(character.specialAttacks || []).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiSwordsPower className="text-red-600" />
             必殺技
           </h2>
           <div className="space-y-3">
-            {character.characterData.specialAttacks.map((attack, index) => (
+            {(character.specialAttacks || []).map((attack, index) => (
               <div key={index} className="border border-gray-200 rounded p-4">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-semibold text-lg">{attack.name}</h3>
@@ -497,14 +593,14 @@ const CharacterDetail: React.FC<{
       )}
 
       {/* アイテム */}
-      {character.characterData.items.length > 0 && (
+      {(character.items || []).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiBackpack className="text-green-600" />
             アイテム
           </h2>
           <div className="space-y-3">
-            {character.characterData.items.map((item, index) => (
+            {(character.items || []).map((item, index) => (
               <Item key={index} item={item} />
             ))}
           </div>
@@ -512,14 +608,14 @@ const CharacterDetail: React.FC<{
       )}
 
       {/* セッション履歴 */}
-      {character.characterData.sessions.length > 0 && (
+      {(character.sessions || []).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiBookshelf className="text-indigo-600" />
             セッション履歴
           </h2>
           <div className="space-y-4">
-            {character.characterData.sessions.map((session) => (
+            {(character.sessions || []).map((session) => (
               <div
                 key={session.id}
                 className="border border-gray-200 rounded p-4"
