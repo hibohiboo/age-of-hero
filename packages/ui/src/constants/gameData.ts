@@ -43,9 +43,17 @@ import {
   GiRelicBlade,
   GiRifle,
   GiShop,
+  GiDeathSkull,
+  GiGooExplosion,
+  GiShieldBash,
+  GiStarStruck,
+  GiSwordsPower,
+  GiTicket,
+  GiUpgrade,
 } from 'react-icons/gi';
 import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
 import { ItemDetails } from '../components/ItemCard';
+import { SkillDetails } from '../components/SkillCard';
 import type { IconType } from 'react-icons';
 
 export interface ClassData {
@@ -834,5 +842,128 @@ export const technologyItems = [
       effect:
         'ムーブアクションに使用し、二段回移動を行う。この移動では移動妨害されない。',
     } as ItemDetails,
+  },
+];
+
+export const ultimateSkills = [
+  {
+    name: '《ダメージブースト》',
+    icon: GiSwordsPower,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        '対象のダメージロールの直前に使用する。この必殺技を使用したダメージロールに＋[現在のラウンド数×１０]する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-red-50 border-red-200',
+  },
+  {
+    name: '《リザレクション》',
+    icon: GiHeartPlus,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        'いずれかのキャラクターが戦闘不能になった際に使用する。戦闘不能状態を解除する。その後、対象が自分であればＨＰを最大値まで回復し、対象が自分以外のキャラクターであれば、ＨＰを最大値の半分まで回復する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-green-50 border-green-200',
+  },
+  {
+    name: '《ファンアピール》',
+    icon: GiTicket,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '自身',
+      range: 'なし',
+      cost: 'なし',
+      effect:
+        'いつでも使用できる。ファンチットを５枚獲得する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-yellow-50 border-yellow-200',
+  },
+  {
+    name: '《カルネージアタック》',
+    icon: GiGooExplosion,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '自身',
+      range: 'なし',
+      cost: 'なし',
+      effect:
+        'メジャーアクションの直前に使用する。この必殺技を使用した次の攻撃の射程を視界に、対象を場面（選択）に変更し、ダメージに＋５する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-orange-50 border-orange-200',
+  },
+  {
+    name: '《スキルアッパー》',
+    icon: GiUpgrade,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        '対象が何らかの判定の直前に使用する。対象が行う判定の判定値に＋[現在のラウンド数×３０]％する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-blue-50 border-blue-200',
+  },
+  {
+    name: '《ディスティニールーラー》',
+    icon: GiStarStruck,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        '対象が何らかの判定を行った直後に使用する。その判定の結果をクリティカルに変更する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-purple-50 border-purple-200',
+  },
+  {
+    name: '《フェイトダークサイド》',
+    icon: GiDeathSkull,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        '対象が何らかの判定を行った直後に使用する。その判定の結果をファンブルに変更する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-gray-50 border-gray-200',
+  },
+  {
+    name: '《フルディフェンス》',
+    icon: GiShieldBash,
+    details: {
+      maxLv: 1,
+      timing: 'オートアクション',
+      skill: 'なし',
+      target: '単体',
+      range: '視界',
+      cost: 'なし',
+      effect:
+        '対象の攻撃の判定の直前に使用する。攻撃の対象を自分のみに変更し、そのメインプロセス中、受けるダメージを－[現在のラウンド数×５]する。シナリオに１回まで使用可能。',
+    } as SkillDetails,
+    color: 'bg-teal-50 border-teal-200',
   },
 ];
