@@ -1,7 +1,10 @@
 import { CharacterCreationForm } from '@age-of-hero/ui';
 import type { CharacterFormData } from '@age-of-hero/ui';
+import { useNavigate } from 'react-router';
 
 export function Page() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (data: CharacterFormData) => {
     try {
       console.log('キャラクター作成データ:', data);
@@ -21,9 +24,10 @@ export function Page() {
 
       const result = await response.json();
 
-      // TODO: 成功時の処理（リダイレクトなど）
       console.log('キャラクター作成成功:', result);
-      alert(`キャラクターが作成されました！ID: ${result.id}`);
+
+      // キャラクター詳細ページに移動
+      navigate(`/character/${result.id}`);
     } catch (error) {
       console.error('キャラクター作成エラー:', error);
       alert('キャラクター作成に失敗しました。');
