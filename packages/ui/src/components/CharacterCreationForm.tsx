@@ -210,8 +210,19 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       <Card>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <GiStarsStack className="text-purple-600" />
-          技能ポイント分配（150%まで）
+          技能ポイント分配（{formData.skillPointsLimit}%まで）
         </h2>
+        <div className="mb-4">
+          <FormField label="技能ポイント上限" htmlFor="skillPointsLimit">
+            <InputField
+              type="number"
+              min="0"
+              max="1000"
+              value={formData.skillPointsLimit}
+              onChange={(value) => updateFormField('skillPointsLimit', parseInt(value, 10) || 150)}
+            />
+          </FormField>
+        </div>
         <div className="space-y-6">
           {ABILITY_CATEGORIES.map((categoryInfo) => (
             <div key={categoryInfo.category} className="space-y-2">
@@ -250,10 +261,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           ))}
         </div>
         <div
-          className={`mt-4 text-sm ${skillTotal > 150 ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
+          className={`mt-4 text-sm ${skillTotal > formData.skillPointsLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
         >
-          合計: {skillTotal}% / 150%
-          {skillTotal > 150 && (
+          合計: {skillTotal}% / {formData.skillPointsLimit}%
+          {skillTotal > formData.skillPointsLimit && (
             <span className="ml-2">⚠️ 上限を超えています</span>
           )}
         </div>

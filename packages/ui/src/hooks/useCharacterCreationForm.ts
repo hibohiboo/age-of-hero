@@ -51,6 +51,7 @@ export interface CharacterFormData {
     | 'sensory'
     | 'intellectual'
     | 'supernatural';
+  skillPointsLimit: number;
   skillAllocations: Record<string, number>;
   heroSkills: HeroSkill[];
   specialAttacks: SpecialAttack[];
@@ -69,6 +70,7 @@ export const useCharacterCreationForm = ({
     name: '',
     selectedClasses: [CLASSES[0].name, CLASSES[0].name],
     abilityBonus: 'physical',
+    skillPointsLimit: 150,
     skillAllocations: {},
     heroSkills: [],
     specialAttacks: [],
