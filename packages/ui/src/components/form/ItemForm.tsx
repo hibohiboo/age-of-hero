@@ -2,6 +2,9 @@ import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
+import { WeaponFields } from './WeaponFields';
+import { ArmorFields } from './ArmorFields';
+import { ConsumableFields } from './ConsumableFields';
 
 interface ItemFormField {
   name: string;
@@ -70,76 +73,24 @@ export const ItemForm: React.FC<ItemFormProps> = ({
 
         {/* 武器用フィールド */}
         {isWeapon && (
-          <>
-            <FormField label="技能">
-              <InputField
-                value={item.skill || ''}
-                onChange={(value) => onUpdate(index, 'skill', value)}
-                placeholder="〈パワー〉"
-              />
-            </FormField>
-
-            <FormField label="修正">
-              <InputField
-                value={item.modifier || ''}
-                onChange={(value) => onUpdate(index, 'modifier', value)}
-                placeholder="＋０％"
-              />
-            </FormField>
-
-            <FormField label="攻撃力">
-              <InputField
-                value={item.attackPower || ''}
-                onChange={(value) => onUpdate(index, 'attackPower', value)}
-                placeholder="＋４"
-              />
-            </FormField>
-
-            <FormField label="ガード値">
-              <InputField
-                value={item.guardValue || ''}
-                onChange={(value) => onUpdate(index, 'guardValue', value)}
-                placeholder="３"
-              />
-            </FormField>
-
-            <FormField label="射程">
-              <InputField
-                value={item.range || ''}
-                onChange={(value) => onUpdate(index, 'range', value)}
-                placeholder="至近"
-              />
-            </FormField>
-          </>
+          <WeaponFields
+            skill={item.skill}
+            modifier={item.modifier}
+            attackPower={item.attackPower}
+            guardValue={item.guardValue}
+            range={item.range}
+            onUpdate={(field, value) => onUpdate(index, field as keyof ItemFormField, value)}
+          />
         )}
 
         {/* 防具用フィールド */}
         {isArmor && (
-          <>
-            <FormField label="ドッジ">
-              <InputField
-                value={item.dodge || ''}
-                onChange={(value) => onUpdate(index, 'dodge', value)}
-                placeholder="＋０％"
-              />
-            </FormField>
-
-            <FormField label="行動値">
-              <InputField
-                value={item.actionValue || ''}
-                onChange={(value) => onUpdate(index, 'actionValue', value)}
-                placeholder="＋０"
-              />
-            </FormField>
-
-            <FormField label="防護点">
-              <InputField
-                value={item.protection || ''}
-                onChange={(value) => onUpdate(index, 'protection', value)}
-                placeholder="５"
-              />
-            </FormField>
-          </>
+          <ArmorFields
+            dodge={item.dodge}
+            actionValue={item.actionValue}
+            protection={item.protection}
+            onUpdate={(field, value) => onUpdate(index, field as keyof ItemFormField, value)}
+          />
         )}
 
         <FormField label="価格">
@@ -155,16 +106,10 @@ export const ItemForm: React.FC<ItemFormProps> = ({
 
         {/* 消耗品用数量フィールド */}
         {isConsumable && (
-          <FormField label="数量">
-            <InputField
-              type="number"
-              min="1"
-              value={item.quantity || 1}
-              onChange={(value) =>
-                onUpdate(index, 'quantity', parseInt(value, 10) || 1)
-              }
-            />
-          </FormField>
+          <ConsumableFields
+            quantity={item.quantity}
+            onUpdate={(field, value) => onUpdate(index, field as keyof ItemFormField, value)}
+          />
         )}
 
         <FormField label="効果" className="md:col-span-2">
