@@ -271,11 +271,22 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       </Card>
 
       <CardSection
-        title="ヒーロースキル（合計7レベル）"
+        title={`ヒーロースキル（合計${formData.heroSkillLevelLimit}レベル）`}
         icon={GiMagicLamp}
         iconColor="text-orange-600"
         onAdd={addHeroSkill}
       >
+        <div className="mb-4">
+          <FormField label="ヒーロースキルレベル上限" htmlFor="heroSkillLevelLimit">
+            <InputField
+              type="number"
+              min="0"
+              max="50"
+              value={formData.heroSkillLevelLimit}
+              onChange={(value) => updateFormField('heroSkillLevelLimit', parseInt(value, 10) || 7)}
+            />
+          </FormField>
+        </div>
         <div className="space-y-4">
           {formData.heroSkills.map((skill, index) => (
             <SkillForm
@@ -289,10 +300,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           ))}
         </div>
         <div
-          className={`mt-4 text-sm ${heroSkillLevelTotal > 7 ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
+          className={`mt-4 text-sm ${heroSkillLevelTotal > formData.heroSkillLevelLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
         >
-          合計レベル: {heroSkillLevelTotal} / 7
-          {heroSkillLevelTotal > 7 && (
+          合計レベル: {heroSkillLevelTotal} / {formData.heroSkillLevelLimit}
+          {heroSkillLevelTotal > formData.heroSkillLevelLimit && (
             <span className="ml-2">⚠️ 上限を超えています</span>
           )}
         </div>
