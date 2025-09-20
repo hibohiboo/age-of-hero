@@ -37,8 +37,8 @@ export const useCharacterEdit = (id: string | undefined) => {
 
         const data = await response.json();
         setCharacter(data);
-      } catch (error) {
-        console.error('キャラクター取得エラー:', error);
+      } catch (e: unknown) {
+        console.error('キャラクター取得エラー:', e);
         setError('キャラクターの取得に失敗しました');
       } finally {
         setLoading(false);
@@ -65,8 +65,8 @@ export const useCharacterEdit = (id: string | undefined) => {
       }
 
       navigate(`/character/${id}`);
-    } catch (error) {
-      console.error('キャラクター更新エラー:', error);
+    } catch (e) {
+      console.error('キャラクター更新エラー:', e);
       alert('キャラクター更新に失敗しました。');
     }
   };
