@@ -105,21 +105,8 @@ interface SessionData {
 
 // 技能名からアイコンを取得するヘルパー関数
 const getSkillIcon = (skillName: string) => {
-  const skillIcons: { [key: string]: IconType } = {
-    パワー: GiFist,
-    タフネス: GiShield,
-    スタミナ: GiHeartPlus,
-    技術: GiKnifeThrust,
-    運動: GiWalk,
-    操縦: GiSteeringWheel,
-    射撃: GiCrosshair,
-    知覚: GiAlliedStar,
-    製作: GiTinker,
-    芸術: GiMusicalNotes,
-    情報: GiMagnifyingGlass,
-    交渉: GiSpeaker,
-  };
-  return skillIcons[skillName] || GiFist;
+  const skillDef = SKILLS.find((skill) => skill.name === skillName);
+  return skillDef?.icon || GiFist;
 };
 
 // クラス名からアイコンを取得するヘルパー関数
