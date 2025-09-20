@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
+import { FaShieldAlt, FaUser } from 'react-icons/fa';
 import {
   GiBackpack,
   GiStarsStack,
@@ -20,8 +20,8 @@ import { Card } from './Card';
 import { Button } from './form/Button';
 import { CardSection } from './form/CardSection';
 import { FormField, InputField, SelectField } from './form/FormField';
-import { SkillForm } from './form/SkillForm';
 import { ItemForm } from './form/ItemForm';
+import { SkillForm } from './form/SkillForm';
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
@@ -49,6 +49,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
+    calculatedAbilities,
   } = vm;
 
   return (
@@ -143,6 +144,65 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               required
             />
           </FormField>
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <FaUser className="text-green-600" />
+          計算された能力値
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">肉体</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {calculatedAbilities.physical}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">反射</div>
+            <div className="text-2xl font-bold text-green-600">
+              {calculatedAbilities.reflex}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">感覚</div>
+            <div className="text-2xl font-bold text-yellow-600">
+              {calculatedAbilities.sensory}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">知性</div>
+            <div className="text-2xl font-bold text-purple-600">
+              {calculatedAbilities.intellectual}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">超自然</div>
+            <div className="text-2xl font-bold text-red-600">
+              {calculatedAbilities.supernatural}
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">HP</div>
+            <div className="text-xl font-bold text-red-500">
+              {calculatedAbilities.hp}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">SP</div>
+            <div className="text-xl font-bold text-blue-500">
+              {calculatedAbilities.sp}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-sm font-medium text-gray-600">行動値</div>
+            <div className="text-xl font-bold text-green-500">
+              {calculatedAbilities.actionValue}
+            </div>
+          </div>
         </div>
       </Card>
 

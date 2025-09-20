@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { CLASSES } from '../constants/gameData';
+import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
 
 interface HeroSkill {
   name: string;
@@ -221,6 +222,14 @@ export const useCharacterCreationForm = ({
     0,
   );
 
+  // 能力値計算
+  const calculatedAbilities = useMemo(() => {
+    return calculateAbilities(
+      formData.selectedClasses as [string, string],
+      formData.abilityBonus,
+    );
+  }, [formData.selectedClasses, formData.abilityBonus]);
+
   return {
     formData,
     handleSubmit,
@@ -237,5 +246,6 @@ export const useCharacterCreationForm = ({
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
+    calculatedAbilities,
   };
 };
