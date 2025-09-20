@@ -1,5 +1,59 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { FaUser, FaArrowLeft, FaEdit } from 'react-icons/fa';
+import {
+  GiBiceps,
+  GiBookshelf,
+  GiAlliedStar,
+  GiMagicSwirl,
+  GiStarsStack,
+  GiSwordsPower,
+  GiBackpack,
+  GiHeartBeats,
+  GiFist,
+  GiShield,
+  GiHeartPlus,
+  GiKnifeThrust,
+  GiWalk,
+  GiSteeringWheel,
+  GiCrosshair,
+  GiTinker,
+  GiMusicalNotes,
+  GiMagnifyingGlass,
+  GiSpeaker
+} from 'react-icons/gi';
+import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
+
+// 技能名からアイコンを取得するヘルパー関数
+const getSkillIcon = (skillName: string) => {
+  const skillIcons: { [key: string]: any } = {
+    'パワー': GiFist,
+    'タフネス': GiShield,
+    'スタミナ': GiHeartPlus,
+    '技術': GiKnifeThrust,
+    '運動': GiWalk,
+    '操縦': GiSteeringWheel,
+    '射撃': GiCrosshair,
+    '知覚': GiAlliedStar,
+    '製作': GiTinker,
+    '芸術': GiMusicalNotes,
+    '情報': GiMagnifyingGlass,
+    '交渉': GiSpeaker,
+  };
+  return skillIcons[skillName] || GiFist;
+};
+
+// 能力値からアイコンを取得するヘルパー関数
+const getAbilityIcon = (abilityKey: string) => {
+  const abilityIcons: { [key: string]: any } = {
+    'physical': GiBiceps,
+    'reflex': MdOutlineBolt,
+    'sensory': GiAlliedStar,
+    'intellectual': GiBookshelf,
+    'supernatural': GiMagicSwirl,
+  };
+  return abilityIcons[abilityKey] || GiBiceps;
+};
 
 // 基本的なCharacter型（一覧ページと共通部分）
 export interface Character {
@@ -192,7 +246,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <FaUser className="text-blue-600" />
               {character.name}
             </h1>
             <div className="flex items-center mt-2 text-sm text-gray-500">
@@ -214,11 +269,13 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           <div className="flex space-x-2">
             <Link
               to="/character-list"
-              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
             >
+              <FaArrowLeft />
               一覧に戻る
             </Link>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
+              <FaEdit />
               編集
             </button>
           </div>
@@ -227,7 +284,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
         {/* 基本情報 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2">
+            <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+              <GiStarsStack className="text-blue-600" size={16} />
               選択クラス
             </h3>
             <div className="flex space-x-2">
@@ -240,7 +298,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2">
+            <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+              <GiHeartBeats className="text-red-600" size={16} />
               ステータス
             </h3>
             <div className="text-sm space-x-4">
@@ -254,34 +313,52 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
 
       {/* 能力値 */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">能力値</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <GiHeartBeats className="text-red-600" />
+          能力値
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <div className="text-center p-3 bg-red-50 rounded">
-            <div className="text-sm text-gray-600">肉体</div>
+            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+              <GiBiceps className="text-red-600" />
+              肉体
+            </div>
             <div className="text-2xl font-bold text-red-600">
               {character.characterData.abilities.physical}
             </div>
           </div>
-          <div className="text-center p-3 bg-green-50 rounded">
-            <div className="text-sm text-gray-600">反射</div>
-            <div className="text-2xl font-bold text-green-600">
+          <div className="text-center p-3 bg-blue-50 rounded">
+            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+              <MdOutlineBolt className="text-blue-600" />
+              反射
+            </div>
+            <div className="text-2xl font-bold text-blue-600">
               {character.characterData.abilities.reflex}
             </div>
           </div>
-          <div className="text-center p-3 bg-blue-50 rounded">
-            <div className="text-sm text-gray-600">感覚</div>
-            <div className="text-2xl font-bold text-blue-600">
+          <div className="text-center p-3 bg-green-50 rounded">
+            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+              <GiAlliedStar className="text-green-600" />
+              感覚
+            </div>
+            <div className="text-2xl font-bold text-green-600">
               {character.characterData.abilities.sensory}
             </div>
           </div>
           <div className="text-center p-3 bg-purple-50 rounded">
-            <div className="text-sm text-gray-600">知力</div>
+            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+              <GiBookshelf className="text-purple-600" />
+              知力
+            </div>
             <div className="text-2xl font-bold text-purple-600">
               {character.characterData.abilities.intellectual}
             </div>
           </div>
           <div className="text-center p-3 bg-yellow-50 rounded">
-            <div className="text-sm text-gray-600">超常</div>
+            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+              <GiMagicSwirl className="text-yellow-600" />
+              超常
+            </div>
             <div className="text-2xl font-bold text-yellow-600">
               {character.characterData.abilities.supernatural}
             </div>
@@ -292,25 +369,34 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* 技能 */}
       {Object.keys(character.characterData.skills).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">技能</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <GiFist className="text-blue-600" />
+            技能
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Object.entries(character.characterData.skills).map(
-              ([skillName, skill]) => (
-                <div
-                  key={skillName}
-                  className="flex justify-between items-center p-3 bg-gray-50 rounded"
-                >
-                  <span className="font-medium">{skillName}</span>
-                  <div className="text-right text-sm">
-                    <div className="text-lg font-bold text-blue-600">
-                      {skill.totalValue}%
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      基本{skill.baseValue} + 割振{skill.allocatedPoints}
+              ([skillName, skill]) => {
+                const SkillIcon = getSkillIcon(skillName);
+                return (
+                  <div
+                    key={skillName}
+                    className="flex justify-between items-center p-3 bg-gray-50 rounded"
+                  >
+                    <span className="font-medium flex items-center gap-2">
+                      <SkillIcon className="text-blue-600" size={16} />
+                      {skillName}
+                    </span>
+                    <div className="text-right text-sm">
+                      <div className="text-lg font-bold text-blue-600">
+                        {skill.totalValue}%
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        基本{skill.baseValue} + 割振{skill.allocatedPoints}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ),
+                );
+              },
             )}
           </div>
         </div>
@@ -319,7 +405,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* ヒーロースキル */}
       {Object.keys(character.characterData.heroSkills).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <GiStarsStack className="text-purple-600" />
             ヒーロースキル
           </h2>
           <div className="space-y-3">
@@ -361,7 +448,10 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* 必殺技 */}
       {Object.keys(character.characterData.specialAttacks).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">必殺技</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <GiSwordsPower className="text-red-600" />
+            必殺技
+          </h2>
           <div className="space-y-3">
             {Object.entries(character.characterData.specialAttacks).map(
               ([key, attack]) => (
@@ -401,7 +491,10 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* アイテム */}
       {Object.keys(character.characterData.items).length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">アイテム</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <GiBackpack className="text-green-600" />
+            アイテム
+          </h2>
           <div className="space-y-3">
             {Object.entries(character.characterData.items).map(
               ([key, item]) => (
@@ -469,7 +562,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* セッション履歴 */}
       {character.characterData.sessions.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <GiBookshelf className="text-indigo-600" />
             セッション履歴
           </h2>
           <div className="space-y-4">
