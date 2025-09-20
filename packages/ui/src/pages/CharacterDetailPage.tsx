@@ -10,6 +10,7 @@ import {
   GiSwordsPower,
   GiBackpack,
   GiHeartBeats,
+  GiMagicShield,
   GiFist,
   GiShield,
   GiHeartPlus,
@@ -332,10 +333,34 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
               <GiHeartBeats className="text-red-600" size={16} />
               ステータス
             </h3>
-            <div className="text-sm space-x-4">
-              <span>HP: {character.characterData.status.hp}</span>
-              <span>SP: {character.characterData.status.sp}</span>
-              <span>行動値: {character.characterData.status.actionValue}</span>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="text-center">
+                <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
+                  <GiHeartBeats size={16} />
+                  HP
+                </div>
+                <div className="text-xl font-bold text-red-500">
+                  {character.characterData.status.hp}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
+                  <GiMagicShield size={16} />
+                  SP
+                </div>
+                <div className="text-xl font-bold text-blue-500">
+                  {character.characterData.status.sp}
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
+                  <GiStarsStack size={16} />
+                  行動値
+                </div>
+                <div className="text-xl font-bold text-green-500">
+                  {character.characterData.status.actionValue}
+                </div>
+              </div>
             </div>
           </div>
         </div>
