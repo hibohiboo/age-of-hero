@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createCharacterSchema,
   updateCharacterSchema,
@@ -78,7 +79,7 @@ app.get('/api/characters', async (c) => {
 
 app.post(
   '/api/characters',
-  zValidator('json', createCharacterSchema),
+  zValidator('json', createCharacterSchema as any),
   async (c) => {
     // バリデーション済みのデータを取得
     const characterData = c.req.valid('json');
@@ -175,8 +176,7 @@ app.put(
       id: z.string().uuid('Invalid ID format'),
     }),
   ),
-  // ts-ignore-next-line
-  zValidator('json', updateCharacterSchema),
+  zValidator('json', updateCharacterSchema as any),
   async (c) => {
     const { id } = c.req.valid('param');
     const requestBody = c.req.valid('json');
