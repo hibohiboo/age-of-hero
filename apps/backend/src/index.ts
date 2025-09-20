@@ -4,7 +4,7 @@ import {
 } from '@age-of-hero/schemas';
 import { zValidator } from '@hono/zod-validator';
 import bcrypt from 'bcryptjs';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
@@ -56,6 +56,26 @@ app.get('/health', (c) =>
 app.get('/api/game-data', (c) => c.json(GAME_DATA));
 
 // Characters API
+// Get all characters
+app.get('/api/characters', async (c) => {
+  try {
+    const characterList = await getDb()
+      .select({
+        id: characters.id,
+        name: characters.name,
+        createdAt: characters.createdAt,
+        updatedAt: characters.updatedAt,
+      })
+      .from(characters)
+      .orderBy(desc(characters.updatedAt));
+
+    return c.json(characterList);
+  } catch (error) {
+    console.error('Database error:', error);
+    return c.json({ error: 'Database error' }, 500);
+  }
+});
+
 app.post(
   '/api/characters',
   zValidator('json', createCharacterSchema),

@@ -27,6 +27,19 @@ paths:
                 $ref: '#/components/schemas/GameDataResponse'
 
   /api/characters:
+    get:
+      summary: キャラクター一覧取得
+      description: 作成されたキャラクターの一覧を取得（更新日時の降順）
+      tags:
+        - Character
+      responses:
+        '200':
+          description: キャラクター一覧取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterListResponse'
+
     post:
       summary: キャラクター作成
       description: 新しいキャラクターを作成し、一意のIDを発行
@@ -417,6 +430,24 @@ components:
         url:
           type: string
           example: '/character/123e4567-e89b-12d3-a456-426614174000'
+
+    CharacterListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+            example: '山田太郎'
+          createdAt:
+            type: string
+            format: date-time
+          updatedAt:
+            type: string
+            format: date-time
 
     CharacterResponse:
       type: object

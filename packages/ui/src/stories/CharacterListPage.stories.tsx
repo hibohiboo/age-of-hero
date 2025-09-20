@@ -22,28 +22,24 @@ const sampleCharacters = [
     name: 'エルフの戦士',
     createdAt: '2024-01-15T10:30:00.000Z',
     updatedAt: '2024-01-20T14:45:00.000Z',
-    isPasswordProtected: false,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
     name: 'ドワーフの魔法使い',
     createdAt: '2024-01-10T09:15:00.000Z',
     updatedAt: '2024-01-18T16:20:00.000Z',
-    isPasswordProtected: true,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
     name: 'ヒューマンの盗賊',
     createdAt: '2024-01-05T11:45:00.000Z',
     updatedAt: '2024-01-19T13:30:00.000Z',
-    isPasswordProtected: false,
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
     name: 'エルフの僧侶',
     createdAt: '2024-01-12T15:20:00.000Z',
     updatedAt: '2024-01-21T10:10:00.000Z',
-    isPasswordProtected: true,
   },
 ];
 
