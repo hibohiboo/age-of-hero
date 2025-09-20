@@ -411,24 +411,6 @@ const CharacterClassSection: React.FC<{ character: CharacterDetail }> = ({
     </div>
   </div>
 );
-
-// ヘッダーコンポーネント（簡素化）
-const CharacterHeader: React.FC<{
-  character: CharacterDetail;
-  calculatedAbilities: CalculatedAbilities;
-}> = ({ character, calculatedAbilities }) => (
-  <div className="bg-white border border-gray-200 rounded-lg p-6">
-    <div className="flex justify-between items-start mb-4">
-      <CharacterTitleSection character={character} />
-      <CharacterActionButtons />
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <CharacterClassSection character={character} />
-      <CharacterStatusDisplay calculatedAbilities={calculatedAbilities} />
-    </div>
-  </div>
-);
-
 // ステータス表示コンポーネント
 const CharacterStatusDisplay: React.FC<{
   calculatedAbilities: CalculatedAbilities;
@@ -466,6 +448,23 @@ const CharacterStatusDisplay: React.FC<{
           {calculatedAbilities.actionValue}
         </div>
       </div>
+    </div>
+  </div>
+);
+
+// ヘッダーコンポーネント（簡素化）
+const CharacterHeader: React.FC<{
+  character: CharacterDetail;
+  calculatedAbilities: CalculatedAbilities;
+}> = ({ character, calculatedAbilities }) => (
+  <div className="bg-white border border-gray-200 rounded-lg p-6">
+    <div className="flex justify-between items-start mb-4">
+      <CharacterTitleSection character={character} />
+      <CharacterActionButtons />
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CharacterClassSection character={character} />
+      <CharacterStatusDisplay calculatedAbilities={calculatedAbilities} />
     </div>
   </div>
 );
@@ -528,30 +527,6 @@ const AbilitiesSection: React.FC<{
     </div>
   </div>
 );
-
-const CharacterDetail: React.FC<{
-  character: CharacterDetailPageProps['character'];
-}> = ({ character }) => {
-  const characterData = useCharacterData(character);
-  if (!characterData || !character) return <> </>;
-
-  const { calculatedAbilities, skills } = characterData;
-
-  return (
-    <div className="space-y-6">
-      <CharacterHeader
-        character={character}
-        calculatedAbilities={calculatedAbilities}
-      />
-      <AbilitiesSection calculatedAbilities={calculatedAbilities} />
-      <SkillsSection skills={skills} />
-      <HeroSkillsSection heroSkills={character.heroSkills || []} />
-      <SpecialAttacksSection specialAttacks={character.specialAttacks || []} />
-      <ItemsSection items={character.items || []} />
-      <SessionsSection sessions={character.sessions || []} />
-    </div>
-  );
-};
 
 // 技能セクションコンポーネント
 const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => {
@@ -709,6 +684,31 @@ const SessionsSection: React.FC<{ sessions: SessionData[] }> = ({
     </div>
   );
 };
+
+const CharacterDetail: React.FC<{
+  character: CharacterDetailPageProps['character'];
+}> = ({ character }) => {
+  const characterData = useCharacterData(character);
+  if (!characterData || !character) return <> </>;
+
+  const { calculatedAbilities, skills } = characterData;
+
+  return (
+    <div className="space-y-6">
+      <CharacterHeader
+        character={character}
+        calculatedAbilities={calculatedAbilities}
+      />
+      <AbilitiesSection calculatedAbilities={calculatedAbilities} />
+      <SkillsSection skills={skills} />
+      <HeroSkillsSection heroSkills={character.heroSkills || []} />
+      <SpecialAttacksSection specialAttacks={character.specialAttacks || []} />
+      <ItemsSection items={character.items || []} />
+      <SessionsSection sessions={character.sessions || []} />
+    </div>
+  );
+};
+
 export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
   character,
   loading = false,
