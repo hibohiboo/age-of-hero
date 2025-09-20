@@ -314,19 +314,23 @@ const calculateSkillBaseValue = (
 const buildSkillsData = (
   skillAllocations: Record<string, number>,
   calculatedAbilities: CalculatedAbilities,
-): SkillsData =>
-  Object.entries(skillAllocations).reduce(
-    (acc: SkillsData, [skillName, allocatedPoints]) => {
-      const baseValue = calculateSkillBaseValue(skillName, calculatedAbilities);
-      acc[skillName] = {
-        baseValue,
-        allocatedPoints: allocatedPoints as number,
-        totalValue: baseValue + (allocatedPoints as number),
-      };
-      return acc;
-    },
-    {},
-  );
+): SkillsData => {
+  const skillsData: SkillsData = {};
+
+  // 全ての技能について処理
+  SKILLS.forEach((skill) => {
+    const baseValue = calculateSkillBaseValue(skill.name, calculatedAbilities);
+    const allocatedPoints = skillAllocations[skill.name] || 0;
+
+    skillsData[skill.name] = {
+      baseValue,
+      allocatedPoints,
+      totalValue: baseValue + allocatedPoints,
+    };
+  });
+
+  return skillsData;
+};
 
 // キャラクターデータ処理フック
 const useCharacterData = (
@@ -531,42 +535,38 @@ const AbilitiesSection: React.FC<{
 );
 
 // 技能セクションコンポーネント
-const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => {
-  if (Object.keys(skills).length === 0) return null;
-
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-        <GiFist className="text-blue-600" />
-        技能
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Object.entries(skills).map(([skillName, skill]) => {
-          const SkillIcon = getSkillIcon(skillName);
-          return (
-            <div
-              key={skillName}
-              className="flex justify-between items-center p-3 bg-gray-50 rounded"
-            >
-              <span className="font-medium flex items-center gap-2">
-                <SkillIcon className="text-blue-600" size={16} />
-                {skillName}
-              </span>
-              <div className="text-right text-sm">
-                <div className="text-lg font-bold text-blue-600">
-                  {skill.totalValue}%
-                </div>
-                <div className="text-xs text-gray-500">
-                  基本{skill.baseValue} + 割振{skill.allocatedPoints}
-                </div>
+const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => (
+  <div className="bg-white border border-gray-200 rounded-lg p-6">
+    <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+      <GiFist className="text-blue-600" />
+      技能
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {Object.entries(skills).map(([skillName, skill]) => {
+        const SkillIcon = getSkillIcon(skillName);
+        return (
+          <div
+            key={skillName}
+            className="flex justify-between items-center p-3 bg-gray-50 rounded"
+          >
+            <span className="font-medium flex items-center gap-2">
+              <SkillIcon className="text-blue-600" size={16} />
+              {skillName}
+            </span>
+            <div className="text-right text-sm">
+              <div className="text-lg font-bold text-blue-600">
+                {skill.totalValue}%
+              </div>
+              <div className="text-xs text-gray-500">
+                基本{skill.baseValue} + 割振{skill.allocatedPoints}
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
-  );
-};
+  </div>
+);
 
 // ヒーロースキルセクションコンポーネント
 const HeroSkillsSection: React.FC<{ heroSkills: SkillOrAttack[] }> = ({
