@@ -31,6 +31,12 @@ export const Layout: React.FC<LayoutProps> = ({
               >
                 ルール
               </Link>
+              <Link
+                to="/character-list"
+                className="block py-1 hover:text-blue-200 transition-colors"
+              >
+                キャラクター一覧
+              </Link>
             </li>
             {/* <li><Link to="/world" className="block py-1 hover:text-blue-200 transition-colors">ワールド</Link></li>
               <li><Link to="/character" className="block py-1 hover:text-blue-200 transition-colors text-sm sm:text-base">キャラクター作成</Link></li> */}
