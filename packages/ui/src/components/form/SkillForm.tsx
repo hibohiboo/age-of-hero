@@ -6,6 +6,7 @@ import {
   artsSkills,
   bioSkills,
   esperantoSkills,
+  technologySkills,
 } from '../../constants/gameData';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
@@ -39,6 +40,7 @@ const CLASS_SKILL_MAP = {
   アーツ: { skills: artsSkills, label: 'アーツスキル選択' },
   バイオ: { skills: bioSkills, label: 'バイオスキル選択' },
   エスペラント: { skills: esperantoSkills, label: 'エスペラントスキル選択' },
+  テクノロジー: { skills: technologySkills, label: 'テクノロジースキル選択' },
 } as const;
 
 export const SkillForm: React.FC<SkillFormProps> = ({
