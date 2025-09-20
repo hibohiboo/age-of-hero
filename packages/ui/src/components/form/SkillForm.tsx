@@ -20,7 +20,7 @@ interface SkillFormField {
   skill: string;
   target: string;
   range: string;
-  cost: number;
+  cost: string;
   effect: string;
 }
 
@@ -61,7 +61,7 @@ export const SkillForm: React.FC<SkillFormProps> = ({
     onUpdate(index, 'skill', preset.details.skill);
     onUpdate(index, 'target', preset.details.target);
     onUpdate(index, 'range', preset.details.range);
-    onUpdate(index, 'cost', `${preset.details.cost}`);
+    onUpdate(index, 'cost', preset.details.cost);
     onUpdate(index, 'effect', preset.details.effect);
   };
 
@@ -139,8 +139,6 @@ export const SkillForm: React.FC<SkillFormProps> = ({
 
         <FormField label="コスト">
           <InputField
-            type="number"
-            min="0"
             value={skill.cost}
             onChange={(value) => onUpdate(index, 'cost', value)}
           />
