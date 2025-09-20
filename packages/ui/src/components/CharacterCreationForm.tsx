@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPlus, FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
+import { FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
 import {
   GiBackpack,
   GiStarsStack,
@@ -17,6 +17,10 @@ import {
   CharacterFormData,
 } from '../hooks/useCharacterCreationForm';
 import { Card } from './Card';
+import { Button } from './form/Button';
+import { CardSection } from './form/CardSection';
+import { FormField, InputField, SelectField } from './form/FormField';
+import { SkillForm } from './form/SkillForm';
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
@@ -54,27 +58,18 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           基本情報
         </h2>
         <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              キャラクター名 *
-            </label>
-            <input
-              type="text"
-              id="name"
+          <FormField label="キャラクター名" htmlFor="name" required>
+            <InputField
               value={formData.name}
-              onChange={(e) => updateFormField('name', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              required
+              onChange={(value) => updateFormField('name', value)}
               maxLength={50}
+              required
             />
-          </div>
+          </FormField>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-              クラス選択 *（2つ選択、同じクラス可）
+            <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              クラス選択
             </label>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -132,32 +127,21 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="abilityBonus"
-              className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
-            >
-              能力値ボーナス (+1) *
-            </label>
-            <select
-              id="abilityBonus"
+          <FormField
+            label="能力値ボーナス (+1)"
+            htmlFor="abilityBonus"
+            required
+          >
+            <SelectField
               value={formData.abilityBonus}
-              onChange={(e) =>
-                updateFormField(
-                  'abilityBonus',
-                  e.target.value as typeof formData.abilityBonus,
-                )
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              onChange={(value) => updateFormField('abilityBonus', value)}
+              options={ABILITIES.map((ability) => ({
+                label: ability.label,
+                value: ability.key,
+              }))}
               required
-            >
-              {ABILITIES.map((ability) => (
-                <option key={ability.key} value={ability.key}>
-                  {ability.label}
-                </option>
-              ))}
-            </select>
-          </div>
+            />
+          </FormField>
         </div>
       </Card>
 
@@ -213,141 +197,22 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         </div>
       </Card>
 
-      <Card>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <GiMagicLamp className="text-orange-600" />
-            ヒーロースキル（合計7レベル）
-          </h2>
-          <button
-            type="button"
-            onClick={addHeroSkill}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center gap-2"
-          >
-            <FaPlus size={14} />
-            追加
-          </button>
-        </div>
+      <CardSection
+        title="ヒーロースキル（合計7レベル）"
+        icon={GiMagicLamp}
+        iconColor="text-orange-600"
+        onAdd={addHeroSkill}
+      >
         <div className="space-y-4">
           {formData.heroSkills.map((skill, index) => (
-            <div key={index} className="p-4 border border-gray-200 rounded-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    スキル名
-                  </label>
-                  <input
-                    type="text"
-                    value={skill.name}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'name', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    レベル
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={skill.level}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'level', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    タイミング
-                  </label>
-                  <input
-                    type="text"
-                    value={skill.timing}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'timing', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    対応技能
-                  </label>
-                  <input
-                    type="text"
-                    value={skill.skill}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'skill', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    対象
-                  </label>
-                  <input
-                    type="text"
-                    value={skill.target}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'target', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    射程
-                  </label>
-                  <input
-                    type="text"
-                    value={skill.range}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'range', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    コスト
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={skill.cost}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'cost', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    効果
-                  </label>
-                  <textarea
-                    value={skill.effect}
-                    onChange={(e) =>
-                      updateHeroSkill(index, 'effect', e.target.value)
-                    }
-                    rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => removeHeroSkill(index)}
-                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
-              >
-                <FaTrash size={12} />
-                削除
-              </button>
-            </div>
+            <SkillForm
+              key={index}
+              skill={skill}
+              index={index}
+              onUpdate={updateHeroSkill}
+              onRemove={removeHeroSkill}
+              nameLabel="スキル名"
+            />
           ))}
         </div>
         <div
@@ -358,184 +223,57 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             <span className="ml-2">⚠️ 上限を超えています</span>
           )}
         </div>
-      </Card>
+      </CardSection>
 
-      <Card>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <GiSwordsPower className="text-red-600" />
-            必殺技（1レベル）
-          </h2>
-          <button
-            type="button"
-            onClick={addSpecialAttack}
-            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 flex items-center gap-2"
-          >
-            <FaPlus size={14} />
-            追加
-          </button>
-        </div>
+      <CardSection
+        title="必殺技（1レベル）"
+        icon={GiSwordsPower}
+        iconColor="text-red-600"
+        onAdd={addSpecialAttack}
+        addButtonVariant="purple"
+      >
         <div className="space-y-4">
           {formData.specialAttacks.map((attack, index) => (
-            <div key={index} className="p-4 border border-gray-200 rounded-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    必殺技名
-                  </label>
-                  <input
-                    type="text"
-                    value={attack.name}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'name', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    レベル
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={attack.level}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'level', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    タイミング
-                  </label>
-                  <input
-                    type="text"
-                    value={attack.timing}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'timing', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    対応技能
-                  </label>
-                  <input
-                    type="text"
-                    value={attack.skill}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'skill', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    対象
-                  </label>
-                  <input
-                    type="text"
-                    value={attack.target}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'target', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    射程
-                  </label>
-                  <input
-                    type="text"
-                    value={attack.range}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'range', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    コスト
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={attack.cost}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'cost', e.target.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    効果
-                  </label>
-                  <textarea
-                    value={attack.effect}
-                    onChange={(e) =>
-                      updateSpecialAttack(index, 'effect', e.target.value)
-                    }
-                    rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => removeSpecialAttack(index)}
-                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
-              >
-                <FaTrash size={12} />
-                削除
-              </button>
-            </div>
+            <SkillForm
+              key={index}
+              skill={attack}
+              index={index}
+              onUpdate={updateSpecialAttack}
+              onRemove={removeSpecialAttack}
+              nameLabel="必殺技名"
+            />
           ))}
         </div>
-      </Card>
+      </CardSection>
 
-      <Card>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <GiBackpack className="text-green-600" />
-            アイテム（価格20点分）
-          </h2>
-          <button
-            type="button"
-            onClick={addItem}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center gap-2"
-          >
-            <FaPlus size={14} />
-            追加
-          </button>
-        </div>
+      <CardSection
+        title="アイテム（価格20点分）"
+        icon={GiBackpack}
+        iconColor="text-green-600"
+        onAdd={addItem}
+        addButtonVariant="success"
+      >
         <div className="space-y-2">
           {formData.items.map((item, index) => (
             <div key={index} className="flex items-center space-x-2">
-              <input
-                type="text"
+              <InputField
                 value={item}
-                onChange={(e) => updateItem(index, e.target.value)}
+                onChange={(value) => updateItem(index, value)}
                 placeholder="アイテム名"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="flex-1"
               />
-              <button
-                type="button"
+              <Button
                 onClick={() => removeItem(index)}
-                className="px-3 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
+                variant="danger"
+                size="sm"
               >
                 <FaTrash size={12} />
                 削除
-              </button>
+              </Button>
             </div>
           ))}
         </div>
-      </Card>
+      </CardSection>
 
       <Card>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -543,20 +281,14 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           セキュリティ設定
         </h2>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            パスワード（任意）
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={formData.password}
-            onChange={(e) => updateFormField('password', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="パスワードを設定する場合は入力してください"
-          />
+          <FormField label="パスワード（任意）" htmlFor="password">
+            <InputField
+              type="password"
+              value={formData.password}
+              onChange={(value) => updateFormField('password', value)}
+              placeholder="パスワードを設定する場合は入力してください"
+            />
+          </FormField>
           <p className="mt-1 text-sm text-gray-500">
             パスワードを設定すると、キャラクターシートの閲覧・編集にパスワードが必要になります
           </p>
@@ -564,13 +296,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       </Card>
 
       <div className="flex justify-end">
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <Button type="submit" disabled={isLoading} size="lg">
           {isLoading ? 'キャラクター作成中...' : 'キャラクターを作成'}
-        </button>
+        </Button>
       </div>
     </form>
   );
