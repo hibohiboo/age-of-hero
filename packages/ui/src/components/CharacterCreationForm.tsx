@@ -14,8 +14,6 @@ import {
   ABILITY_CATEGORIES,
   CLASSES,
   ultimateSkills,
-  muscleSkills,
-  artifactSkills,
 } from '../constants/gameData';
 import {
   useCharacterCreationForm,
@@ -292,7 +290,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               onRemove={removeHeroSkill}
               nameLabel="スキル名"
               showMusclePresets={formData.selectedClasses.includes('マッスル')}
-              showArtifactPresets={formData.selectedClasses.includes('アーティファクト')}
+              showArtifactPresets={formData.selectedClasses.includes(
+                'アーティファクト',
+              )}
             />
           ))}
         </div>

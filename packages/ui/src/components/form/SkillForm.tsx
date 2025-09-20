@@ -34,64 +34,60 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   showMusclePresets = false,
   showArtifactPresets = false,
 }) => {
-  const handlePresetSelect =
-    (skills: typeof muscleSkills | typeof artifactSkills) =>
-    (value: string) => {
-      const preset = skills.find((s) => s.name === value);
-      if (!preset) return;
+  const updateAllFields = (preset: (typeof muscleSkills)[0]) => {
+    onUpdate(index, 'name', preset.name);
+    onUpdate(index, 'timing', preset.details.timing);
+    onUpdate(index, 'skill', preset.details.skill);
+    onUpdate(index, 'target', preset.details.target);
+    onUpdate(index, 'range', preset.details.range);
+    onUpdate(index, 'cost', `${preset.details.cost}`);
+    onUpdate(index, 'effect', preset.details.effect);
+  };
 
-      const fields = [
-        ['name', preset.name],
-        ['timing', preset.details.timing],
-        ['skill', preset.details.skill],
-        ['target', preset.details.target],
-        ['range', preset.details.range],
-        ['cost', preset.details.cost],
-        ['effect', preset.details.effect],
-      ] as const;
+  const handleMusclePresetSelect = (value: string) => {
+    const preset = muscleSkills.find((s) => s.name === value);
+    preset && updateAllFields(preset);
+  };
 
-      fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
-    };
-
-  const handleMusclePresetSelect = handlePresetSelect(muscleSkills);
-  const handleArtifactPresetSelect = handlePresetSelect(artifactSkills);
+  const handleArtifactPresetSelect = (value: string) => {
+    const preset = artifactSkills.find((s) => s.name === value);
+    preset && updateAllFields(preset);
+  };
 
   return (
     <div className="p-4 border border-gray-200 rounded-md">
-      {(showMusclePresets || showArtifactPresets) && (
-        <div className="mb-4 space-y-4">
-          {showMusclePresets && (
-            <FormField label="マッスルスキル選択">
-              <SelectField
-                value=""
-                options={[
-                  { label: '', value: '' },
-                  ...muscleSkills.map((skill) => ({
-                    label: skill.name,
-                    value: skill.name,
-                  })),
-                ]}
-                onChange={handleMusclePresetSelect}
-              />
-            </FormField>
-          )}
-          {showArtifactPresets && (
-            <FormField label="アーティファクトスキル選択">
-              <SelectField
-                value=""
-                options={[
-                  { label: '', value: '' },
-                  ...artifactSkills.map((skill) => ({
-                    label: skill.name,
-                    value: skill.name,
-                  })),
-                ]}
-                onChange={handleArtifactPresetSelect}
-              />
-            </FormField>
-          )}
-        </div>
-      )}
+      <div className="mb-4 space-y-4">
+        {showMusclePresets && (
+          <FormField label="マッスルスキル選択">
+            <SelectField
+              value=""
+              options={[
+                { label: '', value: '' },
+                ...muscleSkills.map((skill) => ({
+                  label: skill.name,
+                  value: skill.name,
+                })),
+              ]}
+              onChange={handleMusclePresetSelect}
+            />
+          </FormField>
+        )}
+        {showArtifactPresets && (
+          <FormField label="アーティファクトスキル選択">
+            <SelectField
+              value=""
+              options={[
+                { label: '', value: '' },
+                ...artifactSkills.map((s) => ({
+                  label: s.name,
+                  value: s.name,
+                })),
+              ]}
+              onChange={handleArtifactPresetSelect}
+            />
+          </FormField>
+        )}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField label={nameLabel}>
           <InputField
