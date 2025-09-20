@@ -176,10 +176,12 @@ export const validateUpdateCharacter = (
     error: {
       code: 'VALIDATION_ERROR',
       message: 'バリデーションエラーが発生しました',
-      details: result.error.errors.map((err: any) => ({
-        field: err.path.join('.'),
-        message: err.message,
-      })),
+      details: [],
+      // cloudflare workers 環境で以下のコードが原因でエラーになるため、一旦コメントアウト
+      //     details:result.error.errors.map((err: any) => ({
+      //     field: err.path.join('.'),
+      //     message: err.message,
+      //   })),
     },
   };
 };
