@@ -330,7 +330,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-              <GiHeartBeats className="text-red-600" size={16} />
+              <GiStarsStack className="text-indigo-600" size={16} />
               ステータス
             </h3>
             <div className="grid grid-cols-3 gap-2">
@@ -369,7 +369,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       {/* 能力値 */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <GiHeartBeats className="text-red-600" />
+          <FaUser className="text-green-600" />
           能力値
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
