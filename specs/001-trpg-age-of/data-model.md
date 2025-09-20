@@ -109,14 +109,17 @@ interface CharacterData {
   // アイテム・装備
   items: {
     [itemName: string]: {
-      type: string; // 種別 (武器/防具/消耗品/その他/テクノロジー専用)
-      skill?: string; // 対応技能
-      modifier?: string; // 修正値
-      attackPower?: string; // 攻撃力
-      guardValue?: string; // ガード値
-      range?: string; // 射程
-      price: string; // 価格
-      effect: string; // 効果説明
+      type: string; // 種別 (白兵/射撃/防具/消耗品/その他)
+      skill?: string; // 対応技能 (〈パワー〉/〈技術〉/〈射撃〉等)
+      modifier?: string; // 修正値 (＋５％/－１０％等)
+      attackPower?: string; // 攻撃力 (＋４/＋８等)
+      guardValue?: string; // ガード値 (３/０等)
+      range?: string; // 射程 (至近/近/中/遠)
+      dodge?: string; // ドッジ修正 (防具用: ＋５％/－１０％等)
+      actionValue?: string; // 行動値修正 (防具用: ＋０/－２等)
+      protection?: string; // 防護点 (防具用: ５/１０等)
+      price: number; // 価格 (数値)
+      effect?: string; // 効果説明
       quantity?: number; // 数量（消耗品用）
     };
   };
@@ -308,6 +311,133 @@ const HERO_SKILLS = {
   },
   // ... その他のスキル定義
 } as const;
+
+// アイテムマスターデータ - 実装例
+const ITEMS = {
+  // 武器カテゴリ: 白兵、射撃
+  素手: {
+    type: '白兵',
+    skill: '〈パワー〉',
+    modifier: '０％',
+    attackPower: '０',
+    guardValue: '０',
+    range: '至近',
+    price: 0,
+    effect: '武器が何も装備されていない場合、この武器が装備されているものとして扱う。',
+  },
+  格闘武器: {
+    type: '白兵',
+    skill: '〈パワー〉',
+    modifier: '＋０％',
+    attackPower: '＋４',
+    guardValue: '３',
+    range: '至近',
+    price: 4,
+  },
+  片手白兵武器Ａ: {
+    type: '白兵',
+    skill: '〈技術〉',
+    modifier: '＋５％',
+    attackPower: '＋５',
+    guardValue: '３',
+    range: '至近',
+    price: 5,
+  },
+  // ... 他17種類の武器アイテム (A-E系列の正確な命名)
+
+  // 防具カテゴリ: ドッジ・行動値・防護点による分類
+  コスチュームＡ: {
+    type: '防具',
+    dodge: '＋０％',
+    actionValue: '＋０',
+    protection: '５',
+    price: 5,
+  },
+  アーマー: {
+    type: '防具',
+    dodge: '－１０％',
+    actionValue: '－４',
+    protection: '１０',
+    price: 7,
+  },
+  サイコスーツ: {
+    type: '防具',
+    dodge: '－１０％',
+    actionValue: '－１',
+    protection: '２',
+    price: 10,
+    effect: '装備中、【超常】に属する技能での判定の判定値に＋５％する。',
+  },
+  // ... 他5種類の防具アイテム
+
+  // 消耗品カテゴリ: シナリオ使用制限ありアイテム
+  ソーマ: {
+    type: '消耗品',
+    price: 4,
+    effect: 'マイナーアクション、メジャーアクションで使用可能。ＨＰを２Ｄ点回復する。',
+  },
+  スキルサプライ: {
+    type: '消耗品',
+    price: 6,
+    effect: 'マイナーアクション、メジャーアクションで使用可能。ＳＰを２Ｄ点回復する。',
+  },
+  嗜好品: {
+    type: '消耗品',
+    price: 2,
+    effect: 'マイナーアクション、メジャーアクションで使用可能。ＳＰを５点回復する。',
+  },
+
+  // その他カテゴリ: コネクション、特殊効果アイテム
+  お気に入りの店: {
+    type: 'その他',
+    price: 8,
+    effect: 'ミドルパートでのみ使用可能。シーンの舞台を変更し、そのシーンの終了時に登場していたＰＣ全員はＨＰかＭＰを１Ｄ点回復する。１シナリオで３回まで使用可能。',
+  },
+  'コネクション：ヒーロー協会': {
+    type: 'その他',
+    price: 2,
+    effect: 'ミドルパートの情報収集で使用可能。〈社会：ヒーロー協会〉を使用した判定の判定値に＋１０％する。',
+  },
+  バディ: {
+    type: 'その他',
+    price: 2,
+    effect: 'ミドルパートの情報収集で使用可能。〈社会：○○〉を使用した判定の判定値に＋１０％する。１シナリオに１回使用可能。',
+  },
+  // ... 他7種類のその他アイテム
+
+  // テクノロジー専用カテゴリ: 常備化不可アイテム
+  パワードスーツ: {
+    type: '防具',
+    dodge: '＋０％',
+    actionValue: '＋０',
+    protection: '１０',
+    price: 0, // 常備化不可 = price: 0
+    effect: '装備中、素手のダメージを＋５し、〈パワー〉判定を〈操縦〉で代用してもよい。',
+  },
+  ガンソード: {
+    type: '白兵/射撃',
+    skill: '〈白兵〉/〈射撃〉',
+    modifier: '－１０％',
+    attackPower: '＋１０/＋７',
+    guardValue: '５',
+    range: '至近/中',
+    price: 0, // 常備化不可 = price: 0
+    effect: '白兵攻撃を行う際は左側のデータを、射撃攻撃を行う際は右側のデータを使用する。射撃攻撃は至近距離不可。',
+  },
+  // ... 他6種類のテクノロジー専用アイテム (全て price: 0)
+} as const;
+
+/**
+ * アイテム価格設計ルール:
+ * - 通常アイテム: 実際の価格値 (2-12)
+ * - 素手: 0 (価格なしアイテム)
+ * - テクノロジー専用: 0 (常備化不可アイテム)
+ *
+ * price: 0 の判別:
+ * - type が 'テクノロジー専用' または name が 'パワードスーツ' 系 → 常備化不可
+ * - name が '素手' → 価格なし基本装備
+ * - その他 price: 0 → 無料アイテム
+ */
 ```
 
 ### JSON データバリデーション
