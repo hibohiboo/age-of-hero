@@ -345,8 +345,6 @@ const CharacterTitleSection: React.FC<{ character: CharacterDetail }> = ({
       <span>
         更新: {new Date(character.updatedAt).toLocaleDateString('ja-JP')}
       </span>
-      <span className="mx-2">•</span>
-      <span>バージョン: 1.0</span>
     </div>
   </div>
 );
@@ -580,10 +578,7 @@ const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => (
 
               const SkillIcon = getSkillIcon(skillDef.name);
               return (
-                <div
-                  key={skillDef.name}
-                  className="p-3 bg-gray-50 rounded"
-                >
+                <div key={skillDef.name} className="p-3 bg-gray-50 rounded">
                   <div className="flex items-center gap-2 mb-1">
                     <SkillIcon className={skillDef.color} size={16} />
                     <span className="font-medium text-sm">{skillDef.name}</span>
