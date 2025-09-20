@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "dev:full": "bun run db:up && bun run db:migrate && bun run dev",
+    "dev:worker": "wrangler dev",
     "build": "bun build src/index.ts --outdir dist --target bun",
+    "build:worker": "bun build src/index.ts --outdir dist --target node --minify",
     "start": "bun dist/index.js",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
     "test": "vitest",
     "test:contract": "vitest run tests/contract",
     "test:integration": "vitest run tests/integration",
@@ -36,6 +40,7 @@
     "@age-of-hero/eslint-config-custom": "workspace:*",
     "@age-of-hero/typescript-config": "workspace:*",
     "@testcontainers/postgresql": "^11.6.0",
-    "drizzle-kit": "^0.31.4"
+    "drizzle-kit": "^0.31.4",
+    "wrangler": "4"
   }
 }
