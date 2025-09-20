@@ -97,10 +97,13 @@ export const ItemForm: React.FC<ItemFormProps> = ({
         <FormField label="選択">
           <SelectField
             value=""
-            options={PRESET_ITEMS.map((p) => ({
-              label: `[${p.category}] ${p.name}`,
-              value: p.name,
-            }))}
+            options={[
+              { label: '', value: '' },
+              ...PRESET_ITEMS.map((p) => ({
+                label: `[${p.category}] ${p.name}`,
+                value: p.name,
+              })),
+            ]}
             onChange={handlePresetSelect}
           />
         </FormField>
