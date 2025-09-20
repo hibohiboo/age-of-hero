@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaPlus, FaTrash, FaShieldAlt, FaUser } from 'react-icons/fa';
 import {
   GiBackpack,
@@ -7,52 +7,16 @@ import {
   GiSwordsPower,
 } from 'react-icons/gi';
 import {
-  CLASSES,
   ABILITIES,
   SKILLS,
   ABILITY_CATEGORIES,
+  CLASSES,
 } from '../constants/gameData';
+import {
+  useCharacterCreationForm,
+  CharacterFormData,
+} from '../hooks/useCharacterCreationForm';
 import { Card } from './Card';
-
-interface HeroSkill {
-  name: string;
-  level: number;
-  maxLevel: number;
-  timing: string;
-  skill: string;
-  target: string;
-  range: string;
-  cost: number;
-  effect: string;
-}
-
-interface SpecialAttack {
-  name: string;
-  level: number;
-  maxLevel: number;
-  timing: string;
-  skill: string;
-  target: string;
-  range: string;
-  cost: number;
-  effect: string;
-}
-
-interface CharacterFormData {
-  name: string;
-  selectedClasses: [string, string];
-  abilityBonus:
-    | 'physical'
-    | 'reflex'
-    | 'sensory'
-    | 'intellectual'
-    | 'supernatural';
-  skillAllocations: Record<string, number>;
-  heroSkills: HeroSkill[];
-  specialAttacks: SpecialAttack[];
-  items: string[];
-  password?: string;
-}
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
@@ -63,146 +27,24 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   onSubmit,
   isLoading = false,
 }) => {
-  const [formData, setFormData] = useState<CharacterFormData>({
-    name: '',
-    selectedClasses: [CLASSES[0].name, CLASSES[0].name],
-    abilityBonus: 'physical',
-    skillAllocations: {},
-    heroSkills: [],
-    specialAttacks: [],
-    items: [],
-    password: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
-
-  const handleSkillAllocationChange = (skillName: string, value: string) => {
-    const numValue = parseInt(value, 10) || 0;
-    setFormData((prev) => ({
-      ...prev,
-      skillAllocations: {
-        ...prev.skillAllocations,
-        [skillName]: Math.min(100, Math.max(0, numValue)),
-      },
-    }));
-  };
-
-  const skillTotal = Object.values(formData.skillAllocations).reduce(
-    (sum, val) => sum + val,
-    0,
-  );
-  const heroSkillLevelTotal = formData.heroSkills.reduce(
-    (sum, skill) => sum + skill.level,
-    0,
-  );
-
-  const addHeroSkill = () => {
-    const newSkill: HeroSkill = {
-      name: '',
-      level: 1,
-      maxLevel: 1,
-      timing: '',
-      skill: '',
-      target: '',
-      range: '',
-      cost: 0,
-      effect: '',
-    };
-    setFormData((prev) => ({
-      ...prev,
-      heroSkills: [...prev.heroSkills, newSkill],
-    }));
-  };
-
-  const updateHeroSkill = (
-    index: number,
-    field: keyof HeroSkill,
-    value: string,
-  ) => {
-    let processedValue: string | number = value;
-    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
-      processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
-    }
-    setFormData((prev) => ({
-      ...prev,
-      heroSkills: prev.heroSkills.map((skill, i) =>
-        i === index ? { ...skill, [field]: processedValue } : skill,
-      ),
-    }));
-  };
-
-  const removeHeroSkill = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      heroSkills: prev.heroSkills.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addSpecialAttack = () => {
-    const newAttack: SpecialAttack = {
-      name: '',
-      level: 1,
-      maxLevel: 1,
-      timing: '',
-      skill: '',
-      target: '',
-      range: '',
-      cost: 0,
-      effect: '',
-    };
-    setFormData((prev) => ({
-      ...prev,
-      specialAttacks: [...prev.specialAttacks, newAttack],
-    }));
-  };
-
-  const updateSpecialAttack = (
-    index: number,
-    field: keyof SpecialAttack,
-    value: string,
-  ) => {
-    let processedValue: string | number = value;
-    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
-      processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
-    }
-    setFormData((prev) => ({
-      ...prev,
-      specialAttacks: prev.specialAttacks.map((attack, i) =>
-        i === index ? { ...attack, [field]: processedValue } : attack,
-      ),
-    }));
-  };
-
-  const removeSpecialAttack = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      specialAttacks: prev.specialAttacks.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addItem = () => {
-    setFormData((prev) => ({
-      ...prev,
-      items: [...prev.items, ''],
-    }));
-  };
-
-  const updateItem = (index: number, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      items: prev.items.map((item, i) => (i === index ? value : item)),
-    }));
-  };
-
-  const removeItem = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      items: prev.items.filter((_, i) => i !== index),
-    }));
-  };
+  const vm = useCharacterCreationForm({ onSubmit });
+  const {
+    formData,
+    handleSubmit,
+    handleSkillAllocationChange,
+    updateHeroSkill,
+    addHeroSkill,
+    removeHeroSkill,
+    updateSpecialAttack,
+    addSpecialAttack,
+    removeSpecialAttack,
+    addItem,
+    updateItem,
+    removeItem,
+    updateFormField,
+    skillTotal,
+    heroSkillLevelTotal,
+  } = vm;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
@@ -223,9 +65,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               type="text"
               id="name"
               value={formData.name}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, name: e.target.value }))
-              }
+              onChange={(e) => updateFormField('name', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               required
               maxLength={50}
@@ -248,13 +88,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                   id="class1"
                   value={formData.selectedClasses[0]}
                   onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      selectedClasses: [
-                        e.target.value,
-                        prev.selectedClasses[1],
-                      ],
-                    }))
+                    updateFormField('selectedClasses', [
+                      e.target.value,
+                      formData.selectedClasses[1],
+                    ])
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   required
@@ -277,13 +114,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                   id="class2"
                   value={formData.selectedClasses[1]}
                   onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      selectedClasses: [
-                        prev.selectedClasses[0],
-                        e.target.value,
-                      ],
-                    }))
+                    updateFormField('selectedClasses', [
+                      formData.selectedClasses[0],
+                      e.target.value,
+                    ])
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   required
@@ -309,10 +143,10 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               id="abilityBonus"
               value={formData.abilityBonus}
               onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  abilityBonus: e.target.value as typeof formData.abilityBonus,
-                }))
+                updateFormField(
+                  'abilityBonus',
+                  e.target.value as typeof formData.abilityBonus,
+                )
               }
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               required
@@ -719,9 +553,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             type="password"
             id="password"
             value={formData.password}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, password: e.target.value }))
-            }
+            onChange={(e) => updateFormField('password', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             placeholder="パスワードを設定する場合は入力してください"
           />
