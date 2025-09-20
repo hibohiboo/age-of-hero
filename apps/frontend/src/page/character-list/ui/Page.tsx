@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { CharacterList, type Character } from '@age-of-hero/ui';
+import { CharacterListPage, type Character } from '@age-of-hero/ui';
 
 export function Page() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -44,7 +44,7 @@ export function Page() {
         </Link>
       </div>
 
-      <CharacterList
+      <CharacterListPage
         characters={characters}
         loading={loading}
         error={error}

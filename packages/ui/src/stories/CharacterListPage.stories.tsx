@@ -1,9 +1,9 @@
-import { CharacterList } from './CharacterList';
+import { CharacterListPage } from '../pages/CharacterListPage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const meta: Meta<typeof CharacterList> = {
-  title: 'Components/CharacterList',
-  component: CharacterList,
+const meta: Meta<typeof CharacterListPage> = {
+  title: 'Pages/CharacterListPage',
+  component: CharacterListPage,
   parameters: {
     layout: 'padded',
   },

@@ -9,14 +9,14 @@ export interface Character {
   isPasswordProtected: boolean;
 }
 
-interface CharacterListProps {
+interface CharacterListPageProps {
   characters: Character[];
   loading?: boolean;
   error?: string | null;
   onRetry?: () => void;
 }
 
-export const CharacterList: React.FC<CharacterListProps> = ({
+export const CharacterListPage: React.FC<CharacterListPageProps> = ({
   characters,
   loading = false,
   error = null,
