@@ -289,10 +289,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               onUpdate={updateHeroSkill}
               onRemove={removeHeroSkill}
               nameLabel="スキル名"
-              showMusclePresets={formData.selectedClasses.includes('マッスル')}
-              showArtifactPresets={formData.selectedClasses.includes(
-                'アーティファクト',
-              )}
+              selectedClasses={formData.selectedClasses}
             />
           ))}
         </div>
