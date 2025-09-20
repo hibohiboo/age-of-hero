@@ -11,9 +11,9 @@ describe('calculateSkillInitialValues', () => {
       intellectual: 1,
       supernatural: 0,
     };
-    
+
     const result = calculateSkillInitialValues(abilities);
-    
+
     expect(result.パワー).toBe(40); // physical(4) × 10 = 40
   });
 
@@ -26,9 +26,9 @@ describe('calculateSkillInitialValues', () => {
       intellectual: 1,
       supernatural: 0,
     };
-    
+
     const result = calculateSkillInitialValues(abilities);
-    
+
     expect(result.技術).toBe(30); // reflex(3) × 10 = 30
   });
 
@@ -55,7 +55,7 @@ describe('calculateSkillInitialValues', () => {
     ['時間', 'supernatural', 0, 0],
   ] as const)(
     '%s技能の初期値を%s能力値×10で計算すること（%i×10=%i）',
-    (skillName, abilityType, abilityValue, expected) => {
+    (skillName, _, __, expected) => {
       const abilities = {
         physical: 4,
         reflex: 3,

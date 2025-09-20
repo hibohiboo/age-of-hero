@@ -175,6 +175,7 @@ app.put(
       id: z.string().uuid('Invalid ID format'),
     }),
   ),
+  // ts-ignore-next-line
   zValidator('json', updateCharacterSchema),
   async (c) => {
     const { id } = c.req.valid('param');

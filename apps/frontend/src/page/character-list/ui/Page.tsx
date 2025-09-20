@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
 import { CharacterListPage, type Character } from '@age-of-hero/ui';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 
 export function Page() {
   const [characters, setCharacters] = useState<Character[]>([]);

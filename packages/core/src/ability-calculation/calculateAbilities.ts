@@ -8,10 +8,10 @@ type AbilityName =
   | 'supernatural';
 
 export function calculateAbilities(
-  classes: [ClassName, ClassName],
-  bonusAbility?: AbilityName,
+  classes: [string, string],
+  bonusAbility?: string,
 ) {
-  const [class1, class2] = classes;
+  const [class1, class2] = classes as [ClassName, ClassName];
   const stats1 = CLASSES[class1];
   const stats2 = CLASSES[class2];
 
@@ -25,7 +25,7 @@ export function calculateAbilities(
 
   // +1ボーナス適用
   if (bonusAbility) {
-    baseAbilities[bonusAbility] += 1;
+    baseAbilities[bonusAbility as AbilityName] += 1;
   }
 
   // HP/SP/行動値計算

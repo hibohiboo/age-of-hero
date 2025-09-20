@@ -1,4 +1,6 @@
+import { AbilityName } from '@age-of-hero/core';
 import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
+import { ClassName } from '@age-of-hero/core/game-data/classes';
 import React from 'react';
 import { IconType } from 'react-icons';
 import { FaUser, FaArrowLeft, FaEdit } from 'react-icons/fa';
@@ -257,7 +259,7 @@ const ItemComponent: React.FC<{ label: string; value: string | undefined }> = ({
 };
 
 const Item: React.FC<{
-  item: CharacterDetail['characterData']['items'][0];
+  item: ItemData;
 }> = ({ item }) => (
   <div className="border border-gray-200 rounded p-4">
     <div className="flex justify-between items-start mb-2">
@@ -331,10 +333,10 @@ const useCharacterData = (
   character: CharacterDetailPageProps['character'],
 ): { calculatedAbilities: CalculatedAbilities; skills: SkillsData } | null => {
   if (!character) return null;
-
+  const classes = character.selectedClasses! as [ClassName, ClassName];
   const calculatedAbilities = calculateAbilities(
-    character.selectedClasses as [string, string],
-    character.abilityBonus || 'physical',
+    classes,
+    character.abilityBonus as AbilityName,
   );
 
   const skills = buildSkillsData(

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import { CharacterDetailPage, type CharacterDetail } from '@age-of-hero/ui';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 export function Page() {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +20,6 @@ export function Page() {
       setError(null);
 
       const response = await fetch(`/api/characters/${id}`);
-
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -45,7 +44,6 @@ export function Page() {
   const handleRetry = () => {
     fetchCharacter();
   };
-
 
   return (
     <div className="container mx-auto px-4 py-8">

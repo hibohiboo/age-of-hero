@@ -194,11 +194,15 @@ export const useCharacterCreationForm = ({
     }));
   };
 
-  const updateItem = (index: number, field: keyof ItemData, value: string | number) => {
+  const updateItem = (
+    index: number,
+    field: keyof ItemData,
+    value: string | number,
+  ) => {
     setFormData((prev) => ({
       ...prev,
       items: prev.items.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
+        i === index ? { ...item, [field]: value } : item,
       ),
     }));
   };
@@ -229,15 +233,15 @@ export const useCharacterCreationForm = ({
   );
 
   const itemPriceTotal = formData.items.reduce(
-    (sum, item) => sum + (item.price * (item.quantity || 1)),
+    (sum, item) => sum + item.price * (item.quantity || 1),
     0,
   );
 
   // 能力値計算
-  const calculatedAbilities = useMemo(() => calculateAbilities(
-      formData.selectedClasses as [string, string],
-      formData.abilityBonus,
-    ), [formData.selectedClasses, formData.abilityBonus]);
+  const calculatedAbilities = useMemo(
+    () => calculateAbilities(formData.selectedClasses, formData.abilityBonus),
+    [formData.selectedClasses, formData.abilityBonus],
+  );
 
   return {
     formData,
