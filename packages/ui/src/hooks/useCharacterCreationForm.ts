@@ -25,6 +25,22 @@ interface SpecialAttack {
   effect: string;
 }
 
+interface ItemData {
+  name: string;
+  type: string; // 種別 (白兵/射撃/防具/消耗品/その他)
+  skill?: string; // 対応技能 (〈パワー〉/〈技術〉/〈射撃〉等)
+  modifier?: string; // 修正値 (＋５％/－１０％等)
+  attackPower?: string; // 攻撃力 (＋４/＋８等)
+  guardValue?: string; // ガード値 (３/０等)
+  range?: string; // 射程 (至近/近/中/遠)
+  dodge?: string; // ドッジ修正 (防具用: ＋５％/－１０％等)
+  actionValue?: string; // 行動値修正 (防具用: ＋０/－２等)
+  protection?: string; // 防護点 (防具用: ５/１０等)
+  price: number; // 価格 (数値)
+  effect?: string; // 効果説明
+  quantity?: number; // 数量（消耗品用）
+}
+
 export interface CharacterFormData {
   name: string;
   selectedClasses: [string, string];
@@ -37,7 +53,7 @@ export interface CharacterFormData {
   skillAllocations: Record<string, number>;
   heroSkills: HeroSkill[];
   specialAttacks: SpecialAttack[];
-  items: string[];
+  items: ItemData[];
   password?: string;
 }
 
@@ -160,16 +176,23 @@ export const useCharacterCreationForm = ({
   };
 
   const addItem = () => {
+    const newItem: ItemData = {
+      name: '',
+      type: '消耗品',
+      price: 0,
+    };
     setFormData((prev) => ({
       ...prev,
-      items: [...prev.items, ''],
+      items: [...prev.items, newItem],
     }));
   };
 
-  const updateItem = (index: number, value: string) => {
+  const updateItem = (index: number, field: keyof ItemData, value: string | number) => {
     setFormData((prev) => ({
       ...prev,
-      items: prev.items.map((item, i) => (i === index ? value : item)),
+      items: prev.items.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item
+      ),
     }));
   };
 

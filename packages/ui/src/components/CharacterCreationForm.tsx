@@ -21,6 +21,7 @@ import { Button } from './form/Button';
 import { CardSection } from './form/CardSection';
 import { FormField, InputField, SelectField } from './form/FormField';
 import { SkillForm } from './form/SkillForm';
+import { ItemForm } from './form/ItemForm';
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
@@ -253,24 +254,15 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         onAdd={addItem}
         addButtonVariant="success"
       >
-        <div className="space-y-2">
+        <div className="space-y-4">
           {formData.items.map((item, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <InputField
-                value={item}
-                onChange={(value) => updateItem(index, value)}
-                placeholder="アイテム名"
-                className="flex-1"
-              />
-              <Button
-                onClick={() => removeItem(index)}
-                variant="danger"
-                size="sm"
-              >
-                <FaTrash size={12} />
-                削除
-              </Button>
-            </div>
+            <ItemForm
+              key={index}
+              item={item}
+              index={index}
+              onUpdate={updateItem}
+              onRemove={removeItem}
+            />
           ))}
         </div>
       </CardSection>
