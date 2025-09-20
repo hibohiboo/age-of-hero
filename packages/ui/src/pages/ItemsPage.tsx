@@ -57,6 +57,9 @@ export const ItemsPage: React.FC = () => (
         <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-green-500 pb-2">
           消耗品
         </h2>
+        <p className="mb-4 text-gray-600">
+          「種別：消耗品」のアイテムは装備欄に関係なく複数個購入することができる。これらのアイテムは、ひとつにつき１シナリオで１回使用できる。
+        </p>
         <div className="grid lg:grid-cols-2 gap-6">
           {consumables.map((item, index) => (
             <ItemCard
