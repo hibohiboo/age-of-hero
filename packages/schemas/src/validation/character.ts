@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 
 // 基本スキル/攻撃スキーマ
@@ -150,10 +149,12 @@ export const validateCreateCharacter = (
     error: {
       code: 'VALIDATION_ERROR',
       message: 'バリデーションエラーが発生しました',
-      details: result.error.errors.map((err: any) => ({
-        field: err.path.join('.'),
-        message: err.message,
-      })),
+      details: [],
+      // cloudflare workers 環境で以下のコードが原因でエラーになるため、一旦コメントアウト
+      // details: result.error.errors.map((err: any) => ({
+      //   field: err.path.join('.'),
+      //   message: err.message,
+      // })),
     },
   };
 };
