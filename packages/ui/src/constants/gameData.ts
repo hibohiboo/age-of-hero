@@ -30,8 +30,22 @@ import {
   GiModernCity,
   GiFireSilhouette,
   GiAlliedStar,
+  GiBoxingGlove,
+  GiButterflyKnife,
+  GiChestArmor,
+  GiClothes,
+  GiCoffeeCup,
+  GiGladius,
+  GiHealthPotion,
+  GiMechanicalArm,
+  GiMedicines,
+  GiPerson,
+  GiRelicBlade,
+  GiRifle,
+  GiShop,
 } from 'react-icons/gi';
 import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
+import { ItemDetails } from '../components/ItemCard';
 import type { IconType } from 'react-icons';
 
 export interface ClassData {
@@ -347,3 +361,478 @@ export const ABILITY_CATEGORIES = [
     description: '通常では考えられないような超常的な力を表す能力値だ。',
   },
 ] as const;
+
+export const weapons = [
+  {
+    name: '素手',
+    icon: GiFist,
+    details: {
+      type: '白兵',
+      skill: '〈パワー〉',
+      modifier: '０％',
+      attackPower: '０',
+      guardValue: '０',
+      range: '至近',
+      price: 0,
+      effect:
+        '武器が何も装備されていない場合、この武器が装備されているものとして扱う。',
+    } as ItemDetails,
+  },
+  {
+    name: '格闘武器',
+    icon: GiBoxingGlove,
+    details: {
+      type: '白兵',
+      skill: '〈パワー〉',
+      modifier: '＋０％',
+      attackPower: '＋４',
+      guardValue: '３',
+      range: '至近',
+      price: 4,
+    } as ItemDetails,
+  },
+  {
+    name: '片手白兵武器Ａ',
+    icon: GiButterflyKnife,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '＋５％',
+      attackPower: '＋５',
+      guardValue: '３',
+      range: '至近',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: '片手白兵武器Ｂ',
+    icon: GiGladius,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '＋０％',
+      attackPower: '＋８',
+      guardValue: '０',
+      range: '至近',
+      price: 7,
+    } as ItemDetails,
+  },
+  {
+    name: '片手白兵武器Ｃ',
+    icon: GiButterflyKnife,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '＋１０％',
+      attackPower: '＋２',
+      guardValue: '２',
+      range: '至近',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: '片手白兵武器Ｄ',
+    icon: GiGladius,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '－５％',
+      attackPower: '＋５',
+      guardValue: '０',
+      range: '近',
+      price: 6,
+    } as ItemDetails,
+  },
+  {
+    name: '両手白兵武器Ａ',
+    icon: GiRelicBlade,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '－１０％',
+      attackPower: '＋７',
+      guardValue: '３',
+      range: '至近',
+      price: 7,
+      effect: '両手持ち。',
+    } as ItemDetails,
+  },
+  {
+    name: '両手白兵武器Ｂ',
+    icon: GiRelicBlade,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '－１５％',
+      attackPower: '＋９',
+      guardValue: '４',
+      range: '至近',
+      price: 8,
+      effect: '両手持ち。',
+    } as ItemDetails,
+  },
+  {
+    name: '両手白兵武器Ｃ',
+    icon: GiRelicBlade,
+    details: {
+      type: '白兵',
+      skill: '〈技術〉',
+      modifier: '－１０％',
+      attackPower: '＋５',
+      guardValue: '４',
+      range: '近',
+      price: 8,
+      effect: '両手持ち。',
+    } as ItemDetails,
+  },
+  {
+    name: '射撃武器Ａ',
+    icon: GiRifle,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋０％',
+      attackPower: '＋５',
+      guardValue: '０',
+      range: '近',
+      price: 6,
+    } as ItemDetails,
+  },
+  {
+    name: '射撃武器Ｂ',
+    icon: GiRifle,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋０％',
+      attackPower: '＋７',
+      guardValue: '０',
+      range: '中',
+      price: 9,
+      effect: '至近距離不可。',
+    } as ItemDetails,
+  },
+  {
+    name: '射撃武器Ｃ',
+    icon: GiRifle,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋５％',
+      attackPower: '＋６',
+      guardValue: '０',
+      range: '近',
+      price: 8,
+      effect: '至近距離不可。',
+    } as ItemDetails,
+  },
+  {
+    name: '射撃武器Ｄ',
+    icon: GiRifle,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋１０％',
+      attackPower: '＋１０',
+      guardValue: '０',
+      range: '遠',
+      price: 12,
+      effect: '至近距離不可。両手持ち。',
+    } as ItemDetails,
+  },
+  {
+    name: '射撃武器Ｅ',
+    icon: GiRifle,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋０％',
+      attackPower: '＋５',
+      guardValue: '０',
+      range: '近',
+      price: 6,
+      effect: 'この武器での攻撃の対象は範囲になる。シーンに１回使用可能。',
+    } as ItemDetails,
+  },
+  {
+    name: 'シールドＡ',
+    icon: GiShield,
+    details: {
+      type: '白兵',
+      skill: '〈パワー〉',
+      modifier: '＋０％',
+      attackPower: '＋２',
+      guardValue: '４',
+      range: '至近',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: 'シールドＢ',
+    icon: GiShield,
+    details: {
+      type: '白兵',
+      skill: '〈パワー〉',
+      modifier: '－１０％',
+      attackPower: '＋２',
+      guardValue: '６',
+      range: '至近',
+      price: 7,
+    } as ItemDetails,
+  },
+  {
+    name: 'シールドＣ',
+    icon: GiShield,
+    details: {
+      type: '白兵',
+      skill: '〈パワー〉',
+      modifier: '－２０％',
+      attackPower: '＋２',
+      guardValue: '８',
+      range: '至近',
+      price: 10,
+      effect: '両手持ち。',
+    } as ItemDetails,
+  },
+];
+
+export const armor = [
+  {
+    name: 'コスチュームＡ',
+    icon: GiClothes,
+    details: {
+      type: '防具',
+      dodge: '＋０％',
+      actionValue: '＋０',
+      protection: '５',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: 'コスチュームＢ',
+    icon: GiClothes,
+    details: {
+      type: '防具',
+      dodge: '＋５％',
+      actionValue: '＋０',
+      protection: '３',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: 'コスチュームＣ',
+    icon: GiClothes,
+    details: {
+      type: '防具',
+      dodge: '－５％',
+      actionValue: '－２',
+      protection: '８',
+      price: 5,
+    } as ItemDetails,
+  },
+  {
+    name: 'アーマー',
+    icon: GiChestArmor,
+    details: {
+      type: '防具',
+      dodge: '－１０％',
+      actionValue: '－４',
+      protection: '１０',
+      price: 7,
+    } as ItemDetails,
+  },
+  {
+    name: 'サイコスーツ',
+    icon: GiChestArmor,
+    details: {
+      type: '防具',
+      dodge: '－１０％',
+      actionValue: '－１',
+      protection: '２',
+      price: 10,
+      effect: '装備中、【超常】に属する技能での判定の判定値に＋５％する。',
+    } as ItemDetails,
+  },
+];
+
+export const consumables = [
+  {
+    name: 'ソーマ',
+    icon: GiHealthPotion,
+    details: {
+      type: '消耗品',
+      price: 4,
+      effect:
+        'マイナーアクション、メジャーアクションで使用可能。ＨＰを２Ｄ点回復する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'スキルサプライ',
+    icon: GiMedicines,
+    details: {
+      type: '消耗品',
+      price: 6,
+      effect:
+        'マイナーアクション、メジャーアクションで使用可能。ＳＰを２Ｄ点回復する。',
+    } as ItemDetails,
+  },
+  {
+    name: '嗜好品',
+    icon: GiCoffeeCup,
+    details: {
+      type: '消耗品',
+      price: 2,
+      effect:
+        'マイナーアクション、メジャーアクションで使用可能。ＳＰを５点回復する。',
+    } as ItemDetails,
+  },
+];
+
+export const otherItems = [
+  {
+    name: 'お気に入りの店',
+    icon: GiShop,
+    details: {
+      type: 'その他',
+      price: 8,
+      effect:
+        'ミドルパートでのみ使用可能。シーンの舞台を変更し、そのシーンの終了時に登場していたＰＣ全員はＨＰかＭＰを１Ｄ点回復する。ＧＭは状況に応じてこのアイテムの使用を拒否してもよいが、その場合このアイテムの使用回数には数えない。１シナリオで３回まで使用可能。',
+    } as ItemDetails,
+  },
+  {
+    name: 'コネクション：ヒーロー協会',
+    icon: FaRegHandshake,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：ヒーロー協会〉を使用した判定の判定値に＋１０％する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'コネクション：企業',
+    icon: FaRegHandshake,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：企業〉を使用した判定の判定値に＋１０％する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'コネクション：警察機構',
+    icon: FaRegHandshake,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：警察〉を使用した判定の判定値に＋１０％する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'コネクション：情報屋',
+    icon: FaRegHandshake,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：裏社会〉を使用した判定の判定値に＋１０％する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'コネクション：学校関係者',
+    icon: FaRegHandshake,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：スクール〉を使用した判定の判定値に＋１０％する。',
+    } as ItemDetails,
+  },
+  {
+    name: 'バディ',
+    icon: GiPerson,
+    details: {
+      type: 'その他',
+      price: 2,
+      effect:
+        'ミドルパートの情報収集で使用可能。〈社会：○○〉を使用した判定の判定値に＋１０％する。１シナリオに１回使用可能。',
+    } as ItemDetails,
+  },
+];
+
+export const technologyItems = [
+  {
+    name: 'パワードスーツ',
+    icon: GiMechanicalArm,
+    details: {
+      type: '防具',
+      dodge: '＋０％',
+      actionValue: '＋０',
+      protection: '１０',
+      price: 0,
+      effect:
+        '装備中、素手のダメージを＋５し、〈パワー〉判定を〈操縦〉で代用してもよい。',
+    } as ItemDetails,
+  },
+  {
+    name: 'ガンソード',
+    icon: GiMechanicalArm,
+    details: {
+      type: '白兵/射撃',
+      skill: '〈白兵〉/〈射撃〉',
+      modifier: '－１０％',
+      attackPower: '＋１０/＋７',
+      guardValue: '５',
+      range: '至近/中',
+      price: 0,
+      effect:
+        '白兵攻撃を行う際は左側のデータを、射撃攻撃を行う際は右側のデータを使用する。射撃攻撃は至近距離不可。',
+    } as ItemDetails,
+  },
+  {
+    name: '四連装スプリットミサイル',
+    icon: GiMechanicalArm,
+    details: {
+      type: '射撃',
+      skill: '〈射撃〉',
+      modifier: '＋０％',
+      attackPower: '＋１２',
+      guardValue: '０',
+      range: '遠距離',
+      price: 0,
+      effect:
+        '至近距離、近距離への使用不可。この武器での攻撃の対象は範囲になり、ダメージ算出時防護点を無視する。シーンに１回使用可能。',
+    } as ItemDetails,
+  },
+  {
+    name: '加速装置',
+    icon: GiMechanicalArm,
+    details: {
+      type: '消耗品',
+      price: 0,
+      effect:
+        'スタートプロセスに使用し、そのラウンド中の行動値＋１０。シーンに１回使用可能。',
+    } as ItemDetails,
+  },
+  {
+    name: 'サポートＡＩ',
+    icon: GiMechanicalArm,
+    details: {
+      type: 'その他',
+      price: 0,
+      effect:
+        '自分が何らかの判定を行った直後に使用する。その判定を振り直す。シナリオに３回使用可能。',
+    } as ItemDetails,
+  },
+  {
+    name: 'ロケットブースター',
+    icon: GiMechanicalArm,
+    details: {
+      type: 'その他',
+      price: 0,
+      effect:
+        'ムーブアクションに使用し、二段回移動を行う。この移動では移動妨害されない。',
+    } as ItemDetails,
+  },
+];

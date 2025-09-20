@@ -360,7 +360,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             />
           </FormField>
           <p className="mt-1 text-sm text-gray-500">
-            パスワードを設定すると、キャラクターシートの閲覧・編集にパスワードが必要になります
+            パスワードを設定すると、キャラクターシートの編集にパスワードが必要になります
           </p>
         </div>
       </Card>

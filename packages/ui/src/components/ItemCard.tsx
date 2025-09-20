@@ -6,12 +6,12 @@ export interface ItemDetails {
   type: string;
   skill?: string;
   modifier?: string;
-  attackPower?: number | string;
-  guardValue?: number | string;
+  attackPower?: string;
+  guardValue?: string;
   range?: string;
   dodge?: string; // 防具用
   actionValue?: string; // 防具用
-  protection?: number | string; // 防具用 - 防護点
+  protection?: string; // 防具用 - 防護点
   price: number;
   effect?: string;
 }
