@@ -1,3 +1,4 @@
+import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
 import React from 'react';
 import { IconType } from 'react-icons';
 import { FaUser, FaArrowLeft, FaEdit } from 'react-icons/fa';
@@ -32,8 +33,73 @@ import {
 } from 'react-icons/gi';
 import { MdOutlineBolt } from 'react-icons/md';
 import { Link } from 'react-router';
-import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
 import { SKILLS } from '../constants/gameData';
+
+// 計算済み能力値の型
+interface CalculatedAbilities {
+  physical: number;
+  reflex: number;
+  sensory: number;
+  intellectual: number;
+  supernatural: number;
+  hp: number;
+  sp: number;
+  actionValue: number;
+}
+
+// 技能データの型
+interface SkillData {
+  baseValue: number;
+  allocatedPoints: number;
+  totalValue: number;
+}
+
+// 技能リストの型
+type SkillsData = Record<string, SkillData>;
+
+// ヒーロースキル/必殺技の型
+interface SkillOrAttack {
+  name: string;
+  level: number;
+  maxLevel: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  cost: number;
+  effect: string;
+}
+
+// アイテムの型
+interface ItemData {
+  name: string;
+  type: string;
+  skill?: string;
+  modifier?: string;
+  attackPower?: string;
+  guardValue?: string;
+  range?: string;
+  dodge?: string;
+  actionValue?: string;
+  protection?: string;
+  price: number;
+  effect?: string;
+  quantity?: number;
+}
+
+// セッションの型
+interface SessionData {
+  id: string;
+  sessionName: string;
+  gmName: string;
+  sessionDate: string;
+  currentHp: number;
+  currentSp: number;
+  currentFc?: number;
+  experiencePoints: number;
+  memo?: string;
+  createdAt: string;
+}
 
 // 技能名からアイコンを取得するヘルパー関数
 const getSkillIcon = (skillName: string) => {
@@ -163,55 +229,10 @@ export interface CharacterDetail extends Character {
   selectedClasses?: [string, string];
   abilityBonus?: string;
   skillAllocations?: Record<string, number>;
-  heroSkills?: {
-    name: string;
-    level: number;
-    maxLevel: number;
-    timing: string;
-    skill: string;
-    target: string;
-    range: string;
-    cost: number;
-    effect: string;
-  }[];
-  specialAttacks?: {
-    name: string;
-    level: number;
-    maxLevel: number;
-    timing: string;
-    skill: string;
-    target: string;
-    range: string;
-    cost: number;
-    effect: string;
-  }[];
-  items?: {
-    name: string;
-    type: string;
-    skill?: string;
-    modifier?: string;
-    attackPower?: string;
-    guardValue?: string;
-    range?: string;
-    dodge?: string;
-    actionValue?: string;
-    protection?: string;
-    price: number;
-    effect?: string;
-    quantity?: number;
-  }[];
-  sessions?: {
-    id: string;
-    sessionName: string;
-    gmName: string;
-    sessionDate: string;
-    currentHp: number;
-    currentSp: number;
-    currentFc?: number;
-    experiencePoints: number;
-    memo?: string;
-    createdAt: string;
-  }[];
+  heroSkills?: SkillOrAttack[];
+  specialAttacks?: SkillOrAttack[];
+  items?: ItemData[];
+  sessions?: SessionData[];
 
   // 互換性のため（将来的に削除予定）
   characterData?: CharacterData;
@@ -265,43 +286,36 @@ const Item: React.FC<{
   </div>
 );
 
-const CharacterDetail: React.FC<{
-  character: CharacterDetailPageProps['character'];
-}> = ({ character }) => {
-  if (!character) return <> </>;
+// 能力値から基本値を計算するヘルパー
+const calculateSkillBaseValue = (
+  skillName: string,
+  calculatedAbilities: CalculatedAbilities,
+): number => {
+  const skillDef = SKILLS.find((s) => s.name === skillName);
+  if (!skillDef) return calculatedAbilities.physical * 10;
 
-  // 能力値計算
-  const calculatedAbilities = calculateAbilities(
-    character.selectedClasses as [string, string],
-    character.abilityBonus || 'physical'
+  const abilityMap = {
+    physical: calculatedAbilities.physical,
+    reflex: calculatedAbilities.reflex,
+    sensory: calculatedAbilities.sensory,
+    intellectual: calculatedAbilities.intellectual,
+    supernatural: calculatedAbilities.supernatural,
+  };
+
+  return (
+    (abilityMap[skillDef.category as keyof typeof abilityMap] ||
+      calculatedAbilities.physical) * 10
   );
+};
 
-  // 技能データ構築
-  const skills = Object.entries(character.skillAllocations || {}).reduce(
-    (acc: any, [skillName, allocatedPoints]) => {
-      const skillDef = SKILLS.find((s) => s.name === skillName);
-      let baseValue = 0;
-      if (skillDef) {
-        switch (skillDef.category) {
-          case 'physical':
-            baseValue = calculatedAbilities.physical * 10;
-            break;
-          case 'reflex':
-            baseValue = calculatedAbilities.reflex * 10;
-            break;
-          case 'sensory':
-            baseValue = calculatedAbilities.sensory * 10;
-            break;
-          case 'intellectual':
-            baseValue = calculatedAbilities.intellectual * 10;
-            break;
-          case 'supernatural':
-            baseValue = calculatedAbilities.supernatural * 10;
-            break;
-          default:
-            baseValue = calculatedAbilities.physical * 10;
-        }
-      }
+// 技能データ構築ヘルパー
+const buildSkillsData = (
+  skillAllocations: Record<string, number>,
+  calculatedAbilities: CalculatedAbilities,
+): SkillsData =>
+  Object.entries(skillAllocations).reduce(
+    (acc: SkillsData, [skillName, allocatedPoints]) => {
+      const baseValue = calculateSkillBaseValue(skillName, calculatedAbilities);
       acc[skillName] = {
         baseValue,
         allocatedPoints: allocatedPoints as number,
@@ -309,346 +323,389 @@ const CharacterDetail: React.FC<{
       };
       return acc;
     },
-    {}
+    {},
   );
+
+// キャラクターデータ処理フック
+const useCharacterData = (
+  character: CharacterDetailPageProps['character'],
+): { calculatedAbilities: CalculatedAbilities; skills: SkillsData } | null => {
+  if (!character) return null;
+
+  const calculatedAbilities = calculateAbilities(
+    character.selectedClasses as [string, string],
+    character.abilityBonus || 'physical',
+  );
+
+  const skills = buildSkillsData(
+    character.skillAllocations || {},
+    calculatedAbilities,
+  );
+
+  return { calculatedAbilities, skills };
+};
+
+// キャラクタータイトルセクション
+const CharacterTitleSection: React.FC<{ character: CharacterDetail }> = ({
+  character,
+}) => (
+  <div>
+    <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+      <FaUser className="text-blue-600" />
+      {character.name}
+    </h1>
+    <div className="flex items-center mt-2 text-sm text-gray-500">
+      <span>
+        作成: {new Date(character.createdAt).toLocaleDateString('ja-JP')}
+      </span>
+      <span className="mx-2">•</span>
+      <span>
+        更新: {new Date(character.updatedAt).toLocaleDateString('ja-JP')}
+      </span>
+      <span className="mx-2">•</span>
+      <span>バージョン: 1.0</span>
+    </div>
+  </div>
+);
+
+// キャラクターアクションボタン
+const CharacterActionButtons: React.FC = () => (
+  <div className="flex space-x-2">
+    <Link
+      to="/character-list"
+      className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
+    >
+      <FaArrowLeft />
+      一覧に戻る
+    </Link>
+    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
+      <FaEdit />
+      編集
+    </button>
+  </div>
+);
+
+// クラスバッジコンポーネント
+const ClassBadge: React.FC<{ className: string }> = ({ className }) => (
+  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+    {React.createElement(getClassIcon(className), {
+      size: 16,
+      className: 'text-blue-600',
+    })}
+    {className}
+  </span>
+);
+
+// クラス選択表示
+const CharacterClassSection: React.FC<{ character: CharacterDetail }> = ({
+  character,
+}) => (
+  <div>
+    <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+      <GiStarsStack className="text-blue-600" size={16} />
+      選択クラス
+    </h3>
+    <div className="flex space-x-2">
+      <ClassBadge className={character.selectedClasses?.[0] || ''} />
+      <ClassBadge className={character.selectedClasses?.[1] || ''} />
+    </div>
+  </div>
+);
+
+// ヘッダーコンポーネント（簡素化）
+const CharacterHeader: React.FC<{
+  character: CharacterDetail;
+  calculatedAbilities: CalculatedAbilities;
+}> = ({ character, calculatedAbilities }) => (
+  <div className="bg-white border border-gray-200 rounded-lg p-6">
+    <div className="flex justify-between items-start mb-4">
+      <CharacterTitleSection character={character} />
+      <CharacterActionButtons />
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CharacterClassSection character={character} />
+      <CharacterStatusDisplay calculatedAbilities={calculatedAbilities} />
+    </div>
+  </div>
+);
+
+// ステータス表示コンポーネント
+const CharacterStatusDisplay: React.FC<{
+  calculatedAbilities: CalculatedAbilities;
+}> = ({ calculatedAbilities }) => (
+  <div>
+    <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+      <GiStarsStack className="text-indigo-600" size={16} />
+      ステータス
+    </h3>
+    <div className="grid grid-cols-3 gap-2">
+      <div className="text-center">
+        <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
+          <GiHeartBeats size={16} />
+          HP
+        </div>
+        <div className="text-xl font-bold text-red-500">
+          {calculatedAbilities.hp}
+        </div>
+      </div>
+      <div className="text-center">
+        <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
+          <GiMagicShield size={16} />
+          SP
+        </div>
+        <div className="text-xl font-bold text-blue-500">
+          {calculatedAbilities.sp}
+        </div>
+      </div>
+      <div className="text-center">
+        <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
+          <GiStarsStack size={16} />
+          行動値
+        </div>
+        <div className="text-xl font-bold text-green-500">
+          {calculatedAbilities.actionValue}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// 能力値表示コンポーネント
+const AbilitiesSection: React.FC<{
+  calculatedAbilities: CalculatedAbilities;
+}> = ({ calculatedAbilities }) => (
+  <div className="bg-white border border-gray-200 rounded-lg p-6">
+    <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+      <FaUser className="text-green-600" />
+      能力値
+    </h2>
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="text-center p-3 bg-red-50 rounded">
+        <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+          <GiBiceps className="text-red-600" />
+          肉体
+        </div>
+        <div className="text-2xl font-bold text-red-600">
+          {calculatedAbilities.physical}
+        </div>
+      </div>
+      <div className="text-center p-3 bg-blue-50 rounded">
+        <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+          <MdOutlineBolt className="text-blue-600" />
+          反射
+        </div>
+        <div className="text-2xl font-bold text-blue-600">
+          {calculatedAbilities.reflex}
+        </div>
+      </div>
+      <div className="text-center p-3 bg-green-50 rounded">
+        <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+          <GiAlliedStar className="text-green-600" />
+          感覚
+        </div>
+        <div className="text-2xl font-bold text-green-600">
+          {calculatedAbilities.sensory}
+        </div>
+      </div>
+      <div className="text-center p-3 bg-purple-50 rounded">
+        <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+          <GiBookshelf className="text-purple-600" />
+          知力
+        </div>
+        <div className="text-2xl font-bold text-purple-600">
+          {calculatedAbilities.intellectual}
+        </div>
+      </div>
+      <div className="text-center p-3 bg-yellow-50 rounded">
+        <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
+          <GiMagicSwirl className="text-yellow-600" />
+          超常
+        </div>
+        <div className="text-2xl font-bold text-yellow-600">
+          {calculatedAbilities.supernatural}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const CharacterDetail: React.FC<{
+  character: CharacterDetailPageProps['character'];
+}> = ({ character }) => {
+  const characterData = useCharacterData(character);
+  if (!characterData || !character) return <> </>;
+
+  const { calculatedAbilities, skills } = characterData;
 
   return (
     <div className="space-y-6">
-      {/* ヘッダー */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-              <FaUser className="text-blue-600" />
-              {character.name}
-            </h1>
-            <div className="flex items-center mt-2 text-sm text-gray-500">
-              <span>
-                作成:{' '}
-                {new Date(character.createdAt).toLocaleDateString('ja-JP')}
-              </span>
-              <span className="mx-2">•</span>
-              <span>
-                更新:{' '}
-                {new Date(character.updatedAt).toLocaleDateString('ja-JP')}
-              </span>
-              <span className="mx-2">•</span>
-              <span>バージョン: 1.0</span>
-            </div>
-          </div>
-          <div className="flex space-x-2">
-            <Link
-              to="/character-list"
-              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
+      <CharacterHeader
+        character={character}
+        calculatedAbilities={calculatedAbilities}
+      />
+      <AbilitiesSection calculatedAbilities={calculatedAbilities} />
+      <SkillsSection skills={skills} />
+      <HeroSkillsSection heroSkills={character.heroSkills || []} />
+      <SpecialAttacksSection specialAttacks={character.specialAttacks || []} />
+      <ItemsSection items={character.items || []} />
+      <SessionsSection sessions={character.sessions || []} />
+    </div>
+  );
+};
+
+// 技能セクションコンポーネント
+const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => {
+  if (Object.keys(skills).length === 0) return null;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <GiFist className="text-blue-600" />
+        技能
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Object.entries(skills).map(([skillName, skill]) => {
+          const SkillIcon = getSkillIcon(skillName);
+          return (
+            <div
+              key={skillName}
+              className="flex justify-between items-center p-3 bg-gray-50 rounded"
             >
-              <FaArrowLeft />
-              一覧に戻る
-            </Link>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
-              <FaEdit />
-              編集
-            </button>
-          </div>
-        </div>
-
-        {/* 基本情報 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-              <GiStarsStack className="text-blue-600" size={16} />
-              選択クラス
-            </h3>
-            <div className="flex space-x-2">
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                {React.createElement(
-                  getClassIcon(character.selectedClasses?.[0] || ''),
-                  {
-                    size: 16,
-                    className: 'text-blue-600',
-                  },
-                )}
-                {character.selectedClasses?.[0] || ''}
+              <span className="font-medium flex items-center gap-2">
+                <SkillIcon className="text-blue-600" size={16} />
+                {skillName}
               </span>
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                {React.createElement(
-                  getClassIcon(character.selectedClasses?.[1] || ''),
-                  {
-                    size: 16,
-                    className: 'text-blue-600',
-                  },
-                )}
-                {character.selectedClasses?.[1] || ''}
+              <div className="text-right text-sm">
+                <div className="text-lg font-bold text-blue-600">
+                  {skill.totalValue}%
+                </div>
+                <div className="text-xs text-gray-500">
+                  基本{skill.baseValue} + 割振{skill.allocatedPoints}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ヒーロースキルセクションコンポーネント
+const HeroSkillsSection: React.FC<{ heroSkills: SkillOrAttack[] }> = ({
+  heroSkills,
+}) => {
+  if (heroSkills.length === 0) return null;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <GiStarsStack className="text-purple-600" />
+        ヒーロースキル
+      </h2>
+      <div className="space-y-3">
+        {heroSkills.map((skill, index) => (
+          <div key={index} className="border border-gray-200 rounded p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-semibold text-lg">{skill.name}</h3>
+              <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
+                Lv.{skill.level}/{skill.maxLevel}
               </span>
             </div>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-              <GiStarsStack className="text-indigo-600" size={16} />
-              ステータス
-            </h3>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="text-center">
-                <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
-                  <GiHeartBeats size={16} />
-                  HP
-                </div>
-                <div className="text-xl font-bold text-red-500">
-                  {calculatedAbilities.hp}
-                </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+              <div>
+                <span className="font-medium">タイミング:</span> {skill.timing}
               </div>
-              <div className="text-center">
-                <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
-                  <GiMagicShield size={16} />
-                  SP
-                </div>
-                <div className="text-xl font-bold text-blue-500">
-                  {calculatedAbilities.sp}
-                </div>
+              <div>
+                <span className="font-medium">技能:</span> {skill.skill}
               </div>
-              <div className="text-center">
-                <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
-                  <GiStarsStack size={16} />
-                  行動値
-                </div>
-                <div className="text-xl font-bold text-green-500">
-                  {calculatedAbilities.actionValue}
-                </div>
+              <div>
+                <span className="font-medium">対象:</span> {skill.target}
+              </div>
+              <div>
+                <span className="font-medium">射程:</span> {skill.range}
               </div>
             </div>
+            <div className="text-sm text-gray-600 mb-2">
+              <span className="font-medium">コスト:</span> {skill.cost}
+            </div>
+            <p className="text-sm text-gray-700">{skill.effect}</p>
           </div>
-        </div>
+        ))}
       </div>
+    </div>
+  );
+};
 
-      {/* 能力値 */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <FaUser className="text-green-600" />
-          能力値
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="text-center p-3 bg-red-50 rounded">
-            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
-              <GiBiceps className="text-red-600" />
-              肉体
+// 必殺技セクションコンポーネント
+const SpecialAttacksSection: React.FC<{ specialAttacks: SkillOrAttack[] }> = ({
+  specialAttacks,
+}) => {
+  if (specialAttacks.length === 0) return null;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <GiSwordsPower className="text-red-600" />
+        必殺技
+      </h2>
+      <div className="space-y-3">
+        {specialAttacks.map((attack, index) => (
+          <div key={index} className="border border-gray-200 rounded p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-semibold text-lg">{attack.name}</h3>
+              <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">
+                Lv.{attack.level}/{attack.maxLevel}
+              </span>
             </div>
-            <div className="text-2xl font-bold text-red-600">
-              {calculatedAbilities.physical}
-            </div>
+            <p className="text-sm text-gray-700">{attack.effect}</p>
           </div>
-          <div className="text-center p-3 bg-blue-50 rounded">
-            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
-              <MdOutlineBolt className="text-blue-600" />
-              反射
-            </div>
-            <div className="text-2xl font-bold text-blue-600">
-              {calculatedAbilities.reflex}
-            </div>
-          </div>
-          <div className="text-center p-3 bg-green-50 rounded">
-            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
-              <GiAlliedStar className="text-green-600" />
-              感覚
-            </div>
-            <div className="text-2xl font-bold text-green-600">
-              {calculatedAbilities.sensory}
-            </div>
-          </div>
-          <div className="text-center p-3 bg-purple-50 rounded">
-            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
-              <GiBookshelf className="text-purple-600" />
-              知力
-            </div>
-            <div className="text-2xl font-bold text-purple-600">
-              {calculatedAbilities.intellectual}
-            </div>
-          </div>
-          <div className="text-center p-3 bg-yellow-50 rounded">
-            <div className="text-sm text-gray-600 flex items-center justify-center gap-1 mb-1">
-              <GiMagicSwirl className="text-yellow-600" />
-              超常
-            </div>
-            <div className="text-2xl font-bold text-yellow-600">
-              {calculatedAbilities.supernatural}
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
+    </div>
+  );
+};
 
-      {/* 技能 */}
-      {Object.keys(skills).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <GiFist className="text-blue-600" />
-            技能
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(skills).map(
-              ([skillName, skill]) => {
-                const SkillIcon = getSkillIcon(skillName);
-                return (
-                  <div
-                    key={skillName}
-                    className="flex justify-between items-center p-3 bg-gray-50 rounded"
-                  >
-                    <span className="font-medium flex items-center gap-2">
-                      <SkillIcon className="text-blue-600" size={16} />
-                      {skillName}
-                    </span>
-                    <div className="text-right text-sm">
-                      <div className="text-lg font-bold text-blue-600">
-                        {skill.totalValue}%
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        基本{skill.baseValue} + 割振{skill.allocatedPoints}
-                      </div>
-                    </div>
-                  </div>
-                );
-              },
-            )}
-          </div>
-        </div>
-      )}
+// アイテムセクションコンポーネント
+const ItemsSection: React.FC<{ items: ItemData[] }> = ({ items }) => {
+  if (items.length === 0) return null;
 
-      {/* ヒーロースキル */}
-      {(character.heroSkills || []).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <GiStarsStack className="text-purple-600" />
-            ヒーロースキル
-          </h2>
-          <div className="space-y-3">
-            {(character.heroSkills || []).map((skill, index) => (
-              <div key={index} className="border border-gray-200 rounded p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg">{skill.name}</h3>
-                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
-                    Lv.{skill.level}/{skill.maxLevel}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
-                  <div>
-                    <span className="font-medium">タイミング:</span>{' '}
-                    {skill.timing}
-                  </div>
-                  <div>
-                    <span className="font-medium">技能:</span> {skill.skill}
-                  </div>
-                  <div>
-                    <span className="font-medium">対象:</span> {skill.target}
-                  </div>
-                  <div>
-                    <span className="font-medium">射程:</span> {skill.range}
-                  </div>
-                </div>
-                <div className="text-sm text-gray-600 mb-2">
-                  <span className="font-medium">コスト:</span> {skill.cost}
-                </div>
-                <p className="text-sm text-gray-700">{skill.effect}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <GiBackpack className="text-green-600" />
+        アイテム
+      </h2>
+      <div className="space-y-3">
+        {items.map((item, index) => (
+          <Item key={index} item={item} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-      {/* 必殺技 */}
-      {(character.specialAttacks || []).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <GiSwordsPower className="text-red-600" />
-            必殺技
-          </h2>
-          <div className="space-y-3">
-            {(character.specialAttacks || []).map((attack, index) => (
-              <div key={index} className="border border-gray-200 rounded p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg">{attack.name}</h3>
-                  <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">
-                    Lv.{attack.level}/{attack.maxLevel}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
-                  <div>
-                    <span className="font-medium">タイミング:</span>{' '}
-                    {attack.timing}
-                  </div>
-                  <div>
-                    <span className="font-medium">技能:</span> {attack.skill}
-                  </div>
-                  <div>
-                    <span className="font-medium">対象:</span> {attack.target}
-                  </div>
-                  <div>
-                    <span className="font-medium">射程:</span> {attack.range}
-                  </div>
-                </div>
-                <div className="text-sm text-gray-600 mb-2">
-                  <span className="font-medium">コスト:</span> {attack.cost}
-                </div>
-                <p className="text-sm text-gray-700">{attack.effect}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+// セッションセクションコンポーネント
+const SessionsSection: React.FC<{ sessions: SessionData[] }> = ({
+  sessions,
+}) => {
+  if (sessions.length === 0) return null;
 
-      {/* アイテム */}
-      {(character.items || []).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <GiBackpack className="text-green-600" />
-            アイテム
-          </h2>
-          <div className="space-y-3">
-            {(character.items || []).map((item, index) => (
-              <Item key={index} item={item} />
-            ))}
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <GiBookshelf className="text-indigo-600" />
+        セッション履歴
+      </h2>
+      <div className="space-y-4">
+        {sessions.map((session) => (
+          <div key={session.id} className="border border-gray-200 rounded p-4">
+            <h3 className="font-semibold text-lg">{session.sessionName}</h3>
+            <p className="text-sm text-gray-600">GM: {session.gmName}</p>
+            <p className="text-sm text-gray-700">{session.memo}</p>
           </div>
-        </div>
-      )}
-
-      {/* セッション履歴 */}
-      {(character.sessions || []).length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <GiBookshelf className="text-indigo-600" />
-            セッション履歴
-          </h2>
-          <div className="space-y-4">
-            {(character.sessions || []).map((session) => (
-              <div
-                key={session.id}
-                className="border border-gray-200 rounded p-4"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg">
-                    {session.sessionName}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {new Date(session.sessionDate).toLocaleDateString('ja-JP')}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 mb-2">
-                  GM: {session.gmName}
-                </p>
-                <div className="flex space-x-4 mb-2">
-                  <span className="text-sm">HP: {session.currentHp}</span>
-                  <span className="text-sm">SP: {session.currentSp}</span>
-                  {session.currentFc !== undefined && (
-                    <span className="text-sm">FC: {session.currentFc}</span>
-                  )}
-                </div>
-                <p className="text-sm text-blue-600 mb-2">
-                  獲得経験点: {session.experiencePoints}
-                </p>
-                {session.memo && (
-                  <p className="text-sm text-gray-700">{session.memo}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
