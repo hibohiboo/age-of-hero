@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
+import { muscleSkills } from '../../constants/gameData';
 import { Button } from './Button';
-import { FormField, InputField, TextAreaField } from './FormField';
+import { FormField, InputField, SelectField, TextAreaField } from './FormField';
 
 interface SkillFormField {
   name: string;
@@ -20,6 +21,7 @@ interface SkillFormProps {
   onUpdate: (index: number, field: keyof SkillFormField, value: string) => void;
   onRemove: (index: number) => void;
   nameLabel?: string;
+  showMusclePresets?: boolean;
 }
 
 export const SkillForm: React.FC<SkillFormProps> = ({
@@ -28,9 +30,45 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   onUpdate,
   onRemove,
   nameLabel = 'スキル名',
-}) => (
-  <div className="p-4 border border-gray-200 rounded-md">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  showMusclePresets = false,
+}) => {
+  const handlePresetSelect = (value: string) => {
+    const preset = muscleSkills.find((s) => s.name === value);
+    if (!preset) return;
+
+    const fields = [
+      ['name', preset.name],
+      ['timing', preset.details.timing],
+      ['skill', preset.details.skill],
+      ['target', preset.details.target],
+      ['range', preset.details.range],
+      ['cost', preset.details.cost],
+      ['effect', preset.details.effect],
+    ] as const;
+
+    fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
+  };
+
+  return (
+    <div className="p-4 border border-gray-200 rounded-md">
+      {showMusclePresets && (
+        <div className="mb-4">
+          <FormField label="マッスルスキル選択">
+            <SelectField
+              value=""
+              options={[
+                { label: '', value: '' },
+                ...muscleSkills.map((skill) => ({
+                  label: skill.name,
+                  value: skill.name,
+                })),
+              ]}
+              onChange={handlePresetSelect}
+            />
+          </FormField>
+        </div>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <FormField label={nameLabel}>
         <InputField
           value={skill.name}
@@ -90,13 +128,14 @@ export const SkillForm: React.FC<SkillFormProps> = ({
           onChange={(value) => onUpdate(index, 'effect', value)}
         />
       </FormField>
-    </div>
+      </div>
 
-    <div className="mt-2">
-      <Button onClick={() => onRemove(index)} variant="danger" size="sm">
-        <FaTrash size={12} />
-        削除
-      </Button>
+      <div className="mt-2">
+        <Button onClick={() => onRemove(index)} variant="danger" size="sm">
+          <FaTrash size={12} />
+          削除
+        </Button>
+      </div>
     </div>
-  </div>
-);
+  );
+};

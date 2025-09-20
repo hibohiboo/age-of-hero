@@ -281,16 +281,21 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         onAdd={addHeroSkill}
       >
         <div className="space-y-4">
-          {formData.heroSkills.map((skill, index) => (
-            <SkillForm
-              key={index}
-              skill={skill}
-              index={index}
-              onUpdate={updateHeroSkill}
-              onRemove={removeHeroSkill}
-              nameLabel="スキル名"
-            />
-          ))}
+          {formData.heroSkills.map((skill, index) => {
+            const isShowMusclePresets =
+              formData.selectedClasses.includes('マッスル');
+            return (
+              <SkillForm
+                key={index}
+                skill={skill}
+                index={index}
+                onUpdate={updateHeroSkill}
+                onRemove={removeHeroSkill}
+                nameLabel="スキル名"
+                showMusclePresets={isShowMusclePresets}
+              />
+            );
+          })}
         </div>
         <ValidationSummary
           label="合計レベル"
