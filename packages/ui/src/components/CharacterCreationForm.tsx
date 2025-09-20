@@ -120,12 +120,16 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   const updateHeroSkill = (
     index: number,
     field: keyof HeroSkill,
-    value: string | number,
+    value: string,
   ) => {
+    let processedValue: string | number = value;
+    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
+      processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
+    }
     setFormData((prev) => ({
       ...prev,
       heroSkills: prev.heroSkills.map((skill, i) =>
-        i === index ? { ...skill, [field]: value } : skill,
+        i === index ? { ...skill, [field]: processedValue } : skill,
       ),
     }));
   };
@@ -158,12 +162,16 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   const updateSpecialAttack = (
     index: number,
     field: keyof SpecialAttack,
-    value: string | number,
+    value: string,
   ) => {
+    let processedValue: string | number = value;
+    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
+      processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
+    }
     setFormData((prev) => ({
       ...prev,
       specialAttacks: prev.specialAttacks.map((attack, i) =>
-        i === index ? { ...attack, [field]: value } : attack,
+        i === index ? { ...attack, [field]: processedValue } : attack,
       ),
     }));
   };
@@ -350,10 +358,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                       max="100"
                       value={formData.skillAllocations[skill.name] || 0}
                       onChange={(e) =>
-                        handleSkillAllocationChange(
-                          skill.name,
-                          e.target.value,
-                        )
+                        handleSkillAllocationChange(skill.name, e.target.value)
                       }
                       className="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     />
@@ -415,11 +420,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                     min="1"
                     value={skill.level}
                     onChange={(e) =>
-                      updateHeroSkill(
-                        index,
-                        'level',
-                        parseInt(e.target.value) || 1,
-                      )
+                      updateHeroSkill(index, 'level', e.target.value)
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -485,11 +486,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                     min="0"
                     value={skill.cost}
                     onChange={(e) =>
-                      updateHeroSkill(
-                        index,
-                        'cost',
-                        parseInt(e.target.value) || 0,
-                      )
+                      updateHeroSkill(index, 'cost', e.target.value)
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -570,11 +567,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                     min="1"
                     value={attack.level}
                     onChange={(e) =>
-                      updateSpecialAttack(
-                        index,
-                        'level',
-                        parseInt(e.target.value) || 1,
-                      )
+                      updateSpecialAttack(index, 'level', e.target.value)
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -640,11 +633,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                     min="0"
                     value={attack.cost}
                     onChange={(e) =>
-                      updateSpecialAttack(
-                        index,
-                        'cost',
-                        parseInt(e.target.value) || 0,
-                      )
+                      updateSpecialAttack(index, 'cost', e.target.value)
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
