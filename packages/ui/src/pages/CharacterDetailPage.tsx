@@ -97,47 +97,42 @@ export interface CharacterData {
     };
   };
   heroSkills: {
-    [skillName: string]: {
-      name: string;
-      level: number;
-      maxLevel: number;
-      timing: string;
-      skill: string;
-      target: string;
-      range: string;
-      cost: number;
-      effect: string;
-    };
-  };
+    name: string;
+    level: number;
+    maxLevel: number;
+    timing: string;
+    skill: string;
+    target: string;
+    range: string;
+    cost: number;
+    effect: string;
+  }[];
   specialAttacks: {
-    [attackName: string]: {
-      name: string;
-      level: number;
-      maxLevel: number;
-      timing: string;
-      skill: string;
-      target: string;
-      range: string;
-      cost: number;
-      effect: string;
-    };
-  };
+    name: string;
+    level: number;
+    maxLevel: number;
+    timing: string;
+    skill: string;
+    target: string;
+    range: string;
+    cost: number;
+    effect: string;
+  }[];
   items: {
-    [itemName: string]: {
-      type: string;
-      skill?: string;
-      modifier?: string;
-      attackPower?: string;
-      guardValue?: string;
-      range?: string;
-      dodge?: string;
-      actionValue?: string;
-      protection?: string;
-      price: number;
-      effect?: string;
-      quantity?: number;
-    };
-  };
+    name: string;
+    type: string;
+    skill?: string;
+    modifier?: string;
+    attackPower?: string;
+    guardValue?: string;
+    range?: string;
+    dodge?: string;
+    actionValue?: string;
+    protection?: string;
+    price: number;
+    effect?: string;
+    quantity?: number;
+  }[];
   status: {
     hp: number;
     sp: number;
@@ -184,13 +179,12 @@ const ItemComponent: React.FC<{ label: string; value: string | undefined }> = ({
 };
 
 const Item: React.FC<{
-  key: string;
   item: CharacterDetail['characterData']['items'][0];
-}> = ({ item, key }) => (
+}> = ({ item }) => (
   <div className="border border-gray-200 rounded p-4">
     <div className="flex justify-between items-start mb-2">
       <div>
-        <h3 className="font-semibold">{key}</h3>
+        <h3 className="font-semibold">{item.name}</h3>
         <span className="text-sm text-gray-500">{item.type}</span>
       </div>
       <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
@@ -421,104 +415,98 @@ const CharacterDetail: React.FC<{
       )}
 
       {/* ヒーロースキル */}
-      {Object.keys(character.characterData.heroSkills).length > 0 && (
+      {character.characterData.heroSkills.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiStarsStack className="text-purple-600" />
             ヒーロースキル
           </h2>
           <div className="space-y-3">
-            {Object.entries(character.characterData.heroSkills).map(
-              ([key, skill]) => (
-                <div key={key} className="border border-gray-200 rounded p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-lg">{skill.name}</h3>
-                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
-                      Lv.{skill.level}/{skill.maxLevel}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
-                    <div>
-                      <span className="font-medium">タイミング:</span>{' '}
-                      {skill.timing}
-                    </div>
-                    <div>
-                      <span className="font-medium">技能:</span> {skill.skill}
-                    </div>
-                    <div>
-                      <span className="font-medium">対象:</span> {skill.target}
-                    </div>
-                    <div>
-                      <span className="font-medium">射程:</span> {skill.range}
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    <span className="font-medium">コスト:</span> {skill.cost}
-                  </div>
-                  <p className="text-sm text-gray-700">{skill.effect}</p>
+            {character.characterData.heroSkills.map((skill, index) => (
+              <div key={index} className="border border-gray-200 rounded p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-semibold text-lg">{skill.name}</h3>
+                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
+                    Lv.{skill.level}/{skill.maxLevel}
+                  </span>
                 </div>
-              ),
-            )}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+                  <div>
+                    <span className="font-medium">タイミング:</span>{' '}
+                    {skill.timing}
+                  </div>
+                  <div>
+                    <span className="font-medium">技能:</span> {skill.skill}
+                  </div>
+                  <div>
+                    <span className="font-medium">対象:</span> {skill.target}
+                  </div>
+                  <div>
+                    <span className="font-medium">射程:</span> {skill.range}
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 mb-2">
+                  <span className="font-medium">コスト:</span> {skill.cost}
+                </div>
+                <p className="text-sm text-gray-700">{skill.effect}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
       {/* 必殺技 */}
-      {Object.keys(character.characterData.specialAttacks).length > 0 && (
+      {character.characterData.specialAttacks.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiSwordsPower className="text-red-600" />
             必殺技
           </h2>
           <div className="space-y-3">
-            {Object.entries(character.characterData.specialAttacks).map(
-              ([key, attack]) => (
-                <div key={key} className="border border-gray-200 rounded p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-lg">{attack.name}</h3>
-                    <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">
-                      Lv.{attack.level}/{attack.maxLevel}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
-                    <div>
-                      <span className="font-medium">タイミング:</span>{' '}
-                      {attack.timing}
-                    </div>
-                    <div>
-                      <span className="font-medium">技能:</span> {attack.skill}
-                    </div>
-                    <div>
-                      <span className="font-medium">対象:</span> {attack.target}
-                    </div>
-                    <div>
-                      <span className="font-medium">射程:</span> {attack.range}
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    <span className="font-medium">コスト:</span> {attack.cost}
-                  </div>
-                  <p className="text-sm text-gray-700">{attack.effect}</p>
+            {character.characterData.specialAttacks.map((attack, index) => (
+              <div key={index} className="border border-gray-200 rounded p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-semibold text-lg">{attack.name}</h3>
+                  <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">
+                    Lv.{attack.level}/{attack.maxLevel}
+                  </span>
                 </div>
-              ),
-            )}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
+                  <div>
+                    <span className="font-medium">タイミング:</span>{' '}
+                    {attack.timing}
+                  </div>
+                  <div>
+                    <span className="font-medium">技能:</span> {attack.skill}
+                  </div>
+                  <div>
+                    <span className="font-medium">対象:</span> {attack.target}
+                  </div>
+                  <div>
+                    <span className="font-medium">射程:</span> {attack.range}
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 mb-2">
+                  <span className="font-medium">コスト:</span> {attack.cost}
+                </div>
+                <p className="text-sm text-gray-700">{attack.effect}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
       {/* アイテム */}
-      {Object.keys(character.characterData.items).length > 0 && (
+      {character.characterData.items.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <GiBackpack className="text-green-600" />
             アイテム
           </h2>
           <div className="space-y-3">
-            {Object.entries(character.characterData.items).map(
-              ([key, item]) => (
-                <Item key={key} item={item} />
-              ),
-            )}
+            {character.characterData.items.map((item, index) => (
+              <Item key={index} item={item} />
+            ))}
           </div>
         </div>
       )}
