@@ -79,12 +79,13 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
     onSubmit(formData);
   };
 
-  const handleSkillAllocationChange = (skillName: string, value: number) => {
+  const handleSkillAllocationChange = (skillName: string, value: string) => {
+    const numValue = parseInt(value, 10) || 0;
     setFormData((prev) => ({
       ...prev,
       skillAllocations: {
         ...prev.skillAllocations,
-        [skillName]: Math.min(100, Math.max(0, value)),
+        [skillName]: Math.min(100, Math.max(0, numValue)),
       },
     }));
   };
@@ -351,7 +352,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                       onChange={(e) =>
                         handleSkillAllocationChange(
                           skill.name,
-                          parseInt(e.target.value) || 0,
+                          e.target.value,
                         )
                       }
                       className="w-20 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
