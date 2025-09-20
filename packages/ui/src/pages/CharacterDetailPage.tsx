@@ -20,7 +20,14 @@ import {
   GiTinker,
   GiMusicalNotes,
   GiMagnifyingGlass,
-  GiSpeaker
+  GiSpeaker,
+  GiMuscleUp,
+  GiRobotAntennas,
+  GiCrystalBall,
+  GiBrain,
+  GiDna2,
+  GiStarFormation,
+  GiAncientSword
 } from 'react-icons/gi';
 import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
 
@@ -53,6 +60,21 @@ const getAbilityIcon = (abilityKey: string) => {
     'supernatural': GiMagicSwirl,
   };
   return abilityIcons[abilityKey] || GiBiceps;
+};
+
+// クラス名からアイコンを取得するヘルパー関数
+const getClassIcon = (className: string) => {
+  const classIcons: { [key: string]: any } = {
+    'マッスル': GiMuscleUp,
+    'テクノロジー': GiRobotAntennas,
+    'マジカル': GiCrystalBall,
+    'サイキック': GiBrain,
+    'バイオ': GiDna2,
+    'エスペラント': GiStarFormation,
+    'アーティファクト': GiAncientSword,
+    'アーツ': GiStarsStack,
+  };
+  return classIcons[className] || GiStarsStack;
 };
 
 // 基本的なCharacter型（一覧ページと共通部分）
@@ -289,10 +311,18 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
               選択クラス
             </h3>
             <div className="flex space-x-2">
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                {React.createElement(getClassIcon(character.characterData.selectedClasses.primary), {
+                  size: 16,
+                  className: "text-blue-600"
+                })}
                 {character.characterData.selectedClasses.primary}
               </span>
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                {React.createElement(getClassIcon(character.characterData.selectedClasses.secondary), {
+                  size: 16,
+                  className: "text-blue-600"
+                })}
                 {character.characterData.selectedClasses.secondary}
               </span>
             </div>
