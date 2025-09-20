@@ -11,7 +11,7 @@ export interface ItemDetails {
   dodge?: string; // 防具用
   actionValue?: string; // 防具用
   protection?: number | string; // 防具用 - 防護点
-  price: number | string;
+  price: number;
   effect?: string;
 }
 
