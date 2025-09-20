@@ -7,6 +7,8 @@ import {
   bioSkills,
   esperantoSkills,
   technologySkills,
+  magicalSkills,
+  psychicSkills,
 } from '../../constants/gameData';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
@@ -41,6 +43,8 @@ const CLASS_SKILL_MAP = {
   バイオ: { skills: bioSkills, label: 'バイオスキル選択' },
   エスペラント: { skills: esperantoSkills, label: 'エスペラントスキル選択' },
   テクノロジー: { skills: technologySkills, label: 'テクノロジースキル選択' },
+  マジカル: { skills: magicalSkills, label: 'マジカルスキル選択' },
+  サイキック: { skills: psychicSkills, label: 'サイキックスキル選択' },
 } as const;
 
 export const SkillForm: React.FC<SkillFormProps> = ({
