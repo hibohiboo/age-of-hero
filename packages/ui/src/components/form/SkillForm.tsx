@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { muscleSkills, artifactSkills } from '../../constants/gameData';
+import { muscleSkills, artifactSkills, artsSkills } from '../../constants/gameData';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
 
@@ -30,6 +30,7 @@ const CLASS_SKILL_MAP = {
     skills: artifactSkills,
     label: 'アーティファクトスキル選択',
   },
+  アーツ: { skills: artsSkills, label: 'アーツスキル選択' },
 } as const;
 
 export const SkillForm: React.FC<SkillFormProps> = ({
