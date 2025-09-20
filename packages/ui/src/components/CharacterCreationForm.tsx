@@ -13,6 +13,7 @@ import {
   SKILLS,
   ABILITY_CATEGORIES,
   CLASSES,
+  ultimateSkills,
 } from '../constants/gameData';
 import {
   useCharacterCreationForm,
@@ -307,14 +308,64 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       >
         <div className="space-y-4">
           {formData.specialAttacks.map((attack, index) => (
-            <SkillForm
-              key={index}
-              skill={attack}
-              index={index}
-              onUpdate={updateSpecialAttack}
-              onRemove={removeSpecialAttack}
-              nameLabel="必殺技名"
-            />
+            <div key={index} className="p-4 border border-gray-200 rounded-md">
+              <div className="mb-4">
+                <FormField label="プリセット選択">
+                  <SelectField
+                    value=""
+                    options={ultimateSkills.map((skill) => ({
+                      label: skill.name,
+                      value: skill.name,
+                    }))}
+                    onChange={(value) => {
+                      const preset = ultimateSkills.find(
+                        (s) => s.name === value,
+                      );
+                      if (preset) {
+                        updateSpecialAttack(index, 'name', preset.name);
+                        updateSpecialAttack(
+                          index,
+                          'timing',
+                          preset.details.timing || '',
+                        );
+                        updateSpecialAttack(
+                          index,
+                          'skill',
+                          preset.details.skill || '',
+                        );
+                        updateSpecialAttack(
+                          index,
+                          'target',
+                          preset.details.target || '',
+                        );
+                        updateSpecialAttack(
+                          index,
+                          'range',
+                          preset.details.range || '',
+                        );
+                        updateSpecialAttack(
+                          index,
+                          'cost',
+                          preset.details.cost || 'なし',
+                        );
+                        updateSpecialAttack(
+                          index,
+                          'effect',
+                          preset.details.effect || '',
+                        );
+                      }
+                    }}
+                  />
+                </FormField>
+              </div>
+              <SkillForm
+                skill={attack}
+                index={index}
+                onUpdate={updateSpecialAttack}
+                onRemove={removeSpecialAttack}
+                nameLabel="必殺技名"
+              />
+            </div>
           ))}
         </div>
       </CardSection>
