@@ -32,21 +32,14 @@ export const validateSpecialAttackConstraints = (
 ): ValidationResult => {
   const errors: ValidationError[] = [];
 
-  if (!characterData.specialAttacks || characterData.specialAttacks.length === 0) {
+  if (
+    !characterData.specialAttacks ||
+    characterData.specialAttacks.length === 0
+  ) {
     return { isValid: true, errors: [] };
   }
 
-  for (const attack of characterData.specialAttacks) {
-    // レベルが1以上かチェック
-    if (attack.level <= 0) {
-      errors.push({
-        type: 'INVALID_LEVEL',
-        message: `必殺技「${attack.name}」のレベルは1以上である必要があります`,
-        skillName: attack.name,
-        level: attack.level,
-      });
-    }
-
+  characterData.specialAttacks.forEach((attack) => {
     // レベルがmaxLevelを超えていないかチェック
     if (attack.level > attack.maxLevel) {
       errors.push({
@@ -57,7 +50,7 @@ export const validateSpecialAttackConstraints = (
         maxLevel: attack.maxLevel,
       });
     }
-  }
+  });
 
   return {
     isValid: errors.length === 0,

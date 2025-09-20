@@ -1,4 +1,4 @@
-import { SKILLS, type SkillName } from '../game-data/skills';
+import { SKILLS } from '../game-data/skills';
 
 type Abilities = {
   physical: number;
@@ -9,12 +9,12 @@ type Abilities = {
 };
 
 export function calculateSkillInitialValues(abilities: Abilities) {
-  const result: Record<string, number> = {};
-  
-  for (const [skillName, skillData] of Object.entries(SKILLS)) {
-    const baseAbility = skillData.baseAbility;
-    result[skillName] = abilities[baseAbility] * 10;
-  }
-  
-  return result;
+  return Object.entries(SKILLS).reduce<Record<string, number>>(
+    (acc, [skillName, skillData]) => {
+      const { baseAbility } = skillData;
+      acc[skillName] = abilities[baseAbility] * 10;
+      return acc;
+    },
+    {},
+  );
 }

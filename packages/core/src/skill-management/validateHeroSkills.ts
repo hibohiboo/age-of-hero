@@ -18,32 +18,34 @@ type HeroSkillSelection = AcquiredHeroSkill[];
 
 export function validateHeroSkills(
   selectedClasses: readonly [ClassName, ClassName],
-  heroSkills: HeroSkillSelection
+  heroSkills: HeroSkillSelection,
 ) {
-  const errors: string[] = [];
-  let totalLevel = 0;
-  
-  // 配列形式の処理
-  for (const skill of heroSkills) {
-    const skillName = skill.name;
+  // 有効なスキルのみ抽出
+  const validSkills = heroSkills.filter(
+    (skill) => skill.name && (skill.level || 0) > 0,
+  );
+
+  // レベル制約エラーを収集
+  const errors = validSkills.reduce<string[]>((acc, skill) => {
     const level = skill.level || 0;
-    const maxLevel = skill.maxLevel;
-    
-    if (!skillName || level <= 0) {
-      continue; // 空のスキルはスキップ（寛容な処理）
-    }
-    
-    // レベル制約チェック（maxLevelが設定されている場合のみ）
+    const { maxLevel, name } = skill;
     if (maxLevel && level > maxLevel) {
-      errors.push(`${skillName}: 最大レベル${maxLevel}を超えています（指定レベル: ${level}）`);
+      acc.push(
+        `${name}: 最大レベル${maxLevel}を超えています（指定レベル: ${level}）`,
+      );
     }
-    
-    totalLevel += level;
-  }
-  
+    return acc;
+  }, []);
+
+  // 合計レベル計算
+  const totalLevel = validSkills.reduce(
+    (sum, skill) => sum + (skill.level || 0),
+    0,
+  );
+
   // 合計レベル制約チェック
   const totalLevelValid = totalLevel <= 7;
-  
+
   return {
     isValid: totalLevelValid && errors.length === 0,
     totalLevel,
