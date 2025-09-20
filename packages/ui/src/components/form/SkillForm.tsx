@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { muscleSkills } from '../../constants/gameData';
+import { muscleSkills, artifactSkills } from '../../constants/gameData';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
 
@@ -22,6 +22,7 @@ interface SkillFormProps {
   onRemove: (index: number) => void;
   nameLabel?: string;
   showMusclePresets?: boolean;
+  showArtifactPresets?: boolean;
 }
 
 export const SkillForm: React.FC<SkillFormProps> = ({
@@ -31,9 +32,27 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   onRemove,
   nameLabel = 'スキル名',
   showMusclePresets = false,
+  showArtifactPresets = false,
 }) => {
-  const handlePresetSelect = (value: string) => {
+  const handleMusclePresetSelect = (value: string) => {
     const preset = muscleSkills.find((s) => s.name === value);
+    if (!preset) return;
+
+    const fields = [
+      ['name', preset.name],
+      ['timing', preset.details.timing],
+      ['skill', preset.details.skill],
+      ['target', preset.details.target],
+      ['range', preset.details.range],
+      ['cost', preset.details.cost],
+      ['effect', preset.details.effect],
+    ] as const;
+
+    fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
+  };
+
+  const handleArtifactPresetSelect = (value: string) => {
+    const preset = artifactSkills.find((s) => s.name === value);
     if (!preset) return;
 
     const fields = [
@@ -63,71 +82,88 @@ export const SkillForm: React.FC<SkillFormProps> = ({
                   value: skill.name,
                 })),
               ]}
-              onChange={handlePresetSelect}
+              onChange={handleMusclePresetSelect}
+            />
+          </FormField>
+        </div>
+      )}
+      {showArtifactPresets && (
+        <div className="mb-4">
+          <FormField label="アーティファクトスキル選択">
+            <SelectField
+              value=""
+              options={[
+                { label: '', value: '' },
+                ...artifactSkills.map((skill) => ({
+                  label: skill.name,
+                  value: skill.name,
+                })),
+              ]}
+              onChange={handleArtifactPresetSelect}
             />
           </FormField>
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <FormField label={nameLabel}>
-        <InputField
-          value={skill.name}
-          onChange={(value) => onUpdate(index, 'name', value)}
-        />
-      </FormField>
+        <FormField label={nameLabel}>
+          <InputField
+            value={skill.name}
+            onChange={(value) => onUpdate(index, 'name', value)}
+          />
+        </FormField>
 
-      <FormField label="レベル">
-        <InputField
-          type="number"
-          min="1"
-          value={skill.level}
-          onChange={(value) => onUpdate(index, 'level', value)}
-        />
-      </FormField>
+        <FormField label="レベル">
+          <InputField
+            type="number"
+            min="1"
+            value={skill.level}
+            onChange={(value) => onUpdate(index, 'level', value)}
+          />
+        </FormField>
 
-      <FormField label="タイミング">
-        <InputField
-          value={skill.timing}
-          onChange={(value) => onUpdate(index, 'timing', value)}
-        />
-      </FormField>
+        <FormField label="タイミング">
+          <InputField
+            value={skill.timing}
+            onChange={(value) => onUpdate(index, 'timing', value)}
+          />
+        </FormField>
 
-      <FormField label="対応技能">
-        <InputField
-          value={skill.skill}
-          onChange={(value) => onUpdate(index, 'skill', value)}
-        />
-      </FormField>
+        <FormField label="対応技能">
+          <InputField
+            value={skill.skill}
+            onChange={(value) => onUpdate(index, 'skill', value)}
+          />
+        </FormField>
 
-      <FormField label="対象">
-        <InputField
-          value={skill.target}
-          onChange={(value) => onUpdate(index, 'target', value)}
-        />
-      </FormField>
+        <FormField label="対象">
+          <InputField
+            value={skill.target}
+            onChange={(value) => onUpdate(index, 'target', value)}
+          />
+        </FormField>
 
-      <FormField label="射程">
-        <InputField
-          value={skill.range}
-          onChange={(value) => onUpdate(index, 'range', value)}
-        />
-      </FormField>
+        <FormField label="射程">
+          <InputField
+            value={skill.range}
+            onChange={(value) => onUpdate(index, 'range', value)}
+          />
+        </FormField>
 
-      <FormField label="コスト">
-        <InputField
-          type="number"
-          min="0"
-          value={skill.cost}
-          onChange={(value) => onUpdate(index, 'cost', value)}
-        />
-      </FormField>
+        <FormField label="コスト">
+          <InputField
+            type="number"
+            min="0"
+            value={skill.cost}
+            onChange={(value) => onUpdate(index, 'cost', value)}
+          />
+        </FormField>
 
-      <FormField label="効果" className="md:col-span-2">
-        <TextAreaField
-          value={skill.effect}
-          onChange={(value) => onUpdate(index, 'effect', value)}
-        />
-      </FormField>
+        <FormField label="効果" className="md:col-span-2">
+          <TextAreaField
+            value={skill.effect}
+            onChange={(value) => onUpdate(index, 'effect', value)}
+          />
+        </FormField>
       </div>
 
       <div className="mt-2">

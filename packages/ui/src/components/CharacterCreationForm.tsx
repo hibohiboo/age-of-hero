@@ -284,6 +284,8 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           {formData.heroSkills.map((skill, index) => {
             const isShowMusclePresets =
               formData.selectedClasses.includes('マッスル');
+            const isShowArtifactPresets =
+              formData.selectedClasses.includes('アーティファクト');
             return (
               <SkillForm
                 key={index}
@@ -293,6 +295,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                 onRemove={removeHeroSkill}
                 nameLabel="スキル名"
                 showMusclePresets={isShowMusclePresets}
+                showArtifactPresets={isShowArtifactPresets}
               />
             );
           })}
