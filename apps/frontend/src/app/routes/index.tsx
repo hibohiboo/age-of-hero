@@ -14,6 +14,8 @@ import {
 } from '@age-of-hero/ui/index';
 import { createBrowserRouter } from 'react-router';
 import { Page as CharacterCreatePage } from '@age-of-hero/frontend/page/character-create';
+import { Page as CharacterListPage } from '@age-of-hero/frontend/page/character-list';
+import { Page as CharacterDetailPage } from '@age-of-hero/frontend/page/character-detail';
 import {
   AcclaimRulePage,
   BattleRulePage,
@@ -46,6 +48,14 @@ export const createRouter = () =>
         {
           path: 'character/create',
           element: <CharacterCreatePage />,
+        },
+        {
+          path: 'character-list',
+          element: <CharacterListPage />,
+        },
+        {
+          path: 'character/:id',
+          element: <CharacterDetailPage />,
         },
         {
           path: 'rules/judgment',

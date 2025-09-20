@@ -11,6 +11,7 @@ export { LinkCard } from './components/LinkCard';
 export { useCharacterCreationForm } from './hooks/useCharacterCreationForm';
 export type { CharacterFormData } from './hooks/useCharacterCreationForm';
 export type { Character } from './pages/CharacterListPage';
+export type { CharacterDetail } from './pages/CharacterDetailPage';
 
 // Constants
 export * from './constants/gameData';
@@ -20,6 +21,7 @@ export { HomePage } from './pages/HomePage';
 export { RulesPage } from './pages/RulesPage';
 export { CharacterCreationPage } from './pages/CharacterCreationPage';
 export { CharacterListPage } from './pages/CharacterListPage';
+export { CharacterDetailPage } from './pages/CharacterDetailPage';
 export { JudgmentRulePage } from './pages/JudgmentRulePage';
 export { SessionProgressPage } from './pages/SessionProgressPage';
 export { AcclaimRulePage } from './pages/AcclaimRulePage';
