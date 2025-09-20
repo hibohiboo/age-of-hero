@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormField, InputField } from './FormField';
+import { FormField, InputField } from '../FormField';
 
 interface ConsumableFieldsProps {
   quantity?: number;

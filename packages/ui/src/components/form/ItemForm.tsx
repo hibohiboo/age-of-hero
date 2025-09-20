@@ -2,9 +2,9 @@ import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
-import { WeaponFields } from './WeaponFields';
-import { ArmorFields } from './ArmorFields';
-import { ConsumableFields } from './ConsumableFields';
+import { WeaponFields } from './item-fields/WeaponFields';
+import { ArmorFields } from './item-fields/ArmorFields';
+import { ConsumableFields } from './item-fields/ConsumableFields';
 
 interface ItemFormField {
   name: string;
