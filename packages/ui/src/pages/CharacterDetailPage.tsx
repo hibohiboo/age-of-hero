@@ -35,7 +35,7 @@ import {
 } from 'react-icons/gi';
 import { MdOutlineBolt } from 'react-icons/md';
 import { Link } from 'react-router';
-import { SKILLS } from '../constants/gameData';
+import { SKILLS, ABILITY_CATEGORIES } from '../constants/gameData';
 
 // 計算済み能力値の型
 interface CalculatedAbilities {
@@ -541,29 +541,90 @@ const SkillsSection: React.FC<{ skills: SkillsData }> = ({ skills }) => (
       <GiFist className="text-blue-600" />
       技能
     </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {Object.entries(skills).map(([skillName, skill]) => {
-        const SkillIcon = getSkillIcon(skillName);
-        return (
-          <div
-            key={skillName}
-            className="flex justify-between items-center p-3 bg-gray-50 rounded"
+    {/* モバイル表示: 縦並び */}
+    <div className="space-y-6 lg:hidden">
+      {ABILITY_CATEGORIES.map((categoryInfo) => (
+        <div key={categoryInfo.category} className="space-y-3">
+          <h3
+            className={`text-sm font-semibold flex items-center gap-2 ${categoryInfo.color}`}
           >
-            <span className="font-medium flex items-center gap-2">
-              <SkillIcon className="text-blue-600" size={16} />
-              {skillName}
-            </span>
-            <div className="text-right text-sm">
-              <div className="text-lg font-bold text-blue-600">
-                {skill.totalValue}%
-              </div>
-              <div className="text-xs text-gray-500">
-                基本{skill.baseValue} + 割振{skill.allocatedPoints}
-              </div>
-            </div>
+            <categoryInfo.icon size={18} />
+            {categoryInfo.label}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-6">
+            {SKILLS.filter(
+              (skillDef) => skillDef.category === categoryInfo.category,
+            ).map((skillDef) => {
+              const skill = skills[skillDef.name];
+              if (!skill) return null;
+
+              const SkillIcon = getSkillIcon(skillDef.name);
+              return (
+                <div
+                  key={skillDef.name}
+                  className="flex justify-between items-center p-3 bg-gray-50 rounded"
+                >
+                  <span className="font-medium flex items-center gap-2">
+                    <SkillIcon className={skillDef.color} size={16} />
+                    {skillDef.name}
+                  </span>
+                  <div className="text-right text-sm">
+                    <div className="text-lg font-bold text-gray-900">
+                      {skill.totalValue}%
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      基本{skill.baseValue} + 割振{skill.allocatedPoints}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+        </div>
+      ))}
+    </div>
+
+    {/* PC表示: 横並び */}
+    <div className="hidden lg:grid lg:grid-cols-5 lg:gap-6">
+      {ABILITY_CATEGORIES.map((categoryInfo) => (
+        <div key={categoryInfo.category} className="space-y-3">
+          <h3
+            className={`text-sm font-semibold flex items-center gap-2 ${categoryInfo.color}`}
+          >
+            <categoryInfo.icon size={18} />
+            {categoryInfo.label}
+          </h3>
+          <div className="space-y-2">
+            {SKILLS.filter(
+              (skillDef) => skillDef.category === categoryInfo.category,
+            ).map((skillDef) => {
+              const skill = skills[skillDef.name];
+              if (!skill) return null;
+
+              const SkillIcon = getSkillIcon(skillDef.name);
+              return (
+                <div
+                  key={skillDef.name}
+                  className="p-3 bg-gray-50 rounded"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <SkillIcon className={skillDef.color} size={16} />
+                    <span className="font-medium text-sm">{skillDef.name}</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-gray-900">
+                      {skill.totalValue}%
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      基本{skill.baseValue} + 割振{skill.allocatedPoints}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 );
