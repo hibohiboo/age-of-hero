@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { IconType } from 'react-icons';
 import { FaUser, FaArrowLeft, FaEdit } from 'react-icons/fa';
 import {
   GiBiceps,
@@ -28,52 +28,41 @@ import {
   GiBrain,
   GiDna2,
   GiStarFormation,
-  GiAncientSword
+  GiAncientSword,
 } from 'react-icons/gi';
-import { MdOutlineBolt, MdOutlinePsychology } from 'react-icons/md';
+import { MdOutlineBolt } from 'react-icons/md';
+import { Link } from 'react-router';
 
 // 技能名からアイコンを取得するヘルパー関数
 const getSkillIcon = (skillName: string) => {
-  const skillIcons: { [key: string]: any } = {
-    'パワー': GiFist,
-    'タフネス': GiShield,
-    'スタミナ': GiHeartPlus,
-    '技術': GiKnifeThrust,
-    '運動': GiWalk,
-    '操縦': GiSteeringWheel,
-    '射撃': GiCrosshair,
-    '知覚': GiAlliedStar,
-    '製作': GiTinker,
-    '芸術': GiMusicalNotes,
-    '情報': GiMagnifyingGlass,
-    '交渉': GiSpeaker,
+  const skillIcons: { [key: string]: IconType } = {
+    パワー: GiFist,
+    タフネス: GiShield,
+    スタミナ: GiHeartPlus,
+    技術: GiKnifeThrust,
+    運動: GiWalk,
+    操縦: GiSteeringWheel,
+    射撃: GiCrosshair,
+    知覚: GiAlliedStar,
+    製作: GiTinker,
+    芸術: GiMusicalNotes,
+    情報: GiMagnifyingGlass,
+    交渉: GiSpeaker,
   };
   return skillIcons[skillName] || GiFist;
 };
 
-// 能力値からアイコンを取得するヘルパー関数
-const getAbilityIcon = (abilityKey: string) => {
-  const abilityIcons: { [key: string]: any } = {
-    'physical': GiBiceps,
-    'reflex': MdOutlineBolt,
-    'sensory': GiAlliedStar,
-    'intellectual': GiBookshelf,
-    'supernatural': GiMagicSwirl,
-  };
-  return abilityIcons[abilityKey] || GiBiceps;
-};
-
 // クラス名からアイコンを取得するヘルパー関数
 const getClassIcon = (className: string) => {
-  const classIcons: { [key: string]: any } = {
-    'マッスル': GiMuscleUp,
-    'テクノロジー': GiRobotAntennas,
-    'マジカル': GiCrystalBall,
-    'サイキック': GiBrain,
-    'バイオ': GiDna2,
-    'エスペラント': GiStarFormation,
-    'アーティファクト': GiAncientSword,
-    'アーツ': GiStarsStack,
+  const classIcons: { [key: string]: IconType } = {
+    マッスル: GiMuscleUp,
+    テクノロジー: GiRobotAntennas,
+    マジカル: GiCrystalBall,
+    サイキック: GiBrain,
+    バイオ: GiDna2,
+    エスペラント: GiStarFormation,
+    アーティファクト: GiAncientSword,
+    アーツ: GiStarsStack,
   };
   return classIcons[className] || GiStarsStack;
 };
@@ -182,87 +171,53 @@ interface CharacterDetailPageProps {
   error?: string | null;
   onRetry?: () => void;
 }
-
-export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
-  character,
-  loading = false,
-  error = null,
-  onRetry,
+const ItemComponent: React.FC<{ label: string; value: string | undefined }> = ({
+  label,
+  value,
 }) => {
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-        <p className="mt-2 text-gray-600">読み込み中...</p>
-      </div>
-    );
-  }
+  if (!value) return <> </>;
+  return (
+    <div>
+      <span className="font-medium">{label}:</span> {value}
+    </div>
+  );
+};
 
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <div className="text-red-600 mb-4">
-          <svg
-            className="w-16 h-16 mx-auto mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-            />
-          </svg>
-        </div>
-        <p className="text-red-600 mb-4">{error}</p>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            再読み込み
-          </button>
-        )}
+const Item: React.FC<{
+  key: string;
+  item: CharacterDetail['characterData']['items'][0];
+}> = ({ item, key }) => (
+  <div className="border border-gray-200 rounded p-4">
+    <div className="flex justify-between items-start mb-2">
+      <div>
+        <h3 className="font-semibold">{key}</h3>
+        <span className="text-sm text-gray-500">{item.type}</span>
       </div>
-    );
-  }
-
-  if (!character) {
-    return (
-      <div className="text-center py-12">
-        <div className="text-gray-400 mb-4">
-          <svg
-            className="w-24 h-24 mx-auto mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1}
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-        </div>
-        <h3 className="text-xl font-semibold text-gray-600 mb-2">
-          キャラクターが見つかりません
-        </h3>
-        <p className="text-gray-500 mb-6">
-          指定されたキャラクターは存在しないか、削除された可能性があります
-        </p>
-        <Link
-          to="/character-list"
-          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          キャラクター一覧に戻る
-        </Link>
+      <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+        {item.price}点
+      </span>
+    </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600 mb-2">
+      <ItemComponent label="技能" value={item.skill} />
+      <ItemComponent label="修正" value={item.modifier} />
+      <ItemComponent label="攻撃力" value={item.attackPower} />
+      <ItemComponent label="ガード値" value={item.guardValue} />
+      <ItemComponent label="射程" value={item.range} />
+      <ItemComponent label="防護点" value={item.protection} />
+    </div>
+    {item.quantity && (
+      <div className="text-sm text-gray-600 mb-2">
+        <span className="font-medium">数量:</span> {item.quantity}
       </div>
-    );
-  }
+    )}
+    {item.effect && <p className="text-sm text-gray-700">{item.effect}</p>}
+  </div>
+);
 
+const CharacterDetail: React.FC<{
+  character: CharacterDetailPageProps['character'];
+}> = ({ character }) => {
+  if (!character) return <> </>;
   return (
     <div className="space-y-6">
       {/* ヘッダー */}
@@ -313,17 +268,25 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
             </h3>
             <div className="flex space-x-2">
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                {React.createElement(getClassIcon(character.characterData.selectedClasses.primary), {
-                  size: 16,
-                  className: "text-blue-600"
-                })}
+                {React.createElement(
+                  getClassIcon(character.characterData.selectedClasses.primary),
+                  {
+                    size: 16,
+                    className: 'text-blue-600',
+                  },
+                )}
                 {character.characterData.selectedClasses.primary}
               </span>
               <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                {React.createElement(getClassIcon(character.characterData.selectedClasses.secondary), {
-                  size: 16,
-                  className: "text-blue-600"
-                })}
+                {React.createElement(
+                  getClassIcon(
+                    character.characterData.selectedClasses.secondary,
+                  ),
+                  {
+                    size: 16,
+                    className: 'text-blue-600',
+                  },
+                )}
                 {character.characterData.selectedClasses.secondary}
               </span>
             </div>
@@ -553,61 +516,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           <div className="space-y-3">
             {Object.entries(character.characterData.items).map(
               ([key, item]) => (
-                <div key={key} className="border border-gray-200 rounded p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="font-semibold">{key}</h3>
-                      <span className="text-sm text-gray-500">{item.type}</span>
-                    </div>
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
-                      {item.price}点
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-600 mb-2">
-                    {item.skill && (
-                      <div>
-                        <span className="font-medium">技能:</span> {item.skill}
-                      </div>
-                    )}
-                    {item.modifier && (
-                      <div>
-                        <span className="font-medium">修正:</span>{' '}
-                        {item.modifier}
-                      </div>
-                    )}
-                    {item.attackPower && (
-                      <div>
-                        <span className="font-medium">攻撃力:</span>{' '}
-                        {item.attackPower}
-                      </div>
-                    )}
-                    {item.guardValue && (
-                      <div>
-                        <span className="font-medium">ガード値:</span>{' '}
-                        {item.guardValue}
-                      </div>
-                    )}
-                    {item.range && (
-                      <div>
-                        <span className="font-medium">射程:</span> {item.range}
-                      </div>
-                    )}
-                    {item.protection && (
-                      <div>
-                        <span className="font-medium">防護点:</span>{' '}
-                        {item.protection}
-                      </div>
-                    )}
-                  </div>
-                  {item.quantity && (
-                    <div className="text-sm text-gray-600 mb-2">
-                      <span className="font-medium">数量:</span> {item.quantity}
-                    </div>
-                  )}
-                  {item.effect && (
-                    <p className="text-sm text-gray-700">{item.effect}</p>
-                  )}
-                </div>
+                <Item key={key} item={item} />
               ),
             )}
           </div>
@@ -658,4 +567,86 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       )}
     </div>
   );
+};
+export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
+  character,
+  loading = false,
+  error = null,
+  onRetry,
+}) => {
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+        <p className="mt-2 text-gray-600">読み込み中...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-red-600 mb-4">
+          <svg
+            className="w-16 h-16 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+            />
+          </svg>
+        </div>
+        <p className="text-red-600 mb-4">{error}</p>
+        {onRetry && (
+          <button
+            onClick={onRetry}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            再読み込み
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (!character) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-gray-400 mb-4">
+          <svg
+            className="w-24 h-24 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1}
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-600 mb-2">
+          キャラクターが見つかりません
+        </h3>
+        <p className="text-gray-500 mb-6">
+          指定されたキャラクターは存在しないか、削除された可能性があります
+        </p>
+        <Link
+          to="/character-list"
+          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          キャラクター一覧に戻る
+        </Link>
+      </div>
+    );
+  }
+
+  return <CharacterDetail character={character} />;
 };
