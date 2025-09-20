@@ -29,6 +29,7 @@
   "dependencies": {
     "@age-of-hero/schemas": "workspace:*",
     "@hono/zod-validator": "^0.7.3",
+    "@neondatabase/serverless": "^1.0.1",
     "@types/bcryptjs": "^3.0.0",
     "bcryptjs": "^3.0.2",
     "drizzle-orm": "^0.44.5",
