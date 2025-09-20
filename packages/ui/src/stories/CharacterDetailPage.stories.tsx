@@ -1,5 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { CharacterDetailPage, type CharacterDetail } from '../pages/CharacterDetailPage';
+import {
+  CharacterDetailPage,
+  type CharacterDetail,
+} from '../pages/CharacterDetailPage';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof CharacterDetailPage> = {
   title: 'Pages/CharacterDetailPage',
@@ -30,44 +33,44 @@ const sampleCharacter: CharacterDetail = {
       supernatural: 0,
     },
     skills: {
-      'パワー': {
+      パワー: {
         baseValue: 60,
         allocatedPoints: 20,
         totalValue: 80,
       },
-      '技術': {
+      技術: {
         baseValue: 40,
         allocatedPoints: 20,
         totalValue: 60,
       },
-      '運動': {
+      運動: {
         baseValue: 40,
         allocatedPoints: 30,
         totalValue: 70,
       },
-      'タフネス': {
+      タフネス: {
         baseValue: 60,
         allocatedPoints: 5,
         totalValue: 65,
       },
-      '知覚': {
+      知覚: {
         baseValue: 50,
         allocatedPoints: 5,
         totalValue: 55,
       },
-      '情報': {
+      情報: {
         baseValue: 30,
         allocatedPoints: 10,
         totalValue: 40,
       },
-      '交渉': {
+      交渉: {
         baseValue: 30,
         allocatedPoints: 5,
         totalValue: 35,
       },
     },
     heroSkills: {
-      'パワードライブ': {
+      パワードライブ: {
         name: 'パワードライブ',
         level: 3,
         maxLevel: 7,
@@ -78,7 +81,7 @@ const sampleCharacter: CharacterDetail = {
         cost: 3,
         effect: 'パワー+レベルで攻撃。成功時追加ダメージ。',
       },
-      'ファイトバック': {
+      ファイトバック: {
         name: 'ファイトバック',
         level: 2,
         maxLevel: 5,
@@ -91,7 +94,7 @@ const sampleCharacter: CharacterDetail = {
       },
     },
     specialAttacks: {
-      'パワースマッシュ': {
+      パワースマッシュ: {
         name: 'パワースマッシュ',
         level: 4,
         maxLevel: 7,
@@ -104,7 +107,7 @@ const sampleCharacter: CharacterDetail = {
       },
     },
     items: {
-      '特製グローブ': {
+      特製グローブ: {
         type: '白兵',
         skill: 'パワー',
         modifier: '+5%',
@@ -114,7 +117,7 @@ const sampleCharacter: CharacterDetail = {
         price: 25,
         effect: '近接攻撃の命中率が向上する特製グローブ',
       },
-      'エナジードリンク': {
+      エナジードリンク: {
         type: '消耗品',
         price: 15,
         effect: 'マイナーアクションで使用可能。HPを2D点回復する。',
@@ -172,7 +175,7 @@ export const Loading: Story = {
   },
 };
 
-export const Error: Story = {
+export const Errors: Story = {
   args: {
     loading: false,
     error: 'キャラクターの取得に失敗しました',
@@ -208,12 +211,12 @@ export const MinimalCharacter: Story = {
           supernatural: 0,
         },
         skills: {
-          'パワー': {
+          パワー: {
             baseValue: 40,
             allocatedPoints: 0,
             totalValue: 40,
           },
-          '運動': {
+          運動: {
             baseValue: 40,
             allocatedPoints: 20,
             totalValue: 60,

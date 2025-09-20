@@ -1,5 +1,5 @@
-import { SkillCard } from '../components/SkillCard';
 import { GiMuscleUp, GiMagicSwirl } from 'react-icons/gi';
+import { SkillCard } from '../components/SkillCard';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {

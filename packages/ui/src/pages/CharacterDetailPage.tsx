@@ -112,7 +112,6 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
   error = null,
   onRetry,
 }) => {
-
   if (loading) {
     return (
       <div className="text-center py-12">
@@ -152,7 +151,6 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
       </div>
     );
   }
-
 
   if (!character) {
     return (
@@ -327,10 +325,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           <div className="space-y-3">
             {Object.entries(character.characterData.heroSkills).map(
               ([key, skill]) => (
-                <div
-                  key={key}
-                  className="border border-gray-200 rounded p-4"
-                >
+                <div key={key} className="border border-gray-200 rounded p-4">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-semibold text-lg">{skill.name}</h3>
                     <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
@@ -339,7 +334,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
                     <div>
-                      <span className="font-medium">タイミング:</span> {skill.timing}
+                      <span className="font-medium">タイミング:</span>{' '}
+                      {skill.timing}
                     </div>
                     <div>
                       <span className="font-medium">技能:</span> {skill.skill}
@@ -369,10 +365,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           <div className="space-y-3">
             {Object.entries(character.characterData.specialAttacks).map(
               ([key, attack]) => (
-                <div
-                  key={key}
-                  className="border border-gray-200 rounded p-4"
-                >
+                <div key={key} className="border border-gray-200 rounded p-4">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-semibold text-lg">{attack.name}</h3>
                     <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">
@@ -381,7 +374,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600 mb-2">
                     <div>
-                      <span className="font-medium">タイミング:</span> {attack.timing}
+                      <span className="font-medium">タイミング:</span>{' '}
+                      {attack.timing}
                     </div>
                     <div>
                       <span className="font-medium">技能:</span> {attack.skill}
@@ -411,10 +405,7 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
           <div className="space-y-3">
             {Object.entries(character.characterData.items).map(
               ([key, item]) => (
-                <div
-                  key={key}
-                  className="border border-gray-200 rounded p-4"
-                >
+                <div key={key} className="border border-gray-200 rounded p-4">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h3 className="font-semibold">{key}</h3>
@@ -432,17 +423,20 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
                     )}
                     {item.modifier && (
                       <div>
-                        <span className="font-medium">修正:</span> {item.modifier}
+                        <span className="font-medium">修正:</span>{' '}
+                        {item.modifier}
                       </div>
                     )}
                     {item.attackPower && (
                       <div>
-                        <span className="font-medium">攻撃力:</span> {item.attackPower}
+                        <span className="font-medium">攻撃力:</span>{' '}
+                        {item.attackPower}
                       </div>
                     )}
                     {item.guardValue && (
                       <div>
-                        <span className="font-medium">ガード値:</span> {item.guardValue}
+                        <span className="font-medium">ガード値:</span>{' '}
+                        {item.guardValue}
                       </div>
                     )}
                     {item.range && (
@@ -452,7 +446,8 @@ export const CharacterDetailPage: React.FC<CharacterDetailPageProps> = ({
                     )}
                     {item.protection && (
                       <div>
-                        <span className="font-medium">防護点:</span> {item.protection}
+                        <span className="font-medium">防護点:</span>{' '}
+                        {item.protection}
                       </div>
                     )}
                   </div>
