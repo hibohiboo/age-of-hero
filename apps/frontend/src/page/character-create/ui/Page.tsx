@@ -1,6 +1,5 @@
 import { CharacterCreationForm } from '@age-of-hero/ui';
 import type { CharacterFormData } from '@age-of-hero/ui';
-import React from 'react';
 
 export function Page() {
   const handleSubmit = async (data: CharacterFormData) => {

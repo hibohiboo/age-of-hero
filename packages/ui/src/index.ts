@@ -7,6 +7,10 @@ export { Section } from './components/Section';
 export { StepList } from './components/StepList';
 export { LinkCard } from './components/LinkCard';
 
+// Hooks and Types
+export { useCharacterCreationForm } from './hooks/useCharacterCreationForm';
+export type { CharacterFormData } from './hooks/useCharacterCreationForm';
+
 // Constants
 export * from './constants/gameData';
 
