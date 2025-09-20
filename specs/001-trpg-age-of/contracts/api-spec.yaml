@@ -244,32 +244,66 @@ components:
           format: uuid
         name:
           type: string
-          example: '射撃武器（小）'
+          example: '射撃武器Ａ'
         type:
           type: string
-          example: '射撃武器'
+          enum: ['白兵', '射撃', '白兵/射撃', '防具', '消耗品', 'その他']
+          example: '射撃'
         skill:
           type: string
+          nullable: true
           example: '〈射撃〉'
+          description: '武器の対応技能'
         modifier:
           type: string
-          example: '+20%'
+          nullable: true
+          example: '＋０％'
+          description: '武器の修正値'
         attackPower:
           type: string
-          example: '+4'
+          nullable: true
+          example: '＋５'
+          description: '武器の攻撃力'
         guardValue:
           type: string
-          example: '2'
+          nullable: true
+          example: '０'
+          description: '武器のガード値'
         range:
           type: string
-          example: '近距離'
+          nullable: true
+          example: '近'
+          description: '武器の射程 (至近/近/中/遠)'
+        dodge:
+          type: string
+          nullable: true
+          example: '＋０％'
+          description: '防具のドッジ修正'
+        actionValue:
+          type: string
+          nullable: true
+          example: '＋０'
+          description: '防具の行動値修正'
+        protection:
+          type: string
+          nullable: true
+          example: '５'
+          description: '防具の防護点'
         price:
           type: integer
           minimum: 0
-          example: 60
+          example: 6
+          description: '価格 (0=常備化不可または価格なし)'
         effect:
           type: string
-          example: '拳銃など。'
+          nullable: true
+          example: 'マイナーアクション、メジャーアクションで使用可能。ＨＰを２Ｄ点回復する。'
+          description: 'アイテムの効果説明'
+        quantity:
+          type: integer
+          nullable: true
+          minimum: 1
+          description: '消耗品の数量'
 
     CreateCharacterRequest:
       type: object
