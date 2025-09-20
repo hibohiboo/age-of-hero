@@ -149,6 +149,17 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               required
             />
           </FormField>
+
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <LimitSettingsSection
+              skillPointsLimit={formData.skillPointsLimit}
+              heroSkillLevelLimit={formData.heroSkillLevelLimit}
+              itemPriceLimit={formData.itemPriceLimit}
+              onUpdate={(field, value) =>
+                updateFormField(field as keyof typeof formData, value)
+              }
+            />
+          </div>
         </div>
       </Card>
 
@@ -208,21 +219,6 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             </div>
           </div>
         </div>
-      </Card>
-
-      <Card>
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <GiStarsStack className="text-purple-600" />
-          上限設定
-        </h2>
-        <LimitSettingsSection
-          skillPointsLimit={formData.skillPointsLimit}
-          heroSkillLevelLimit={formData.heroSkillLevelLimit}
-          itemPriceLimit={formData.itemPriceLimit}
-          onUpdate={(field, value) =>
-            updateFormField(field as keyof typeof formData, value)
-          }
-        />
       </Card>
 
       <Card>
