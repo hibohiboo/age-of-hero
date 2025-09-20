@@ -13,6 +13,7 @@ import {
   UltimateSkillPage,
 } from '@age-of-hero/ui/index';
 import { createBrowserRouter } from 'react-router';
+import { Page as CharacterCreatePage } from '@age-of-hero/frontend/page/character-create';
 import {
   AcclaimRulePage,
   BattleRulePage,
@@ -41,6 +42,10 @@ export const createRouter = () =>
         {
           path: 'rules/character-creation',
           element: <CharacterCreationPage />,
+        },
+        {
+          path: 'character/create',
+          element: <CharacterCreatePage />,
         },
         {
           path: 'rules/judgment',
