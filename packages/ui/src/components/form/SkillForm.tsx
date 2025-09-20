@@ -34,74 +34,62 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   showMusclePresets = false,
   showArtifactPresets = false,
 }) => {
-  const handleMusclePresetSelect = (value: string) => {
-    const preset = muscleSkills.find((s) => s.name === value);
-    if (!preset) return;
+  const handlePresetSelect =
+    (skills: typeof muscleSkills | typeof artifactSkills) =>
+    (value: string) => {
+      const preset = skills.find((s) => s.name === value);
+      if (!preset) return;
 
-    const fields = [
-      ['name', preset.name],
-      ['timing', preset.details.timing],
-      ['skill', preset.details.skill],
-      ['target', preset.details.target],
-      ['range', preset.details.range],
-      ['cost', preset.details.cost],
-      ['effect', preset.details.effect],
-    ] as const;
+      const fields = [
+        ['name', preset.name],
+        ['timing', preset.details.timing],
+        ['skill', preset.details.skill],
+        ['target', preset.details.target],
+        ['range', preset.details.range],
+        ['cost', preset.details.cost],
+        ['effect', preset.details.effect],
+      ] as const;
 
-    fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
-  };
+      fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
+    };
 
-  const handleArtifactPresetSelect = (value: string) => {
-    const preset = artifactSkills.find((s) => s.name === value);
-    if (!preset) return;
-
-    const fields = [
-      ['name', preset.name],
-      ['timing', preset.details.timing],
-      ['skill', preset.details.skill],
-      ['target', preset.details.target],
-      ['range', preset.details.range],
-      ['cost', preset.details.cost],
-      ['effect', preset.details.effect],
-    ] as const;
-
-    fields.forEach(([field, value]) => onUpdate(index, field, `${value}`));
-  };
+  const handleMusclePresetSelect = handlePresetSelect(muscleSkills);
+  const handleArtifactPresetSelect = handlePresetSelect(artifactSkills);
 
   return (
     <div className="p-4 border border-gray-200 rounded-md">
-      {showMusclePresets && (
-        <div className="mb-4">
-          <FormField label="マッスルスキル選択">
-            <SelectField
-              value=""
-              options={[
-                { label: '', value: '' },
-                ...muscleSkills.map((skill) => ({
-                  label: skill.name,
-                  value: skill.name,
-                })),
-              ]}
-              onChange={handleMusclePresetSelect}
-            />
-          </FormField>
-        </div>
-      )}
-      {showArtifactPresets && (
-        <div className="mb-4">
-          <FormField label="アーティファクトスキル選択">
-            <SelectField
-              value=""
-              options={[
-                { label: '', value: '' },
-                ...artifactSkills.map((skill) => ({
-                  label: skill.name,
-                  value: skill.name,
-                })),
-              ]}
-              onChange={handleArtifactPresetSelect}
-            />
-          </FormField>
+      {(showMusclePresets || showArtifactPresets) && (
+        <div className="mb-4 space-y-4">
+          {showMusclePresets && (
+            <FormField label="マッスルスキル選択">
+              <SelectField
+                value=""
+                options={[
+                  { label: '', value: '' },
+                  ...muscleSkills.map((skill) => ({
+                    label: skill.name,
+                    value: skill.name,
+                  })),
+                ]}
+                onChange={handleMusclePresetSelect}
+              />
+            </FormField>
+          )}
+          {showArtifactPresets && (
+            <FormField label="アーティファクトスキル選択">
+              <SelectField
+                value=""
+                options={[
+                  { label: '', value: '' },
+                  ...artifactSkills.map((skill) => ({
+                    label: skill.name,
+                    value: skill.name,
+                  })),
+                ]}
+                onChange={handleArtifactPresetSelect}
+              />
+            </FormField>
+          )}
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

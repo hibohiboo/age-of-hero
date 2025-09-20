@@ -14,6 +14,8 @@ import {
   ABILITY_CATEGORIES,
   CLASSES,
   ultimateSkills,
+  muscleSkills,
+  artifactSkills,
 } from '../constants/gameData';
 import {
   useCharacterCreationForm,
@@ -281,24 +283,18 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         onAdd={addHeroSkill}
       >
         <div className="space-y-4">
-          {formData.heroSkills.map((skill, index) => {
-            const isShowMusclePresets =
-              formData.selectedClasses.includes('マッスル');
-            const isShowArtifactPresets =
-              formData.selectedClasses.includes('アーティファクト');
-            return (
-              <SkillForm
-                key={index}
-                skill={skill}
-                index={index}
-                onUpdate={updateHeroSkill}
-                onRemove={removeHeroSkill}
-                nameLabel="スキル名"
-                showMusclePresets={isShowMusclePresets}
-                showArtifactPresets={isShowArtifactPresets}
-              />
-            );
-          })}
+          {formData.heroSkills.map((skill, index) => (
+            <SkillForm
+              key={index}
+              skill={skill}
+              index={index}
+              onUpdate={updateHeroSkill}
+              onRemove={removeHeroSkill}
+              nameLabel="スキル名"
+              showMusclePresets={formData.selectedClasses.includes('マッスル')}
+              showArtifactPresets={formData.selectedClasses.includes('アーティファクト')}
+            />
+          ))}
         </div>
         <ValidationSummary
           label="合計レベル"
