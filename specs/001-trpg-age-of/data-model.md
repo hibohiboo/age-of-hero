@@ -109,9 +109,15 @@ interface CharacterData {
   // アイテム・装備
   items: {
     [itemName: string]: {
-      type: string; // 種別 (武器/防具/消耗品等)
-      quantity: number; // 数量
-      effects: string[]; // 効果一覧
+      type: string; // 種別 (武器/防具/消耗品/その他/テクノロジー専用)
+      skill?: string; // 対応技能
+      modifier?: string; // 修正値
+      attackPower?: string; // 攻撃力
+      guardValue?: string; // ガード値
+      range?: string; // 射程
+      price: string; // 価格
+      effect: string; // 効果説明
+      quantity?: number; // 数量（消耗品用）
     };
   };
 
