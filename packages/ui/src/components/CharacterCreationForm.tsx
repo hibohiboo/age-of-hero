@@ -23,7 +23,9 @@ import { Button } from './form/Button';
 import { CardSection } from './form/CardSection';
 import { FormField, InputField, SelectField } from './form/FormField';
 import { ItemForm } from './form/ItemForm';
+import { LimitSettingsSection } from './form/LimitSettingsSection';
 import { SkillForm } from './form/SkillForm';
+import { ValidationSummary } from './form/ValidationSummary';
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
@@ -211,19 +213,23 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       <Card>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <GiStarsStack className="text-purple-600" />
+          上限設定
+        </h2>
+        <LimitSettingsSection
+          skillPointsLimit={formData.skillPointsLimit}
+          heroSkillLevelLimit={formData.heroSkillLevelLimit}
+          itemPriceLimit={formData.itemPriceLimit}
+          onUpdate={(field, value) =>
+            updateFormField(field as keyof typeof formData, value)
+          }
+        />
+      </Card>
+
+      <Card>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <GiStarsStack className="text-purple-600" />
           技能ポイント分配（{formData.skillPointsLimit}%まで）
         </h2>
-        <div className="mb-4">
-          <FormField label="技能ポイント上限" htmlFor="skillPointsLimit">
-            <InputField
-              type="number"
-              min="0"
-              max="1000"
-              value={formData.skillPointsLimit}
-              onChange={(value) => updateFormField('skillPointsLimit', parseInt(value, 10) || 150)}
-            />
-          </FormField>
-        </div>
         <div className="space-y-6">
           {ABILITY_CATEGORIES.map((categoryInfo) => (
             <div key={categoryInfo.category} className="space-y-2">
@@ -261,14 +267,12 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             </div>
           ))}
         </div>
-        <div
-          className={`mt-4 text-sm ${skillTotal > formData.skillPointsLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
-        >
-          合計: {skillTotal}% / {formData.skillPointsLimit}%
-          {skillTotal > formData.skillPointsLimit && (
-            <span className="ml-2">⚠️ 上限を超えています</span>
-          )}
-        </div>
+        <ValidationSummary
+          label="合計"
+          current={skillTotal}
+          limit={formData.skillPointsLimit}
+          unit="%"
+        />
       </Card>
 
       <CardSection
@@ -277,17 +281,6 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         iconColor="text-orange-600"
         onAdd={addHeroSkill}
       >
-        <div className="mb-4">
-          <FormField label="ヒーロースキルレベル上限" htmlFor="heroSkillLevelLimit">
-            <InputField
-              type="number"
-              min="0"
-              max="50"
-              value={formData.heroSkillLevelLimit}
-              onChange={(value) => updateFormField('heroSkillLevelLimit', parseInt(value, 10) || 7)}
-            />
-          </FormField>
-        </div>
         <div className="space-y-4">
           {formData.heroSkills.map((skill, index) => (
             <SkillForm
@@ -300,14 +293,11 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             />
           ))}
         </div>
-        <div
-          className={`mt-4 text-sm ${heroSkillLevelTotal > formData.heroSkillLevelLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
-        >
-          合計レベル: {heroSkillLevelTotal} / {formData.heroSkillLevelLimit}
-          {heroSkillLevelTotal > formData.heroSkillLevelLimit && (
-            <span className="ml-2">⚠️ 上限を超えています</span>
-          )}
-        </div>
+        <ValidationSummary
+          label="合計レベル"
+          current={heroSkillLevelTotal}
+          limit={formData.heroSkillLevelLimit}
+        />
       </CardSection>
 
       <CardSection
@@ -338,17 +328,6 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
         onAdd={addItem}
         addButtonVariant="success"
       >
-        <div className="mb-4">
-          <FormField label="アイテム価格上限" htmlFor="itemPriceLimit">
-            <InputField
-              type="number"
-              min="0"
-              max="1000"
-              value={formData.itemPriceLimit}
-              onChange={(value) => updateFormField('itemPriceLimit', parseInt(value, 10) || 20)}
-            />
-          </FormField>
-        </div>
         <div className="space-y-4">
           {formData.items.map((item, index) => (
             <ItemForm
@@ -360,14 +339,12 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             />
           ))}
         </div>
-        <div
-          className={`mt-4 text-sm ${itemPriceTotal > formData.itemPriceLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
-        >
-          合計価格: {itemPriceTotal}点 / {formData.itemPriceLimit}点
-          {itemPriceTotal > formData.itemPriceLimit && (
-            <span className="ml-2">⚠️ 上限を超えています</span>
-          )}
-        </div>
+        <ValidationSummary
+          label="合計価格"
+          current={itemPriceTotal}
+          limit={formData.itemPriceLimit}
+          unit="点"
+        />
       </CardSection>
 
       <Card>
