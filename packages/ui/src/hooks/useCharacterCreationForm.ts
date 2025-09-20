@@ -63,12 +63,14 @@ export interface CharacterFormData {
 
 interface UseCharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
+  initialData?: Partial<CharacterFormData>;
 }
 
 export const useCharacterCreationForm = ({
   onSubmit,
+  initialData,
 }: UseCharacterCreationFormProps) => {
-  const [formData, setFormData] = useState<CharacterFormData>({
+  const defaultData: CharacterFormData = {
     name: '',
     selectedClasses: [CLASSES[0].name, CLASSES[0].name],
     abilityBonus: 'physical',
@@ -80,6 +82,11 @@ export const useCharacterCreationForm = ({
     specialAttacks: [],
     items: [],
     password: '',
+  };
+
+  const [formData, setFormData] = useState<CharacterFormData>({
+    ...defaultData,
+    ...initialData,
   });
 
   const handleSubmit = (e: React.FormEvent) => {

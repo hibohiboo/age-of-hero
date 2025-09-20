@@ -350,7 +350,7 @@ const CharacterTitleSection: React.FC<{ character: CharacterDetail }> = ({
 );
 
 // キャラクターアクションボタン
-const CharacterActionButtons: React.FC = () => (
+const CharacterActionButtons: React.FC<{ characterId: string }> = ({ characterId }) => (
   <div className="flex space-x-2">
     <Link
       to="/character-list"
@@ -359,10 +359,13 @@ const CharacterActionButtons: React.FC = () => (
       <FaArrowLeft />
       一覧に戻る
     </Link>
-    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
+    <Link
+      to={`/character/${characterId}/edit`}
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"
+    >
       <FaEdit />
       編集
-    </button>
+    </Link>
   </div>
 );
 
@@ -441,7 +444,7 @@ const CharacterHeader: React.FC<{
   <div className="bg-white border border-gray-200 rounded-lg p-6">
     <div className="flex justify-between items-start mb-4">
       <CharacterTitleSection character={character} />
-      <CharacterActionButtons />
+      <CharacterActionButtons characterId={character.id} />
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <CharacterClassSection character={character} />

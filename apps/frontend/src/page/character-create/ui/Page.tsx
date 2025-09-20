@@ -7,9 +7,6 @@ export function Page() {
 
   const handleSubmit = async (data: CharacterFormData) => {
     try {
-      console.log('キャラクター作成データ:', data);
-
-      // TODO: バックエンドAPIにデータを送信
       const response = await fetch('/api/characters', {
         method: 'POST',
         headers: {
@@ -23,8 +20,6 @@ export function Page() {
       }
 
       const result = await response.json();
-
-      console.log('キャラクター作成成功:', result);
 
       // キャラクター詳細ページに移動
       navigate(`/character/${result.id}`);

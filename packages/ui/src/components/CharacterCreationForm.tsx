@@ -30,13 +30,15 @@ import { ValidationSummary } from './form/ValidationSummary';
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
   isLoading?: boolean;
+  initialData?: Partial<CharacterFormData>;
 }
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   onSubmit,
   isLoading = false,
+  initialData,
 }) => {
-  const vm = useCharacterCreationForm({ onSubmit });
+  const vm = useCharacterCreationForm({ onSubmit, initialData });
   const {
     formData,
     handleSubmit,
