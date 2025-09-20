@@ -51,6 +51,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
+    itemPriceTotal,
     calculatedAbilities,
   } = vm;
 
@@ -331,12 +332,23 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
       </CardSection>
 
       <CardSection
-        title="アイテム（価格20点分）"
+        title={`アイテム（価格${formData.itemPriceLimit}点分）`}
         icon={GiBackpack}
         iconColor="text-green-600"
         onAdd={addItem}
         addButtonVariant="success"
       >
+        <div className="mb-4">
+          <FormField label="アイテム価格上限" htmlFor="itemPriceLimit">
+            <InputField
+              type="number"
+              min="0"
+              max="1000"
+              value={formData.itemPriceLimit}
+              onChange={(value) => updateFormField('itemPriceLimit', parseInt(value, 10) || 20)}
+            />
+          </FormField>
+        </div>
         <div className="space-y-4">
           {formData.items.map((item, index) => (
             <ItemForm
@@ -347,6 +359,14 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               onRemove={removeItem}
             />
           ))}
+        </div>
+        <div
+          className={`mt-4 text-sm ${itemPriceTotal > formData.itemPriceLimit ? 'text-red-600 font-semibold' : 'text-gray-600'}`}
+        >
+          合計価格: {itemPriceTotal}点 / {formData.itemPriceLimit}点
+          {itemPriceTotal > formData.itemPriceLimit && (
+            <span className="ml-2">⚠️ 上限を超えています</span>
+          )}
         </div>
       </CardSection>
 

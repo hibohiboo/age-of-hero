@@ -53,6 +53,7 @@ export interface CharacterFormData {
     | 'supernatural';
   skillPointsLimit: number;
   heroSkillLevelLimit: number;
+  itemPriceLimit: number;
   skillAllocations: Record<string, number>;
   heroSkills: HeroSkill[];
   specialAttacks: SpecialAttack[];
@@ -73,6 +74,7 @@ export const useCharacterCreationForm = ({
     abilityBonus: 'physical',
     skillPointsLimit: 150,
     heroSkillLevelLimit: 7,
+    itemPriceLimit: 20,
     skillAllocations: {},
     heroSkills: [],
     specialAttacks: [],
@@ -226,6 +228,11 @@ export const useCharacterCreationForm = ({
     0,
   );
 
+  const itemPriceTotal = formData.items.reduce(
+    (sum, item) => sum + (item.price * (item.quantity || 1)),
+    0,
+  );
+
   // 能力値計算
   const calculatedAbilities = useMemo(() => {
     return calculateAbilities(
@@ -250,6 +257,7 @@ export const useCharacterCreationForm = ({
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
+    itemPriceTotal,
     calculatedAbilities,
   };
 };
