@@ -39,7 +39,19 @@ describe('validateCreateCharacter', () => {
         effect: '強力な一撃'
       },
     ],
-    items: ['射撃武器（小）'],
+    items: [
+      {
+        name: '射撃武器（小）',
+        type: '射撃',
+        skill: '〈射撃〉',
+        modifier: '＋０％',
+        attackPower: '＋５',
+        guardValue: '０',
+        range: '近',
+        price: 6,
+        effect: '射撃攻撃用の基本的な武器',
+      },
+    ],
     sessions: [],
   };
 
@@ -151,6 +163,79 @@ describe('validateCreateCharacter', () => {
               level: 0,
             },
           ],
+        };
+        const result = validateCreateCharacter(validData);
+
+        expect(result.success).toBe(true);
+      });
+    });
+
+    describe('items', () => {
+      it('必須フィールドのみのアイテムでも成功すること', () => {
+        const validData = {
+          ...validCharacterData,
+          items: [
+            {
+              name: '基本アイテム',
+              type: 'その他',
+              price: 1,
+            },
+          ],
+        };
+        const result = validateCreateCharacter(validData);
+
+        expect(result.success).toBe(true);
+      });
+
+      it('全フィールドを含むアイテムで成功すること', () => {
+        const validData = {
+          ...validCharacterData,
+          items: [
+            {
+              name: '完全装備',
+              type: '白兵/射撃',
+              skill: '〈技術〉/〈射撃〉',
+              modifier: '＋５％',
+              attackPower: '＋８/＋６',
+              guardValue: '３',
+              range: '至近/中',
+              dodge: '＋０％',
+              actionValue: '－１',
+              protection: '５',
+              price: 10,
+              effect: '多機能武器',
+              quantity: 2,
+            },
+          ],
+        };
+        const result = validateCreateCharacter(validData);
+
+        expect(result.success).toBe(true);
+      });
+
+      it('priceが負の値の場合は失敗すること', () => {
+        const invalidData = {
+          ...validCharacterData,
+          items: [
+            {
+              name: '無効価格アイテム',
+              type: 'その他',
+              price: -1,
+            },
+          ],
+        };
+        const result = validateCreateCharacter(invalidData);
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.details.some(d => d.field.includes('price'))).toBe(true);
+        }
+      });
+
+      it('空のアイテム配列でも成功すること', () => {
+        const validData = {
+          ...validCharacterData,
+          items: [],
         };
         const result = validateCreateCharacter(validData);
 
