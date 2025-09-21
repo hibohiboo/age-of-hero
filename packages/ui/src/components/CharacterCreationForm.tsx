@@ -7,6 +7,7 @@ import {
   GiSwordsPower,
   GiHeartBeats,
   GiMagicShield,
+  GiBookshelf,
 } from 'react-icons/gi';
 import {
   ABILITIES,
@@ -25,6 +26,7 @@ import { CardSection } from './form/CardSection';
 import { FormField, InputField, SelectField } from './form/FormField';
 import { ItemForm } from './form/ItemForm';
 import { LimitSettingsSection } from './form/LimitSettingsSection';
+import { SessionHistoryForm } from './form/SessionHistoryForm';
 import { SkillForm } from './form/SkillForm';
 import { ValidationSummary } from './form/ValidationSummary';
 
@@ -53,6 +55,9 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
     addItem,
     updateItem,
     removeItem,
+    addSession,
+    updateSession,
+    removeSession,
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
@@ -380,6 +385,26 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
           limit={formData.itemPriceLimit}
           unit="点"
         />
+      </CardSection>
+
+      <CardSection
+        title="セッション履歴"
+        icon={GiBookshelf}
+        iconColor="text-purple-600"
+        onAdd={addSession}
+        addButtonVariant="secondary"
+      >
+        <div className="space-y-4">
+          {formData.sessions.map((session, index) => (
+            <SessionHistoryForm
+              key={session.id}
+              session={session}
+              index={index}
+              onUpdate={updateSession}
+              onRemove={removeSession}
+            />
+          ))}
+        </div>
       </CardSection>
 
       <Card>

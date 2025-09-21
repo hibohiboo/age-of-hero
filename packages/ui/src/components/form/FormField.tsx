@@ -27,7 +27,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 );
 
 interface InputFieldProps {
-  type?: 'text' | 'number' | 'password';
+  type?: 'text' | 'number' | 'password' | 'date';
   value: string | number | undefined;
   onChange: (value: string) => void;
   placeholder?: string;

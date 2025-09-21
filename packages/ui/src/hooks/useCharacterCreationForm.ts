@@ -10,7 +10,7 @@ interface HeroSkill {
   skill: string;
   target: string;
   range: string;
-  cost: number;
+  cost: string;
   effect: string;
 }
 
@@ -22,7 +22,7 @@ interface SpecialAttack {
   skill: string;
   target: string;
   range: string;
-  cost: number;
+  cost: string;
   effect: string;
 }
 
@@ -42,6 +42,19 @@ interface ItemData {
   quantity?: number; // 数量（消耗品用）
 }
 
+interface SessionHistory {
+  id: string; // セッションID (UUID v4)
+  sessionName: string; // セッション名
+  gmName: string; // GM名
+  sessionDate: string; // セッション実施日 (YYYY-MM-DD)
+  currentHp: number; // セッション終了時HP
+  currentSp: number; // セッション終了時SP
+  currentFc?: number; // セッション終了時ファンチット
+  experiencePoints: number; // 獲得経験点
+  memo?: string; // セッションメモ
+  createdAt: string; // 記録作成日時 (ISO string)
+}
+
 export interface CharacterFormData {
   name: string;
   selectedClasses: [string, string];
@@ -58,6 +71,7 @@ export interface CharacterFormData {
   heroSkills: HeroSkill[];
   specialAttacks: SpecialAttack[];
   items: ItemData[];
+  sessions: SessionHistory[];
   password?: string;
 }
 
@@ -81,6 +95,7 @@ export const useCharacterCreationForm = ({
     heroSkills: [],
     specialAttacks: [],
     items: [],
+    sessions: [],
     password: '',
   };
 
@@ -111,7 +126,7 @@ export const useCharacterCreationForm = ({
     value: string,
   ) => {
     let processedValue: string | number = value;
-    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
+    if (field === 'level' || field === 'maxLevel') {
       processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
     }
     setFormData((prev) => ({
@@ -131,7 +146,7 @@ export const useCharacterCreationForm = ({
       skill: '',
       target: '',
       range: '',
-      cost: 0,
+      cost: '',
       effect: '',
     };
     setFormData((prev) => ({
@@ -153,7 +168,7 @@ export const useCharacterCreationForm = ({
     value: string,
   ) => {
     let processedValue: string | number = value;
-    if (field === 'level' || field === 'maxLevel' || field === 'cost') {
+    if (field === 'level' || field === 'maxLevel') {
       processedValue = parseInt(value, 10) || (field === 'level' ? 1 : 0);
     }
     setFormData((prev) => ({
@@ -173,7 +188,7 @@ export const useCharacterCreationForm = ({
       skill: '',
       target: '',
       range: '',
-      cost: 0,
+      cost: '',
       effect: '',
     };
     setFormData((prev) => ({
@@ -221,6 +236,45 @@ export const useCharacterCreationForm = ({
     }));
   };
 
+  const addSession = () => {
+    const newSession: SessionHistory = {
+      id: crypto.randomUUID(),
+      sessionName: '',
+      gmName: '',
+      sessionDate: '',
+      currentHp: calculatedAbilities.hp,
+      currentSp: calculatedAbilities.sp,
+      currentFc: 0,
+      experiencePoints: 0,
+      memo: '',
+      createdAt: new Date().toISOString(),
+    };
+    setFormData((prev) => ({
+      ...prev,
+      sessions: [...prev.sessions, newSession],
+    }));
+  };
+
+  const updateSession = (
+    index: number,
+    field: keyof SessionHistory,
+    value: string | number,
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      sessions: prev.sessions.map((session, i) =>
+        i === index ? { ...session, [field]: value } : session,
+      ),
+    }));
+  };
+
+  const removeSession = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      sessions: prev.sessions.filter((_, i) => i !== index),
+    }));
+  };
+
   const updateFormField = <T extends keyof CharacterFormData>(
     field: T,
     value: CharacterFormData[T],
@@ -263,6 +317,9 @@ export const useCharacterCreationForm = ({
     addItem,
     updateItem,
     removeItem,
+    addSession,
+    updateSession,
+    removeSession,
     updateFormField,
     skillTotal,
     heroSkillLevelTotal,
