@@ -120,11 +120,18 @@ interface CharacterData {
     quantity?: number; // 数量（消耗品用）
   }[];
 
-  // ステータス
+  // ステータス（最終値：基本値+補正値）
   status: {
-    hp: number; // 最大HP
-    sp: number; // 最大SP
-    actionValue: number; // 行動値 (反射×2+知力)
+    hp: number; // 最大HP（計算済み最終値）
+    sp: number; // 最大SP（計算済み最終値）
+    actionValue: number; // 行動値（計算済み最終値）
+  };
+
+  // ステータス補正値（スキル・アイテムによる修正）
+  statusModifiers: {
+    hpModifier: number; // HP補正値（±）
+    spModifier: number; // SP補正値（±）
+    actionValueModifier: number; // 行動値補正値（±）
   };
 
   // セッション履歴
@@ -529,6 +536,12 @@ const CharacterDataSchema = z.object({
     actionValue: z.number().positive(),
   }),
 
+  statusModifiers: z.object({
+    hpModifier: z.number(),
+    spModifier: z.number(),
+    actionValueModifier: z.number(),
+  }),
+
   sessions: z.array(
     z.object({
       id: z.string(),
@@ -592,8 +605,9 @@ export const charactersIndexes = {
 6. **技能ポイント割り振り**: characterData.skillAllocations設定 (シンプル構造)
 7. **ヒーロースキル選択**: characterData.heroSkills設定 (配列形式)
 8. **必殺技・アイテム選択**: characterData.specialAttacks, items設定 (配列形式)
-9. **最終ステータス算出**: characterData.status設定
-10. **セッション履歴初期化**: characterData.sessions を空の配列で初期化
+9. **ステータス補正設定**: characterData.statusModifiers設定 (スキル・アイテム補正)
+10. **最終ステータス算出**: characterData.status設定 (基本値+補正値)
+11. **セッション履歴初期化**: characterData.sessions を空の配列で初期化
 
 ### データ更新フロー
 
@@ -748,6 +762,7 @@ CREATE INDEX idx_characters_name ON characters(name);
 - **アジャイル**: プロトタイプから本格運用への移行が簡単
 - **フォーム一致**: UIフォームと完全に一致した構造で開発効率が高い
 - **編集時保持**: 制限値設定を保存してキャラクター編集時に反映可能
+- **補正値分離**: 基本値と補正値を分離管理でスキル効果の透明性を確保
 
 **制約**:
 
@@ -786,6 +801,14 @@ CREATE INDEX idx_characters_name ON characters(name);
 1. キャラクター編集時に作成時の制限値を維持可能
 2. 卓ごとの異なるルール（技能ポイント上限等）に対応
 3. 過去データとの整合性を保持
+
+**決定**: ステータス補正値システムを採用
+**理由**:
+
+1. クラス変更時の基本値自動更新とスキル補正の両立
+2. スキル・アイテム効果の透明性確保（補正値が明確）
+3. 最終値の自動計算で入力ミスを防止
+4. 補正値のリセット機能で管理が容易
 
 **代替案**: 正規化された複数テーブル設計
 **却下理由**:
