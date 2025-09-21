@@ -410,80 +410,129 @@ const CharacterClassSection: React.FC<{ character: CharacterDetail }> = ({
     </div>
   </div>
 );
-// ステータス表示コンポーネント
-const CharacterStatusDisplay: React.FC<{
-  character: CharacterDetail;
-  calculatedAbilities: CalculatedAbilities;
-}> = ({ character, calculatedAbilities }) => {
-  // ステータス補正がある場合は最終値を使用、ない場合は計算値を使用
+// ステータス補正詳細表示コンポーネント
+const StatusModifierDetail: React.FC<{
+  baseValue: number;
+  modifier: number;
+}> = ({ baseValue, modifier }) => (
+  <div className="text-xs text-gray-500">
+    基本{baseValue}
+    {modifier > 0 ? '+' : ''}
+    {modifier}
+  </div>
+);
+
+// 個別ステータス表示コンポーネント
+const StatusItem: React.FC<{
+  icon: React.ComponentType<{ size: number }>;
+  color: string;
+  label: string;
+  value: number;
+  baseValue: number;
+  modifier?: number;
+  showModifier: boolean;
+}> = ({
+  icon: Icon,
+  color,
+  label,
+  value,
+  baseValue,
+  modifier = 0,
+  showModifier,
+}) => (
+  <div className="text-center">
+    <div
+      className={`text-sm font-medium ${color} flex items-center justify-center gap-1 mb-1`}
+    >
+      <Icon size={16} />
+      {label}
+    </div>
+    <div
+      className={`text-xl font-bold ${color.replace('text-', 'text-').replace('-600', '-500')}`}
+    >
+      {value}
+    </div>
+    {showModifier && modifier !== 0 && (
+      <StatusModifierDetail baseValue={baseValue} modifier={modifier} />
+    )}
+  </div>
+);
+
+// ステータス計算ヘルパー
+// eslint-disable-next-line complexity
+const useStatusCalculation = (
+  character: CharacterDetail,
+  calculatedAbilities: CalculatedAbilities,
+) => {
   const finalHp = character.status?.hp ?? calculatedAbilities.hp;
   const finalSp = character.status?.sp ?? calculatedAbilities.sp;
   const finalActionValue =
     character.status?.actionValue ?? calculatedAbilities.actionValue;
 
+  const modifiers = character.statusModifiers;
   const hasModifiers =
-    character.statusModifiers &&
-    (character.statusModifiers.hpModifier !== 0 ||
-      character.statusModifiers.spModifier !== 0 ||
-      character.statusModifiers.actionValueModifier !== 0);
+    modifiers &&
+    (modifiers.hpModifier !== 0 ||
+      modifiers.spModifier !== 0 ||
+      modifiers.actionValueModifier !== 0);
+
+  return { finalHp, finalSp, finalActionValue, modifiers, hasModifiers };
+};
+
+// ステータスヘッダーコンポーネント
+const StatusHeader: React.FC<{ hasModifiers: boolean }> = ({
+  hasModifiers,
+}) => (
+  <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+    <GiStarsStack className="text-indigo-600" size={16} />
+    ステータス
+    {hasModifiers && (
+      <span className="text-xs text-purple-600 bg-purple-100 px-1 rounded">
+        補正あり
+      </span>
+    )}
+  </h3>
+);
+
+// ステータス表示コンポーネント
+const CharacterStatusDisplay: React.FC<{
+  character: CharacterDetail;
+  calculatedAbilities: CalculatedAbilities;
+}> = ({ character, calculatedAbilities }) => {
+  const { finalHp, finalSp, finalActionValue, modifiers, hasModifiers } =
+    useStatusCalculation(character, calculatedAbilities);
 
   return (
     <div>
-      <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-        <GiStarsStack className="text-indigo-600" size={16} />
-        ステータス
-        {hasModifiers && (
-          <span className="text-xs text-purple-600 bg-purple-100 px-1 rounded">
-            補正あり
-          </span>
-        )}
-      </h3>
+      <StatusHeader hasModifiers={!!hasModifiers} />
       <div className="grid grid-cols-3 gap-2">
-        <div className="text-center">
-          <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
-            <GiHeartBeats size={16} />
-            HP
-          </div>
-          <div className="text-xl font-bold text-red-500">{finalHp}</div>
-          {hasModifiers && character.statusModifiers?.hpModifier !== 0 && (
-            <div className="text-xs text-gray-500">
-              基本{calculatedAbilities.hp}
-              {character.statusModifiers.hpModifier > 0 ? '+' : ''}
-              {character.statusModifiers.hpModifier}
-            </div>
-          )}
-        </div>
-        <div className="text-center">
-          <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
-            <GiMagicShield size={16} />
-            SP
-          </div>
-          <div className="text-xl font-bold text-blue-500">{finalSp}</div>
-          {hasModifiers && character.statusModifiers?.spModifier !== 0 && (
-            <div className="text-xs text-gray-500">
-              基本{calculatedAbilities.sp}
-              {character.statusModifiers.spModifier > 0 ? '+' : ''}
-              {character.statusModifiers.spModifier}
-            </div>
-          )}
-        </div>
-        <div className="text-center">
-          <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
-            <GiStarsStack size={16} />
-            行動値
-          </div>
-          <div className="text-xl font-bold text-green-500">
-            {finalActionValue}
-          </div>
-          {hasModifiers &&
-            character.statusModifiers?.actionValueModifier !== 0 && (
-              <div className="text-xs text-gray-500">
-                基本{calculatedAbilities.actionValue}
-                {character.statusModifiers.actionValueModifier > 0 ? '+' : ''}
-                {character.statusModifiers.actionValueModifier}
-              </div>
-            )}
-        </div>
+        <StatusItem
+          icon={GiHeartBeats}
+          color="text-red-600"
+          label="HP"
+          value={finalHp}
+          baseValue={calculatedAbilities.hp}
+          modifier={modifiers?.hpModifier}
+          showModifier={!!hasModifiers}
+        />
+        <StatusItem
+          icon={GiMagicShield}
+          color="text-blue-600"
+          label="SP"
+          value={finalSp}
+          baseValue={calculatedAbilities.sp}
+          modifier={modifiers?.spModifier}
+          showModifier={!!hasModifiers}
+        />
+        <StatusItem
+          icon={GiStarsStack}
+          color="text-green-600"
+          label="行動値"
+          value={finalActionValue}
+          baseValue={calculatedAbilities.actionValue}
+          modifier={modifiers?.actionValueModifier}
+          showModifier={!!hasModifiers}
+        />
       </div>
     </div>
   );
