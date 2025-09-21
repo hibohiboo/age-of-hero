@@ -112,7 +112,7 @@ paths:
 
     put:
       summary: キャラクター更新
-      description: キャラクター情報の全体更新またはセッション情報の追加
+      description: キャラクター情報の全体更新
       tags:
         - Character
       parameters:
@@ -127,10 +127,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCharacterRequest'
+              $ref: '#/components/schemas/CharacterUpdateRequest'
       responses:
         '200':
           description: キャラクター更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterResponse'
+        '400':
+          description: バリデーションエラー（不正なUUID形式含む）
+        '401':
+          description: パスワード認証エラー
+        '404':
+          description: キャラクターが見つからない
+
+  /api/characters/{id}/session:
+    put:
+      summary: セッション追加
+      description: キャラクターにセッション情報を追加
+      tags:
+        - Character
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSessionRequest'
+      responses:
+        '200':
+          description: セッション追加成功
           content:
             application/json:
               schema:
@@ -769,11 +802,24 @@ components:
         isPasswordProtected:
           type: boolean
 
-    UpdateCharacterRequest:
+    CharacterUpdateRequest:
       type: object
-      description: キャラクター全体更新またはセッション追加のリクエスト
+      description: キャラクター全体更新のリクエスト
+      required:
+        - name
+        - selectedClasses
+        - abilityBonus
+        - skillPointsLimit
+        - heroSkillLevelLimit
+        - itemPriceLimit
+        - skillAllocations
+        - heroSkills
+        - specialAttacks
+        - items
+        - status
+        - statusModifiers
+        - sessions
       properties:
-        # キャラクター全体更新用プロパティ (sessionが未定義の場合)
         name:
           type: string
           minLength: 1
@@ -913,6 +959,10 @@ components:
             actionValue:
               type: integer
               minimum: 1
+          required:
+            - hp
+            - sp
+            - actionValue
         statusModifiers:
           type: object
           properties:
@@ -922,36 +972,94 @@ components:
               type: integer
             actionValueModifier:
               type: integer
-        # セッション追加用プロパティ (sessionが定義されている場合)
+          required:
+            - hpModifier
+            - spModifier
+            - actionValueModifier
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              sessionName:
+                type: string
+              gmName:
+                type: string
+              sessionDate:
+                type: string
+                format: date
+              currentHp:
+                type: integer
+                minimum: 0
+              currentSp:
+                type: integer
+                minimum: 0
+              currentFc:
+                type: integer
+                minimum: 0
+                nullable: true
+              experiencePoints:
+                type: integer
+                minimum: 0
+              memo:
+                type: string
+                nullable: true
+              createdAt:
+                type: string
+                format: date-time
+        password:
+          type: string
+          nullable: true
+          description: 'パスワード保護されている場合のパスワード'
+
+    AddSessionRequest:
+      type: object
+      description: セッション追加のリクエスト
+      properties:
         session:
           type: object
           properties:
-            id:
-              type: string
-              format: uuid
             sessionName:
               type: string
+              description: セッション名
             gmName:
               type: string
+              description: GM名
             sessionDate:
               type: string
               format: date
+              description: セッション実施日
             currentHp:
               type: integer
               minimum: 0
+              description: セッション終了時HP
             currentSp:
               type: integer
               minimum: 0
+              description: セッション終了時SP
             currentFc:
               type: integer
               minimum: 0
               nullable: true
+              description: セッション終了時ファンチット
             experiencePoints:
               type: integer
               minimum: 0
+              description: 獲得経験点
             memo:
               type: string
               nullable: true
+              description: セッションメモ
+          required:
+            - sessionName
+            - gmName
+            - sessionDate
+            - currentHp
+            - currentSp
+            - experiencePoints
         password:
           type: string
           nullable: true
