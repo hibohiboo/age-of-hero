@@ -53,10 +53,15 @@ interface Character {
 // JSON カラム内のデータ構造
 interface CharacterData {
   // クラス情報
-  selectedClasses: {
-    primary: string; // 1つ目のクラス名
-    secondary: string; // 2つ目のクラス名 (重複可)
-  };
+  selectedClasses: [string, string]; // [1つ目のクラス名, 2つ目のクラス名] (重複可)
+
+  // 能力値ボーナス選択
+  abilityBonus: 'physical' | 'reflex' | 'sensory' | 'intellectual' | 'supernatural';
+
+  // キャラクター作成時の制限値設定（編集時に反映するため保存）
+  skillPointsLimit: number; // 技能ポイント上限 (通常150%)
+  heroSkillLevelLimit: number; // ヒーロースキルレベル上限 (通常7)
+  itemPriceLimit: number; // アイテム価格上限 (通常20点)
 
   // 計算済み能力値
   abilities: {
@@ -67,62 +72,53 @@ interface CharacterData {
     supernatural: number; // 超常
   };
 
-  // 技能値 (初期値 + 割り振りポイント)
-  skills: {
-    [skillName: string]: {
-      baseValue: number; // 初期値 (能力値×10%)
-      allocatedPoints: number; // 割り振りポイント
-      totalValue: number; // 合計値
-    };
+  // 技能ポイント割り振り（シンプル構造）
+  skillAllocations: {
+    [skillName: string]: number; // 技能名: 割り振りポイント (0-100%)
   };
 
-  // ヒーロースキル（完全なスキル情報セットを保存）
+  // ヒーロースキル（配列形式で管理）
   heroSkills: {
-    [skillName: string]: {
-      name: string; // スキル名
-      level: number; // 習得レベル
-      maxLevel: number; // 最大レベル
-      timing: string; // タイミング
-      skill: string; // 対応技能
-      target: string; // 対象
-      range: string; // 射程
-      cost: number; // コスト
-      effect: string; // 効果説明
-    };
-  };
+    name: string; // スキル名
+    level: number; // 習得レベル
+    maxLevel: number; // 最大レベル
+    timing: string; // タイミング
+    skill: string; // 対応技能
+    target: string; // 対象
+    range: string; // 射程
+    cost: string; // コスト (文字列: "SP3", "2/ターン"等)
+    effect: string; // 効果説明
+  }[];
 
-  // 必殺技（完全な技情報セットを保存）
+  // 必殺技（配列形式で管理）
   specialAttacks: {
-    [attackName: string]: {
-      name: string; // 必殺技名
-      level: number; // レベル
-      maxLevel: number; // 最大レベル
-      timing: string; // タイミング
-      skill: string; // 対応技能
-      target: string; // 対象
-      range: string; // 射程
-      cost: number; // コスト
-      effect: string; // 効果説明
-    };
-  };
+    name: string; // 必殺技名
+    level: number; // レベル
+    maxLevel: number; // 最大レベル
+    timing: string; // タイミング
+    skill: string; // 対応技能
+    target: string; // 対象
+    range: string; // 射程
+    cost: string; // コスト (文字列: "SP3", "2/ターン"等)
+    effect: string; // 効果説明
+  }[];
 
-  // アイテム・装備
+  // アイテム・装備（配列形式で管理）
   items: {
-    [itemName: string]: {
-      type: string; // 種別 (白兵/射撃/防具/消耗品/その他)
-      skill?: string; // 対応技能 (〈パワー〉/〈技術〉/〈射撃〉等)
-      modifier?: string; // 修正値 (＋５％/－１０％等)
-      attackPower?: string; // 攻撃力 (＋４/＋８等)
-      guardValue?: string; // ガード値 (３/０等)
-      range?: string; // 射程 (至近/近/中/遠)
-      dodge?: string; // ドッジ修正 (防具用: ＋５％/－１０％等)
-      actionValue?: string; // 行動値修正 (防具用: ＋０/－２等)
-      protection?: string; // 防護点 (防具用: ５/１０等)
-      price: number; // 価格 (数値)
-      effect?: string; // 効果説明
-      quantity?: number; // 数量（消耗品用）
-    };
-  };
+    name: string; // アイテム名
+    type: string; // 種別 (白兵/射撃/防具/消耗品/その他)
+    skill?: string; // 対応技能 (〈パワー〉/〈技術〉/〈射撃〉等)
+    modifier?: string; // 修正値 (＋５％/－１０％等)
+    attackPower?: string; // 攻撃力 (＋４/＋８等)
+    guardValue?: string; // ガード値 (３/０等)
+    range?: string; // 射程 (至近/近/中/遠)
+    dodge?: string; // ドッジ修正 (防具用: ＋５％/－１０％等)
+    actionValue?: string; // 行動値修正 (防具用: ＋０/－２等)
+    protection?: string; // 防護点 (防具用: ５/１０等)
+    price: number; // 価格 (数値)
+    effect?: string; // 効果説明
+    quantity?: number; // 数量（消耗品用）
+  }[];
 
   // ステータス
   status: {
@@ -463,10 +459,13 @@ const AbilityValueSchema = z.number().min(0).max(20);
 
 // バリデーションスキーマ (例: Zod)
 const CharacterDataSchema = z.object({
-  selectedClasses: z.object({
-    primary: ClassNameSchema,
-    secondary: ClassNameSchema,
-  }),
+  selectedClasses: z.tuple([ClassNameSchema, ClassNameSchema]),
+
+  abilityBonus: z.enum(['physical', 'reflex', 'sensory', 'intellectual', 'supernatural']),
+
+  skillPointsLimit: z.number().min(100).max(300),
+  heroSkillLevelLimit: z.number().min(1).max(20),
+  itemPriceLimit: z.number().min(10).max(100),
 
   abilities: z.object({
     physical: AbilityValueSchema,
@@ -476,11 +475,51 @@ const CharacterDataSchema = z.object({
     supernatural: AbilityValueSchema,
   }),
 
-  skills: z.record(
+  skillAllocations: z.record(z.string(), z.number().min(0).max(100)),
+
+  heroSkills: z.array(
     z.object({
-      baseValue: z.number().min(0).max(200),
-      allocatedPoints: z.number().min(0).max(100),
-      totalValue: z.number().min(0).max(300),
+      name: z.string(),
+      level: z.number().min(1),
+      maxLevel: z.number().min(1),
+      timing: z.string(),
+      skill: z.string(),
+      target: z.string(),
+      range: z.string(),
+      cost: z.string(),
+      effect: z.string(),
+    }),
+  ),
+
+  specialAttacks: z.array(
+    z.object({
+      name: z.string(),
+      level: z.number().min(1),
+      maxLevel: z.number().min(1),
+      timing: z.string(),
+      skill: z.string(),
+      target: z.string(),
+      range: z.string(),
+      cost: z.string(),
+      effect: z.string(),
+    }),
+  ),
+
+  items: z.array(
+    z.object({
+      name: z.string(),
+      type: z.string(),
+      skill: z.string().optional(),
+      modifier: z.string().optional(),
+      attackPower: z.string().optional(),
+      guardValue: z.string().optional(),
+      range: z.string().optional(),
+      dodge: z.string().optional(),
+      actionValue: z.string().optional(),
+      protection: z.string().optional(),
+      price: z.number().min(0),
+      effect: z.string().optional(),
+      quantity: z.number().min(1).optional(),
     }),
   ),
 
@@ -504,10 +543,6 @@ const CharacterDataSchema = z.object({
       createdAt: z.string(),
     }),
   ),
-
-  metadata: z.object({
-    version: z.string(),
-  }),
 });
 ```
 
@@ -550,14 +585,15 @@ export const charactersIndexes = {
 ### キャラクター作成フロー
 
 1. **初期化**: 空のcharacterDataオブジェクト作成
-2. **クラス選択**: characterData.selectedClasses 設定
-3. **能力値算出**: CLASSES定数から計算してcharacterData.abilities設定
-4. **技能初期値算出**: 各技能初期値をcharacterData.skills設定
-5. **技能ポイント割り振り**: characterData.skillsのallocatedPoints更新
-6. **ヒーロースキル選択**: characterData.heroSkills設定
-7. **必殺技・アイテム選択**: characterData.specialAttacks, items設定
-8. **最終ステータス算出**: characterData.status設定
-9. **セッション履歴初期化**: characterData.sessions を空の配列で初期化
+2. **クラス選択**: characterData.selectedClasses 設定 (配列形式)
+3. **能力値ボーナス選択**: characterData.abilityBonus 設定
+4. **制限値設定**: characterData.skillPointsLimit, heroSkillLevelLimit, itemPriceLimit 設定
+5. **能力値算出**: CLASSES定数から計算してcharacterData.abilities設定
+6. **技能ポイント割り振り**: characterData.skillAllocations設定 (シンプル構造)
+7. **ヒーロースキル選択**: characterData.heroSkills設定 (配列形式)
+8. **必殺技・アイテム選択**: characterData.specialAttacks, items設定 (配列形式)
+9. **最終ステータス算出**: characterData.status設定
+10. **セッション履歴初期化**: characterData.sessions を空の配列で初期化
 
 ### データ更新フロー
 
@@ -710,6 +746,8 @@ CREATE INDEX idx_characters_name ON characters(name);
 - **柔軟性**: キャラクターシート項目の追加・変更が容易
 - **小規模最適**: <100キャラの想定規模に適している
 - **アジャイル**: プロトタイプから本格運用への移行が簡単
+- **フォーム一致**: UIフォームと完全に一致した構造で開発効率が高い
+- **編集時保持**: 制限値設定を保存してキャラクター編集時に反映可能
 
 **制約**:
 
@@ -726,17 +764,33 @@ CREATE INDEX idx_characters_name ON characters(name);
 
 ## 設計判断の記録
 
-**決定**: 単一テーブル + JSON カラム設計を採用  
+**決定**: 単一テーブル + JSON カラム設計を採用
 **理由**:
 
 1. 小規模TRPG (10ユーザー未満) に適している
 2. 開発速度を優先（アジャイル開発向け）
 3. キャラクターシート項目の変更が容易
 4. JOINクエリ不要でシンプル
+5. UIフォームとデータ構造が完全一致し開発効率が高い
 
-**代替案**: 正規化された複数テーブル設計  
+**決定**: 配列形式でのデータ管理を採用
+**理由**:
+
+1. UIフォームでの操作（追加・削除・並び替え）が直感的
+2. 重複する名前のスキル・アイテムにも対応可能
+3. インデックスベースでの操作が簡単
+
+**決定**: 制限値設定の保存を採用
+**理由**:
+
+1. キャラクター編集時に作成時の制限値を維持可能
+2. 卓ごとの異なるルール（技能ポイント上限等）に対応
+3. 過去データとの整合性を保持
+
+**代替案**: 正規化された複数テーブル設計
 **却下理由**:
 
 1. 小規模アプリには複雑すぎる
 2. 開発・運用コストが高い
 3. TRPGシートの項目変更時の影響が大きい
+4. UIフォームとの乖離が生じやすい
