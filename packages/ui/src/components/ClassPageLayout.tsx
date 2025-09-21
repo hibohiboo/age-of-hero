@@ -262,13 +262,13 @@ export const ClassPageLayout: React.FC<ClassPageLayoutProps> = ({ data }) => (
     <nav className="mt-12 pt-8 border-t border-gray-200">
       <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
         <Link
-          to="/character-creation"
+          to="/rules/character-creation"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
         >
           ← キャラクター作成に戻る
         </Link>
         <Link
-          to="/rules/hero-skill"
+          to="/rules/hero-skill-guide"
           className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
         >
           ヒーロースキルへ →
