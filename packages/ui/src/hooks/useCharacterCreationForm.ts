@@ -1,5 +1,5 @@
 import { calculateAbilities } from '@age-of-hero/core/ability-calculation/calculateAbilities';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CLASSES } from '../constants/gameData';
 
 interface HeroSkill {
@@ -72,6 +72,16 @@ export interface CharacterFormData {
   specialAttacks: SpecialAttack[];
   items: ItemData[];
   sessions: SessionHistory[];
+  status: {
+    hp: number;
+    sp: number;
+    actionValue: number;
+  };
+  statusModifiers: {
+    hpModifier: number;
+    spModifier: number;
+    actionValueModifier: number;
+  };
   password?: string;
 }
 
@@ -96,6 +106,16 @@ export const useCharacterCreationForm = ({
     specialAttacks: [],
     items: [],
     sessions: [],
+    status: {
+      hp: 0,
+      sp: 0,
+      actionValue: 0,
+    },
+    statusModifiers: {
+      hpModifier: 0,
+      spModifier: 0,
+      actionValueModifier: 0,
+    },
     password: '',
   };
 
@@ -103,6 +123,49 @@ export const useCharacterCreationForm = ({
     ...defaultData,
     ...initialData,
   });
+
+  // 能力値計算
+  const calculatedAbilities = useMemo(
+    () => calculateAbilities(formData.selectedClasses, formData.abilityBonus),
+    [formData.selectedClasses, formData.abilityBonus],
+  );
+
+  const updateStatusModifier = (field: 'hpModifier' | 'spModifier' | 'actionValueModifier', value: string) => {
+    const numValue = parseInt(value, 10) || 0;
+    setFormData((prev) => ({
+      ...prev,
+      statusModifiers: {
+        ...prev.statusModifiers,
+        [field]: numValue,
+      },
+    }));
+  };
+
+  const resetStatusModifiers = () => {
+    setFormData((prev) => ({
+      ...prev,
+      statusModifiers: {
+        hpModifier: 0,
+        spModifier: 0,
+        actionValueModifier: 0,
+      },
+    }));
+  };
+
+  // 補正値込みの最終ステータス計算
+  const finalStatus = useMemo(() => ({
+    hp: calculatedAbilities.hp + formData.statusModifiers.hpModifier,
+    sp: calculatedAbilities.sp + formData.statusModifiers.spModifier,
+    actionValue: calculatedAbilities.actionValue + formData.statusModifiers.actionValueModifier,
+  }), [calculatedAbilities, formData.statusModifiers]);
+
+  // status を常に最終計算値で更新（保存用）
+  React.useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      status: finalStatus,
+    }));
+  }, [finalStatus]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -298,12 +361,6 @@ export const useCharacterCreationForm = ({
     0,
   );
 
-  // 能力値計算
-  const calculatedAbilities = useMemo(
-    () => calculateAbilities(formData.selectedClasses, formData.abilityBonus),
-    [formData.selectedClasses, formData.abilityBonus],
-  );
-
   return {
     formData,
     handleSubmit,
@@ -321,9 +378,12 @@ export const useCharacterCreationForm = ({
     updateSession,
     removeSession,
     updateFormField,
+    updateStatusModifier,
+    resetStatusModifiers,
     skillTotal,
     heroSkillLevelTotal,
     itemPriceTotal,
     calculatedAbilities,
+    finalStatus,
   };
 };

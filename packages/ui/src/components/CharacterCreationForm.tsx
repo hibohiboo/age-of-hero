@@ -5,9 +5,9 @@ import {
   GiStarsStack,
   GiMagicLamp,
   GiSwordsPower,
+  GiBookshelf,
   GiHeartBeats,
   GiMagicShield,
-  GiBookshelf,
 } from 'react-icons/gi';
 import {
   ABILITIES,
@@ -59,10 +59,13 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
     updateSession,
     removeSession,
     updateFormField,
+    updateStatusModifier,
+    resetStatusModifiers,
     skillTotal,
     heroSkillLevelTotal,
     itemPriceTotal,
     calculatedAbilities,
+    finalStatus,
   } = vm;
 
   return (
@@ -198,32 +201,89 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
             );
           })}
         </div>
-        <div className="mt-4 grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
-          <div className="text-center">
-            <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
-              <GiHeartBeats size={16} />
-              HP
-            </div>
-            <div className="text-xl font-bold text-red-500">
-              {calculatedAbilities.hp}
-            </div>
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-medium text-gray-900">ステータス</h3>
+            <Button
+              type="button"
+              onClick={resetStatusModifiers}
+              variant="secondary"
+              size="sm"
+            >
+              補正値をリセット
+            </Button>
           </div>
-          <div className="text-center">
-            <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
-              <GiMagicShield size={16} />
-              SP
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <div className="text-center mb-3">
+                <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
+                  <GiHeartBeats size={16} />
+                  HP
+                </div>
+                <div className="text-xl font-bold text-red-500">
+                  {finalStatus.hp}
+                </div>
+              </div>
+              <FormField label={`HP補正(基本値: ${calculatedAbilities.hp})`}>
+                <div className="flex items-center gap-2">
+                  <InputField
+                    type="number"
+                    value={formData.statusModifiers.hpModifier}
+                    onChange={(value) =>
+                      updateStatusModifier('hpModifier', value)
+                    }
+                    placeholder="0"
+                  />
+                </div>
+              </FormField>
             </div>
-            <div className="text-xl font-bold text-blue-500">
-              {calculatedAbilities.sp}
+            <div>
+              <div className="text-center mb-3">
+                <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
+                  <GiMagicShield size={16} />
+                  SP
+                </div>
+                <div className="text-xl font-bold text-blue-500">
+                  {finalStatus.sp}
+                </div>
+              </div>
+              <FormField label={`SP補正(基本値: ${calculatedAbilities.sp})`}>
+                <div className="flex items-center gap-2">
+                  <InputField
+                    type="number"
+                    value={formData.statusModifiers.spModifier}
+                    onChange={(value) =>
+                      updateStatusModifier('spModifier', value)
+                    }
+                    placeholder="0"
+                  />
+                </div>
+              </FormField>
             </div>
-          </div>
-          <div className="text-center">
-            <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
-              <GiStarsStack size={16} />
-              行動値
-            </div>
-            <div className="text-xl font-bold text-green-500">
-              {calculatedAbilities.actionValue}
+            <div>
+              <div className="text-center mb-3">
+                <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
+                  <GiStarsStack size={16} />
+                  行動値
+                </div>
+                <div className="text-xl font-bold text-green-500">
+                  {finalStatus.actionValue}
+                </div>
+              </div>
+              <FormField
+                label={`行動値補正(基本値: ${calculatedAbilities.actionValue})`}
+              >
+                <div className="flex items-center gap-2">
+                  <InputField
+                    type="number"
+                    value={formData.statusModifiers.actionValueModifier}
+                    onChange={(value) =>
+                      updateStatusModifier('actionValueModifier', value)
+                    }
+                    placeholder="0"
+                  />
+                </div>
+              </FormField>
             </div>
           </div>
         </div>
@@ -355,6 +415,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                 onUpdate={updateSpecialAttack}
                 onRemove={removeSpecialAttack}
                 nameLabel="必殺技名"
+                selectedClasses={[]}
               />
             </div>
           ))}
