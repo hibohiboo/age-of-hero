@@ -1,15 +1,5 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import {
-  muscleSkills,
-  artifactSkills,
-  artsSkills,
-  bioSkills,
-  esperantoSkills,
-  technologySkills,
-  magicalSkills,
-  psychicSkills,
-} from '../../constants/gameData';
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
 
@@ -24,6 +14,18 @@ interface SkillFormField {
   effect: string;
 }
 
+interface ExternalSkill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+  class: string;
+}
+
 interface SkillFormProps {
   skill: SkillFormField;
   index: number;
@@ -31,21 +33,8 @@ interface SkillFormProps {
   onRemove: (index: number) => void;
   nameLabel?: string;
   selectedClasses: string[];
+  externalSkills?: ExternalSkill[];
 }
-
-const CLASS_SKILL_MAP = {
-  マッスル: { skills: muscleSkills, label: 'マッスルスキル選択' },
-  アーティファクト: {
-    skills: artifactSkills,
-    label: 'アーティファクトスキル選択',
-  },
-  アーツ: { skills: artsSkills, label: 'アーツスキル選択' },
-  バイオ: { skills: bioSkills, label: 'バイオスキル選択' },
-  エスペラント: { skills: esperantoSkills, label: 'エスペラントスキル選択' },
-  テクノロジー: { skills: technologySkills, label: 'テクノロジースキル選択' },
-  マジカル: { skills: magicalSkills, label: 'マジカルスキル選択' },
-  サイキック: { skills: psychicSkills, label: 'サイキックスキル選択' },
-} as const;
 
 export const SkillForm: React.FC<SkillFormProps> = ({
   skill,
@@ -54,43 +43,50 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   onRemove,
   nameLabel = 'スキル名',
   selectedClasses = [],
+  externalSkills = [],
 }) => {
-  const updateAllFields = (preset: (typeof muscleSkills)[0]) => {
+  const updateAllFieldsFromExternal = (preset: ExternalSkill) => {
     onUpdate(index, 'name', preset.name);
-    onUpdate(index, 'timing', preset.details.timing);
-    onUpdate(index, 'skill', preset.details.skill);
-    onUpdate(index, 'target', preset.details.target);
-    onUpdate(index, 'range', preset.details.range);
-    onUpdate(index, 'cost', String(preset.details.cost));
-    onUpdate(index, 'effect', preset.details.effect);
+    onUpdate(index, 'timing', preset.timing);
+    onUpdate(index, 'skill', preset.skill);
+    onUpdate(index, 'target', preset.target);
+    onUpdate(index, 'range', preset.range);
+    onUpdate(index, 'cost', preset.const);
+    onUpdate(index, 'effect', preset.effect);
   };
 
   const createPresetHandler =
-    (skills: typeof muscleSkills) => (value: string) => {
-      const preset = skills.find((s) => s.name === value);
-      if (preset) updateAllFields(preset);
+    (classSkills: ExternalSkill[]) => (value: string) => {
+      const preset = classSkills.find((s) => s.name === value);
+      if (preset) updateAllFieldsFromExternal(preset);
     };
+
+  const getSkillsByClass = (className: string) =>
+    externalSkills.filter((s) => s.class === className);
 
   return (
     <div className="p-4 border border-gray-200 rounded-md">
       <div className="mb-4 space-y-4">
-        {Object.entries(CLASS_SKILL_MAP)
-          .filter(([className]) => selectedClasses.includes(className))
-          .map(([className, { skills, label }]) => (
-            <FormField key={className} label={label}>
+        {selectedClasses.map((className) => {
+          const classSkills = getSkillsByClass(className);
+          if (classSkills.length === 0) return null;
+
+          return (
+            <FormField key={className} label={`${className}スキル選択`}>
               <SelectField
                 value=""
                 options={[
                   { label: '', value: '' },
-                  ...skills.map((s) => ({
+                  ...classSkills.map((s) => ({
                     label: s.name,
                     value: s.name,
                   })),
                 ]}
-                onChange={createPresetHandler(skills)}
+                onChange={createPresetHandler(classSkills)}
               />
             </FormField>
-          ))}
+          );
+        })}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField label={nameLabel}>

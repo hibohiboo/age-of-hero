@@ -30,16 +30,30 @@ import { SessionHistoryForm } from './form/SessionHistoryForm';
 import { SkillForm } from './form/SkillForm';
 import { ValidationSummary } from './form/ValidationSummary';
 
+interface ExternalSkill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+  class: string;
+}
+
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;
   isLoading?: boolean;
   initialData?: Partial<CharacterFormData>;
+  externalSkills?: ExternalSkill[];
 }
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   onSubmit,
   isLoading = false,
   initialData,
+  externalSkills = [],
 }) => {
   const vm = useCharacterCreationForm({ onSubmit, initialData });
   const {
@@ -355,6 +369,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               onRemove={removeHeroSkill}
               nameLabel="スキル名"
               selectedClasses={formData.selectedClasses}
+              externalSkills={externalSkills}
             />
           ))}
         </div>
@@ -416,6 +431,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                 onRemove={removeSpecialAttack}
                 nameLabel="必殺技名"
                 selectedClasses={[]}
+                externalSkills={externalSkills}
               />
             </div>
           ))}

@@ -1,4 +1,3 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiDna2,
@@ -10,15 +9,34 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const BioClassPage: React.FC = () => {
-  const bioHeroSkills = HERO_SKILLS['バイオ'];
-  const classSkills = Object.entries(bioHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiDna2,
-      color: 'bg-green-50 border-green-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface BioClassPageProps {
+  skills?: Skill[];
+}
+
+export const BioClassPage: React.FC<BioClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    name: skill.name,
+    maxLevel: skill.maxLv,
+    timing: skill.timing,
+    skillCheck: skill.skill,
+    target: skill.target,
+    range: skill.range,
+    cost: skill.const,
+    effect: skill.effect,
+    icon: GiDna2,
+    color: 'bg-green-50 border-green-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'バイオ',
