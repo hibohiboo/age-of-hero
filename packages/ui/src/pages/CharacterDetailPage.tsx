@@ -58,7 +58,7 @@ interface SkillOrAttack {
   skill: string;
   target: string;
   range: string;
-  cost: number;
+  cost: string;
   effect: string;
 }
 
@@ -207,10 +207,23 @@ export interface CharacterDetail extends Character {
   // API直接プロパティ
   selectedClasses?: [string, string];
   abilityBonus?: string;
+  skillPointsLimit?: number;
+  heroSkillLevelLimit?: number;
+  itemPriceLimit?: number;
   skillAllocations?: Record<string, number>;
   heroSkills?: SkillOrAttack[];
   specialAttacks?: SkillOrAttack[];
   items?: ItemData[];
+  status?: {
+    hp: number;
+    sp: number;
+    actionValue: number;
+  };
+  statusModifiers?: {
+    hpModifier: number;
+    spModifier: number;
+    actionValueModifier: number;
+  };
   sessions?: SessionData[];
 
   // 互換性のため（将来的に削除予定）
@@ -350,7 +363,9 @@ const CharacterTitleSection: React.FC<{ character: CharacterDetail }> = ({
 );
 
 // キャラクターアクションボタン
-const CharacterActionButtons: React.FC<{ characterId: string }> = ({ characterId }) => (
+const CharacterActionButtons: React.FC<{ characterId: string }> = ({
+  characterId,
+}) => (
   <div className="flex space-x-2">
     <Link
       to="/character-list"
@@ -397,44 +412,82 @@ const CharacterClassSection: React.FC<{ character: CharacterDetail }> = ({
 );
 // ステータス表示コンポーネント
 const CharacterStatusDisplay: React.FC<{
+  character: CharacterDetail;
   calculatedAbilities: CalculatedAbilities;
-}> = ({ calculatedAbilities }) => (
-  <div>
-    <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-      <GiStarsStack className="text-indigo-600" size={16} />
-      ステータス
-    </h3>
-    <div className="grid grid-cols-3 gap-2">
-      <div className="text-center">
-        <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
-          <GiHeartBeats size={16} />
-          HP
+}> = ({ character, calculatedAbilities }) => {
+  // ステータス補正がある場合は最終値を使用、ない場合は計算値を使用
+  const finalHp = character.status?.hp ?? calculatedAbilities.hp;
+  const finalSp = character.status?.sp ?? calculatedAbilities.sp;
+  const finalActionValue =
+    character.status?.actionValue ?? calculatedAbilities.actionValue;
+
+  const hasModifiers =
+    character.statusModifiers &&
+    (character.statusModifiers.hpModifier !== 0 ||
+      character.statusModifiers.spModifier !== 0 ||
+      character.statusModifiers.actionValueModifier !== 0);
+
+  return (
+    <div>
+      <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+        <GiStarsStack className="text-indigo-600" size={16} />
+        ステータス
+        {hasModifiers && (
+          <span className="text-xs text-purple-600 bg-purple-100 px-1 rounded">
+            補正あり
+          </span>
+        )}
+      </h3>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="text-center">
+          <div className="text-sm font-medium text-red-600 flex items-center justify-center gap-1 mb-1">
+            <GiHeartBeats size={16} />
+            HP
+          </div>
+          <div className="text-xl font-bold text-red-500">{finalHp}</div>
+          {hasModifiers && character.statusModifiers?.hpModifier !== 0 && (
+            <div className="text-xs text-gray-500">
+              基本{calculatedAbilities.hp}
+              {character.statusModifiers.hpModifier > 0 ? '+' : ''}
+              {character.statusModifiers.hpModifier}
+            </div>
+          )}
         </div>
-        <div className="text-xl font-bold text-red-500">
-          {calculatedAbilities.hp}
+        <div className="text-center">
+          <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
+            <GiMagicShield size={16} />
+            SP
+          </div>
+          <div className="text-xl font-bold text-blue-500">{finalSp}</div>
+          {hasModifiers && character.statusModifiers?.spModifier !== 0 && (
+            <div className="text-xs text-gray-500">
+              基本{calculatedAbilities.sp}
+              {character.statusModifiers.spModifier > 0 ? '+' : ''}
+              {character.statusModifiers.spModifier}
+            </div>
+          )}
         </div>
-      </div>
-      <div className="text-center">
-        <div className="text-sm font-medium text-blue-600 flex items-center justify-center gap-1 mb-1">
-          <GiMagicShield size={16} />
-          SP
-        </div>
-        <div className="text-xl font-bold text-blue-500">
-          {calculatedAbilities.sp}
-        </div>
-      </div>
-      <div className="text-center">
-        <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
-          <GiStarsStack size={16} />
-          行動値
-        </div>
-        <div className="text-xl font-bold text-green-500">
-          {calculatedAbilities.actionValue}
+        <div className="text-center">
+          <div className="text-sm font-medium text-green-600 flex items-center justify-center gap-1 mb-1">
+            <GiStarsStack size={16} />
+            行動値
+          </div>
+          <div className="text-xl font-bold text-green-500">
+            {finalActionValue}
+          </div>
+          {hasModifiers &&
+            character.statusModifiers?.actionValueModifier !== 0 && (
+              <div className="text-xs text-gray-500">
+                基本{calculatedAbilities.actionValue}
+                {character.statusModifiers.actionValueModifier > 0 ? '+' : ''}
+                {character.statusModifiers.actionValueModifier}
+              </div>
+            )}
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ヘッダーコンポーネント（簡素化）
 const CharacterHeader: React.FC<{
@@ -448,7 +501,10 @@ const CharacterHeader: React.FC<{
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <CharacterClassSection character={character} />
-      <CharacterStatusDisplay calculatedAbilities={calculatedAbilities} />
+      <CharacterStatusDisplay
+        character={character}
+        calculatedAbilities={calculatedAbilities}
+      />
     </div>
   </div>
 );
