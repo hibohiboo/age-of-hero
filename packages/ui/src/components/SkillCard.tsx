@@ -7,7 +7,7 @@ export interface SkillDetails {
   skill: string;
   target: string;
   range: string;
-  cost: number | string;
+  cost: string;
   effect: string;
 }
 
