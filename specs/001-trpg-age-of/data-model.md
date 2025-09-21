@@ -481,9 +481,9 @@ const CharacterDataSchema = z.object({
     'supernatural',
   ]),
 
-  skillPointsLimit: z.number().min(100).max(300),
-  heroSkillLevelLimit: z.number().min(1).max(20),
-  itemPriceLimit: z.number().min(10).max(100),
+  skillPointsLimit: z.number().min(1),
+  heroSkillLevelLimit: z.number().min(1),
+  itemPriceLimit: z.number().min(1),
 
   abilities: z.object({
     physical: AbilityValueSchema,
