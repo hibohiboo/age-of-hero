@@ -21,17 +21,18 @@ export const RulesPage: React.FC = () => {
 
       <div className="grid md:grid-cols-2 gap-6">
         {rulesSections.map((section, index) => (
-          <Card key={index}>
-            <h3 className="text-xl font-semibold mb-4 text-blue-600">
-              {section.title}
-            </h3>
-            <a
-              href={section.path}
-              className="inline-block text-blue-600 hover:text-blue-800 font-medium"
-            >
+          <a
+            key={index}
+            href={section.path}
+            className="inline-block text-blue-600 hover:text-blue-800 font-medium"
+          >
+            <Card key={index}>
+              <h3 className="text-xl font-semibold mb-4 text-blue-600">
+                {section.title}
+              </h3>
               詳細を見る →
-            </a>
-          </Card>
+            </Card>
+          </a>
         ))}
       </div>
     </div>
