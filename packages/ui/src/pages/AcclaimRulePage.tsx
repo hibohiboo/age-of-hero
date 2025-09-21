@@ -243,10 +243,10 @@ export const AcclaimRulePage: React.FC = () => {
             ← ルール一覧に戻る
           </Link>
           <Link
-            to="/rules/session"
+            to="/rules/combat"
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            セッション進行へ →
+            戦闘ルールへ →
           </Link>
         </div>
       </nav>

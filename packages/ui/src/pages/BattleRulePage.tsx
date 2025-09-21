@@ -520,10 +520,10 @@ export const BattleRulePage: React.FC = () => {
             ← ルール一覧に戻る
           </Link>
           <Link
-            to="/rules/applause"
+            to="/rules/hero-skill-guide"
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            喝采ルールへ →
+            ヒーロースキルの見方へ →
           </Link>
         </div>
       </nav>

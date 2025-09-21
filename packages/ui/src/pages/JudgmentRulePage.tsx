@@ -251,10 +251,10 @@ export const JudgmentRulePage: React.FC = () => {
             ← ルール一覧に戻る
           </Link>
           <Link
-            to="/rules/combat"
+            to="/rules/session"
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            バトルルールへ →
+            セッションの進行へ→
           </Link>
         </div>
       </nav>

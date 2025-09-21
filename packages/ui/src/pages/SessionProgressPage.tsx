@@ -298,10 +298,10 @@ export const SessionProgressPage: React.FC = () => {
             ← ルール一覧に戻る
           </Link>
           <Link
-            to="/rules/judgment"
+            to="/rules/applause"
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            判定ルールへ →
+            喝采ルールへ →
           </Link>
         </div>
       </nav>
