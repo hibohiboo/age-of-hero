@@ -8,10 +8,24 @@ interface CharacterDetail {
   name: string;
   selectedClasses?: [string, string];
   abilityBonus?: string;
+  skillPointsLimit?: number;
+  heroSkillLevelLimit?: number;
+  itemPriceLimit?: number;
   skillAllocations?: Record<string, number>;
   heroSkills?: any[];
   specialAttacks?: any[];
   items?: any[];
+  status?: {
+    hp: number;
+    sp: number;
+    actionValue: number;
+  };
+  statusModifiers?: {
+    hpModifier: number;
+    spModifier: number;
+    actionValueModifier: number;
+  };
+  sessions?: any[];
 }
 
 export const useCharacterEdit = (id: string | undefined) => {
