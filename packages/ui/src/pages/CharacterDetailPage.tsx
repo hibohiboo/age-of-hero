@@ -151,7 +151,7 @@ export interface CharacterData {
     skill: string;
     target: string;
     range: string;
-    cost: number;
+    cost: string;
     effect: string;
   }[];
   specialAttacks: {
@@ -162,7 +162,7 @@ export interface CharacterData {
     skill: string;
     target: string;
     range: string;
-    cost: number;
+    cost: string;
     effect: string;
   }[];
   items: {

@@ -61,7 +61,7 @@ export const SkillForm: React.FC<SkillFormProps> = ({
     onUpdate(index, 'skill', preset.details.skill);
     onUpdate(index, 'target', preset.details.target);
     onUpdate(index, 'range', preset.details.range);
-    onUpdate(index, 'cost', preset.details.cost);
+    onUpdate(index, 'cost', String(preset.details.cost));
     onUpdate(index, 'effect', preset.details.effect);
   };
 
