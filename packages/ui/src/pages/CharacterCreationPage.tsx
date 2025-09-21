@@ -193,8 +193,8 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-pink-50 border-l-4 border-pink-400 rounded">
             <p className="text-gray-700">
               ヒーロースキルを合計７Ｌｖ分習得する。
-              <Link to="/character/hero-skill-guide">
-                ヒーロースキルの見方{' '}
+              <Link to="/character/hero-skill-guide" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                ヒーロースキルの見方
               </Link>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {CLASSES.map((classItem, index) => {
@@ -219,7 +219,7 @@ export const CharacterCreationPage: React.FC = () => {
         <Section title="必殺技" step={6}>
           <div className="p-4 bg-red-50 border-l-4 border-red-400 rounded">
             <p className="text-gray-700">必殺技１Ｌｖを習得する。</p>
-            <Link to="/character/ultimate-skill">必殺技一覧</Link>
+            <Link to="/character/ultimate-skill" className="text-blue-600 hover:text-blue-800 underline font-medium">必殺技一覧</Link>
           </div>
         </Section>
 
@@ -227,7 +227,7 @@ export const CharacterCreationPage: React.FC = () => {
           <div className="p-4 bg-teal-50 border-l-4 border-teal-400 rounded">
             <p className="text-gray-700">価格２０点分のアイテムを購入する。</p>
           </div>
-          <Link to="/character/item">アイテム一覧</Link>
+          <Link to="/character/item" className="text-blue-600 hover:text-blue-800 underline font-medium">アイテム一覧</Link>
         </Section>
 
         <Section title="最終計算" step={8}>
