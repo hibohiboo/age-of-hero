@@ -29,6 +29,9 @@ export const CardSection: React.FC<CardSectionProps> = ({
         <Icon className={iconColor} />
         {title}
       </h2>
+    </div>
+    {children}
+    <div className="flex justify-end mt-4">
       {onAdd && (
         <Button onClick={onAdd} variant={addButtonVariant}>
           <FaPlus size={14} />
@@ -36,6 +39,5 @@ export const CardSection: React.FC<CardSectionProps> = ({
         </Button>
       )}
     </div>
-    {children}
   </Card>
 );
