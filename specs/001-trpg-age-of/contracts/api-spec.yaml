@@ -112,7 +112,7 @@ paths:
 
     put:
       summary: キャラクター更新
-      description: キャラクターのセッション情報を追加・更新
+      description: キャラクター情報の全体更新またはセッション情報の追加
       tags:
         - Character
       parameters:
@@ -771,7 +771,158 @@ components:
 
     UpdateCharacterRequest:
       type: object
+      description: キャラクター全体更新またはセッション追加のリクエスト
       properties:
+        # キャラクター全体更新用プロパティ (sessionが未定義の場合)
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: キャラクター名
+        selectedClasses:
+          type: array
+          items:
+            type: string
+          minItems: 2
+          maxItems: 2
+          description: 選択した2つのクラス名
+        abilityBonus:
+          type: string
+          enum: ['physical', 'reflex', 'sensory', 'intellectual', 'supernatural']
+          description: 能力値+1ボーナスの適用先
+        skillPointsLimit:
+          type: integer
+          minimum: 1
+          description: 技能ポイント上限(%)
+        heroSkillLevelLimit:
+          type: integer
+          minimum: 1
+          description: ヒーロースキルレベル上限
+        itemPriceLimit:
+          type: integer
+          minimum: 1
+          description: アイテム価格上限(点)
+        skillAllocations:
+          type: object
+          additionalProperties:
+            type: integer
+          description: 技能名 → 割り振りポイントのマップ
+        heroSkills:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              level:
+                type: integer
+                minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+              skill:
+                type: string
+              target:
+                type: string
+              range:
+                type: string
+              cost:
+                type: string
+              effect:
+                type: string
+        specialAttacks:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              level:
+                type: integer
+                minimum: 1
+              maxLevel:
+                type: integer
+                minimum: 1
+              timing:
+                type: string
+              skill:
+                type: string
+              target:
+                type: string
+              range:
+                type: string
+              cost:
+                type: string
+              effect:
+                type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+                enum: ['白兵', '射撃', '白兵/射撃', '防具', '消耗品', 'その他']
+              skill:
+                type: string
+                nullable: true
+              modifier:
+                type: string
+                nullable: true
+              attackPower:
+                type: string
+                nullable: true
+              guardValue:
+                type: string
+                nullable: true
+              range:
+                type: string
+                nullable: true
+              dodge:
+                type: string
+                nullable: true
+              actionValue:
+                type: string
+                nullable: true
+              protection:
+                type: string
+                nullable: true
+              price:
+                type: integer
+                minimum: 0
+              effect:
+                type: string
+                nullable: true
+              quantity:
+                type: integer
+                nullable: true
+                minimum: 1
+        status:
+          type: object
+          properties:
+            hp:
+              type: integer
+              minimum: 1
+            sp:
+              type: integer
+              minimum: 1
+            actionValue:
+              type: integer
+              minimum: 1
+        statusModifiers:
+          type: object
+          properties:
+            hpModifier:
+              type: integer
+            spModifier:
+              type: integer
+            actionValueModifier:
+              type: integer
+        # セッション追加用プロパティ (sessionが定義されている場合)
         session:
           type: object
           properties:

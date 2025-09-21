@@ -169,7 +169,7 @@ app.get(
 
 // Update character (add session)
 app.put(
-  '/api/characters/:id',
+  '/api/characters/:id/session',
   zValidator(
     'param',
     z.object({
@@ -249,7 +249,72 @@ app.put(
     }
   },
 );
+app.put(
+  '/api/characters/:id',
+  zValidator(
+    'param',
+    z.object({
+      id: z.string(),
+    }),
+  ),
+  zValidator('json', createCharacterSchema as any),
+  async (c) => {
+    const { id } = c.req.valid('param');
+    const requestBody = c.req.valid('json');
 
+    try {
+      const [character] = await getDb()
+        .select()
+        .from(characters)
+        .where(eq(characters.id, id));
+
+      if (!character) {
+        return c.json({ error: 'Character not found' }, 404);
+      }
+
+      // パスワード認証が必要な場合
+      if (character.passwordHash) {
+        if (!requestBody.password) {
+          return c.json({ error: 'Password is required' }, 401);
+        }
+
+        const isValidPassword = await bcrypt.compare(
+          requestBody.password,
+          character.passwordHash,
+        );
+        if (!isValidPassword) {
+          return c.json({ error: 'Invalid password' }, 401);
+        }
+      }
+
+      // データベースを更新
+      const [updatedCharacter] = await getDb()
+        .update(characters)
+        .set({
+          data: requestBody,
+          name: requestBody.name,
+          updatedAt: new Date(),
+        })
+        .where(eq(characters.id, id))
+        .returning();
+
+      // 更新されたキャラクター情報を返す
+      return c.json(
+        {
+          id: updatedCharacter.id,
+          name: updatedCharacter.name,
+          createdAt: updatedCharacter.createdAt,
+          updatedAt: updatedCharacter.updatedAt,
+          ...requestBody,
+        },
+        200,
+      );
+    } catch (error) {
+      console.error('Database error:', error);
+      return c.json({ error: 'Database error' }, 500);
+    }
+  },
+);
 const port = Number(process.env.PORT) || 3001;
 
 console.log(`🚀 Backend server running on port ${port}`);

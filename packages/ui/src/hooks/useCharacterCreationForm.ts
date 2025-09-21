@@ -130,7 +130,10 @@ export const useCharacterCreationForm = ({
     [formData.selectedClasses, formData.abilityBonus],
   );
 
-  const updateStatusModifier = (field: 'hpModifier' | 'spModifier' | 'actionValueModifier', value: string) => {
+  const updateStatusModifier = (
+    field: 'hpModifier' | 'spModifier' | 'actionValueModifier',
+    value: string,
+  ) => {
     const numValue = parseInt(value, 10) || 0;
     setFormData((prev) => ({
       ...prev,
@@ -153,11 +156,16 @@ export const useCharacterCreationForm = ({
   };
 
   // 補正値込みの最終ステータス計算
-  const finalStatus = useMemo(() => ({
-    hp: calculatedAbilities.hp + formData.statusModifiers.hpModifier,
-    sp: calculatedAbilities.sp + formData.statusModifiers.spModifier,
-    actionValue: calculatedAbilities.actionValue + formData.statusModifiers.actionValueModifier,
-  }), [calculatedAbilities, formData.statusModifiers]);
+  const finalStatus = useMemo(
+    () => ({
+      hp: calculatedAbilities.hp + formData.statusModifiers.hpModifier,
+      sp: calculatedAbilities.sp + formData.statusModifiers.spModifier,
+      actionValue:
+        calculatedAbilities.actionValue +
+        formData.statusModifiers.actionValueModifier,
+    }),
+    [calculatedAbilities, formData.statusModifiers],
+  );
 
   // status を常に最終計算値で更新（保存用）
   React.useEffect(() => {
