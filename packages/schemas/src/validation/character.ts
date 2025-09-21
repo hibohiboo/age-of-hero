@@ -1,15 +1,27 @@
 import { z } from 'zod';
 
+// クラス名スキーマ
+const ClassNameSchema = z.enum([
+  'マッスル',
+  'テクノロジー',
+  'マジカル',
+  'サイキック',
+  'バイオ',
+  'エスペラント',
+  'アーティファクト',
+  'アーツ',
+]);
+
 // 基本スキル/攻撃スキーマ
 const skillOrAttackSchema = z.object({
   name: z.string().optional(),
-  level: z.number().int().min(0).optional(),
-  maxLevel: z.number().int().min(0).optional(),
+  level: z.number().int().min(1).optional(),
+  maxLevel: z.number().int().min(1).optional(),
   timing: z.string().optional(),
   skill: z.string().optional(),
   target: z.string().optional(),
   range: z.string().optional(),
-  cost: z.number().int().min(0).optional(),
+  cost: z.string().optional(), // 文字列型に変更
   effect: z.string().optional(),
 });
 
@@ -47,10 +59,13 @@ const sessionSchema = z.object({
 // 基本情報スキーマ
 const basicInfoSchema = z.object({
   name: z.string().max(50, 'name は50文字以内で入力してください').optional(),
-  selectedClasses: z.array(z.string()).optional().default([]),
+  selectedClasses: z.tuple([ClassNameSchema, ClassNameSchema]).optional(),
   abilityBonus: z
     .enum(['physical', 'reflex', 'sensory', 'intellectual', 'supernatural'])
     .optional(),
+  skillPointsLimit: z.number().min(1).optional(),
+  heroSkillLevelLimit: z.number().min(1).optional(),
+  itemPriceLimit: z.number().min(1).optional(),
   password: z.string().nullable().optional(),
 });
 
@@ -82,12 +97,32 @@ const sessionsSchema = z.object({
   sessions: z.array(sessionSchema).optional().default([]),
 });
 
+// ステータススキーマ
+const statusSchema = z.object({
+  status: z.object({
+    hp: z.number().optional(),
+    sp: z.number().optional(),
+    actionValue: z.number().optional(),
+  }).optional(),
+});
+
+// ステータス補正値スキーマ
+const statusModifiersSchema = z.object({
+  statusModifiers: z.object({
+    hpModifier: z.number().optional(),
+    spModifier: z.number().optional(),
+    actionValueModifier: z.number().optional(),
+  }).optional(),
+});
+
 // CreateCharacterRequest のバリデーションスキーマ
 export const createCharacterSchema = basicInfoSchema
   .merge(skillAllocationsSchema)
   .merge(heroSkillsSchema)
   .merge(specialAttacksSchema)
   .merge(itemsSchema)
+  .merge(statusSchema)
+  .merge(statusModifiersSchema)
   .merge(sessionsSchema);
 
 export type CreateCharacterRequest = z.infer<typeof createCharacterSchema>;
