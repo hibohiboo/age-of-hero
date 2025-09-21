@@ -239,8 +239,9 @@ components:
           type: string
           example: '武器'
         cost:
-          type: integer
-          minimum: 0
+          type: string
+          example: "SP3"
+          description: "コスト (文字列: SP3, 2/ターン等)"
         effect:
           type: string
         classRestriction:
@@ -323,10 +324,17 @@ components:
       required:
         - name
         - selectedClasses
+        - abilityBonus
+        - skillPointsLimit
+        - heroSkillLevelLimit
+        - itemPriceLimit
         - skillAllocations
         - heroSkills
         - specialAttacks
         - items
+        - status
+        - statusModifiers
+        - sessions
       properties:
         name:
           type: string
@@ -339,12 +347,30 @@ components:
             type: string
           minItems: 2
           maxItems: 2
-          description: '選択した2つのクラスID (重複可)'
+          description: '選択した2つのクラス名 (重複可)'
         abilityBonus:
           type: string
           enum:
             ['physical', 'reflex', 'sensory', 'intellectual', 'supernatural']
           description: '能力値+1ボーナスの適用先'
+        skillPointsLimit:
+          type: integer
+          minimum: 100
+          maximum: 300
+          example: 150
+          description: '技能ポイント上限(%)'
+        heroSkillLevelLimit:
+          type: integer
+          minimum: 1
+          maximum: 20
+          example: 7
+          description: 'ヒーロースキルレベル上限'
+        itemPriceLimit:
+          type: integer
+          minimum: 10
+          maximum: 100
+          example: 20
+          description: 'アイテム価格上限(点)'
         skillAllocations:
           type: object
           additionalProperties:
@@ -377,8 +403,8 @@ components:
                 type: string
                 example: '武器'
               cost:
-                type: integer
-                minimum: 0
+                type: string
+                example: "SP3"
               effect:
                 type: string
         specialAttacks:
@@ -408,14 +434,143 @@ components:
                 type: string
                 example: 'なし'
               cost:
-                type: integer
-                minimum: 0
+                type: string
+                example: "SP3"
               effect:
                 type: string
         items:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              name:
+                type: string
+                example: "射撃武器Ａ"
+              type:
+                type: string
+                enum: ['白兵', '射撃', '白兵/射撃', '防具', '消耗品', 'その他']
+              skill:
+                type: string
+                nullable: true
+                example: "〈射撃〉"
+              modifier:
+                type: string
+                nullable: true
+                example: "＋０％"
+              attackPower:
+                type: string
+                nullable: true
+                example: "＋５"
+              guardValue:
+                type: string
+                nullable: true
+                example: "０"
+              range:
+                type: string
+                nullable: true
+                example: "近"
+              dodge:
+                type: string
+                nullable: true
+                example: "＋０％"
+              actionValue:
+                type: string
+                nullable: true
+                example: "＋０"
+              protection:
+                type: string
+                nullable: true
+                example: "５"
+              price:
+                type: integer
+                minimum: 0
+              effect:
+                type: string
+                nullable: true
+              quantity:
+                type: integer
+                nullable: true
+                minimum: 1
+        status:
+          type: object
+          properties:
+            hp:
+              type: integer
+              minimum: 1
+              description: "最大HP（計算済み最終値）"
+            sp:
+              type: integer
+              minimum: 1
+              description: "最大SP（計算済み最終値）"
+            actionValue:
+              type: integer
+              minimum: 1
+              description: "行動値（計算済み最終値）"
+          required:
+            - hp
+            - sp
+            - actionValue
+        statusModifiers:
+          type: object
+          properties:
+            hpModifier:
+              type: integer
+              example: 0
+              description: "HP補正値（±）"
+            spModifier:
+              type: integer
+              example: 0
+              description: "SP補正値（±）"
+            actionValueModifier:
+              type: integer
+              example: 0
+              description: "行動値補正値（±）"
+          required:
+            - hpModifier
+            - spModifier
+            - actionValueModifier
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              sessionName:
+                type: string
+                example: "第1話 英雄の始まり"
+              gmName:
+                type: string
+                example: "田中GM"
+              sessionDate:
+                type: string
+                format: date
+                example: "2024-01-15"
+              currentHp:
+                type: integer
+                minimum: 0
+                example: 25
+              currentSp:
+                type: integer
+                minimum: 0
+                example: 15
+              currentFc:
+                type: integer
+                minimum: 0
+                nullable: true
+                example: 3
+              experiencePoints:
+                type: integer
+                minimum: 0
+                example: 10
+              memo:
+                type: string
+                nullable: true
+                example: "初回セッション。ボス戦で重傷を負った。"
+              createdAt:
+                type: string
+                format: date-time
         password:
           type: string
           nullable: true
@@ -475,10 +630,28 @@ components:
           type: integer
         hp:
           type: integer
+          description: "最大HP（計算済み最終値）"
         sp:
           type: integer
+          description: "最大SP（計算済み最終値）"
         actionValue:
           type: integer
+          description: "行動値（計算済み最終値）"
+        statusModifiers:
+          type: object
+          properties:
+            hpModifier:
+              type: integer
+              example: 0
+              description: "HP補正値（±）"
+            spModifier:
+              type: integer
+              example: 0
+              description: "SP補正値（±）"
+            actionValueModifier:
+              type: integer
+              example: 0
+              description: "行動値補正値（±）"
         sessions:
           type: array
           items:
@@ -557,8 +730,8 @@ components:
                 type: string
                 example: '武器'
               cost:
-                type: integer
-                minimum: 0
+                type: string
+                example: "SP3"
               effect:
                 type: string
         specialAttacks:
@@ -588,8 +761,8 @@ components:
                 type: string
                 example: 'なし'
               cost:
-                type: integer
-                minimum: 0
+                type: string
+                example: "SP3"
               effect:
                 type: string
         items:

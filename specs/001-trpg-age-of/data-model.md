@@ -56,7 +56,12 @@ interface CharacterData {
   selectedClasses: [string, string]; // [1つ目のクラス名, 2つ目のクラス名] (重複可)
 
   // 能力値ボーナス選択
-  abilityBonus: 'physical' | 'reflex' | 'sensory' | 'intellectual' | 'supernatural';
+  abilityBonus:
+    | 'physical'
+    | 'reflex'
+    | 'sensory'
+    | 'intellectual'
+    | 'supernatural';
 
   // キャラクター作成時の制限値設定（編集時に反映するため保存）
   skillPointsLimit: number; // 技能ポイント上限 (通常150%)
@@ -468,7 +473,13 @@ const AbilityValueSchema = z.number().min(0).max(20);
 const CharacterDataSchema = z.object({
   selectedClasses: z.tuple([ClassNameSchema, ClassNameSchema]),
 
-  abilityBonus: z.enum(['physical', 'reflex', 'sensory', 'intellectual', 'supernatural']),
+  abilityBonus: z.enum([
+    'physical',
+    'reflex',
+    'sensory',
+    'intellectual',
+    'supernatural',
+  ]),
 
   skillPointsLimit: z.number().min(100).max(300),
   heroSkillLevelLimit: z.number().min(1).max(20),
