@@ -138,21 +138,6 @@ app.get(
       return c.json({ error: 'Character not found' }, 404);
     }
 
-    // パスワード認証が必要な場合
-    if (character.passwordHash) {
-      if (!password) {
-        return c.json({ error: 'Password is required' }, 401);
-      }
-
-      const isValidPassword = await bcrypt.compare(
-        password,
-        character.passwordHash,
-      );
-      if (!isValidPassword) {
-        return c.json({ error: 'Invalid password' }, 401);
-      }
-    }
-
     const data = character.data as object;
 
     // キャラクター情報を返す（API仕様に合わせて構築）
