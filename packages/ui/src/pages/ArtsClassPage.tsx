@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiPunchingBag,
@@ -10,15 +10,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const ArtsClassPage: React.FC = () => {
-  const artsHeroSkills = HERO_SKILLS['アーツ'];
-  const classSkills = Object.entries(artsHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiPunchingBag,
-      color: 'bg-teal-50 border-teal-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface ArtsClassPageProps {
+  skills?: Skill[];
+}
+
+export const ArtsClassPage: React.FC<ArtsClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiPunchingBag,
+    color: 'bg-teal-50 border-teal-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'アーツ',

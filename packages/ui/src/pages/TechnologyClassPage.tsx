@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiRobotGrab,
@@ -13,15 +13,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const TechnologyClassPage: React.FC = () => {
-  const technologyHeroSkills = HERO_SKILLS['テクノロジー'];
-  const classSkills = Object.entries(technologyHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiRobotAntennas,
-      color: 'bg-cyan-50 border-cyan-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface TechnologyClassPageProps {
+  skills?: Skill[];
+}
+
+export const TechnologyClassPage: React.FC<TechnologyClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiRobotAntennas,
+    color: 'bg-cyan-50 border-cyan-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'テクノロジー',

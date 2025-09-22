@@ -14,14 +14,14 @@ interface SkillFormField {
   effect: string;
 }
 
-interface ExternalSkill {
+export interface ExternalSkill {
   name: string;
   maxLv: number;
   timing: string;
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
   class: string;
 }
@@ -51,7 +51,7 @@ export const SkillForm: React.FC<SkillFormProps> = ({
     onUpdate(index, 'skill', preset.skill);
     onUpdate(index, 'target', preset.target);
     onUpdate(index, 'range', preset.range);
-    onUpdate(index, 'cost', preset.const);
+    onUpdate(index, 'cost', preset.cost);
     onUpdate(index, 'effect', preset.effect);
   };
 
@@ -67,7 +67,7 @@ export const SkillForm: React.FC<SkillFormProps> = ({
   return (
     <div className="p-4 border border-gray-200 rounded-md">
       <div className="mb-4 space-y-4">
-        {selectedClasses.map((className) => {
+        {[...new Set(selectedClasses)].map((className) => {
           const classSkills = getSkillsByClass(className);
           if (classSkills.length === 0) return null;
 

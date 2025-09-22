@@ -27,20 +27,8 @@ import { FormField, InputField, SelectField } from './form/FormField';
 import { ItemForm } from './form/ItemForm';
 import { LimitSettingsSection } from './form/LimitSettingsSection';
 import { SessionHistoryForm } from './form/SessionHistoryForm';
-import { SkillForm } from './form/SkillForm';
+import { ExternalSkill, SkillForm } from './form/SkillForm';
 import { ValidationSummary } from './form/ValidationSummary';
-
-interface ExternalSkill {
-  name: string;
-  maxLv: number;
-  timing: string;
-  skill: string;
-  target: string;
-  range: string;
-  const: string;
-  effect: string;
-  class: string;
-}
 
 interface CharacterCreationFormProps {
   onSubmit: (data: CharacterFormData) => void;

@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiBrain,
@@ -10,15 +10,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const PsychicClassPage: React.FC = () => {
-  const psychicHeroSkills = HERO_SKILLS['サイキック'];
-  const classSkills = Object.entries(psychicHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiBrain,
-      color: 'bg-pink-50 border-pink-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface PsychicClassPageProps {
+  skills?: Skill[];
+}
+
+export const PsychicClassPage: React.FC<PsychicClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiBrain,
+    color: 'bg-pink-50 border-pink-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'サイキック',

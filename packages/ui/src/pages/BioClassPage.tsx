@@ -1,3 +1,4 @@
+import { formatHeroSkillForUI } from '@age-of-hero/core';
 import React from 'react';
 import {
   GiDna2,
@@ -26,14 +27,7 @@ interface BioClassPageProps {
 
 export const BioClassPage: React.FC<BioClassPageProps> = ({ skills = [] }) => {
   const classSkills = skills.map((skill) => ({
-    name: skill.name,
-    maxLevel: skill.maxLv,
-    timing: skill.timing,
-    skillCheck: skill.skill,
-    target: skill.target,
-    range: skill.range,
-    cost: skill.const,
-    effect: skill.effect,
+    ...formatHeroSkillForUI(skill.name, skill),
     icon: GiDna2,
     color: 'bg-green-50 border-green-200',
   }));

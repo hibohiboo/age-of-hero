@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiAncientSword,
@@ -10,15 +10,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const ArtifactClassPage: React.FC = () => {
-  const artifactHeroSkills = HERO_SKILLS['アーティファクト'];
-  const classSkills = Object.entries(artifactHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiAncientSword,
-      color: 'bg-orange-50 border-orange-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface ArtifactClassPageProps {
+  skills?: Skill[];
+}
+
+export const ArtifactClassPage: React.FC<ArtifactClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiAncientSword,
+    color: 'bg-orange-50 border-orange-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'アーティファクト',

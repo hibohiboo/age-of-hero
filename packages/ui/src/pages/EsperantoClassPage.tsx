@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiStarFormation,
@@ -10,15 +10,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const EsperantoClassPage: React.FC = () => {
-  const esperantoHeroSkills = HERO_SKILLS['エスペラント'];
-  const classSkills = Object.entries(esperantoHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiStarFormation,
-      color: 'bg-yellow-50 border-yellow-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface EsperantoClassPageProps {
+  skills?: Skill[];
+}
+
+export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiStarFormation,
+    color: 'bg-yellow-50 border-yellow-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'エスペラント',

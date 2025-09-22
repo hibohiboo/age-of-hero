@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiCrystalBall,
@@ -12,15 +12,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const MagicalClassPage: React.FC = () => {
-  const magicalHeroSkills = HERO_SKILLS['マジカル'];
-  const classSkills = Object.entries(magicalHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiCrystalBall,
-      color: 'bg-purple-50 border-purple-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface MagicalClassPageProps {
+  skills?: Skill[];
+}
+
+export const MagicalClassPage: React.FC<MagicalClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiCrystalBall,
+    color: 'bg-purple-50 border-purple-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'マジカル',

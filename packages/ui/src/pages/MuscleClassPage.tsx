@@ -1,4 +1,4 @@
-import { HERO_SKILLS, formatHeroSkillForUI } from '@age-of-hero/core/index';
+import { formatHeroSkillForUI } from '@age-of-hero/core/index';
 import React from 'react';
 import {
   GiMuscleUp,
@@ -13,15 +13,27 @@ import {
 import { MdOutlineBolt } from 'react-icons/md';
 import { ClassPageLayout, ClassPageData } from '../components/ClassPageLayout';
 
-export const MuscleClassPage: React.FC = () => {
-  const muscleHeroSkills = HERO_SKILLS['マッスル'];
-  const classSkills = Object.entries(muscleHeroSkills).map(
-    ([skillName, skillData]) => ({
-      ...formatHeroSkillForUI(skillName, skillData),
-      icon: GiMuscleUp,
-      color: 'bg-red-50 border-red-200',
-    }),
-  );
+interface Skill {
+  name: string;
+  maxLv: number;
+  timing: string;
+  skill: string;
+  target: string;
+  range: string;
+  const: string;
+  effect: string;
+}
+
+interface MuscleClassPageProps {
+  skills?: Skill[];
+}
+
+export const MuscleClassPage: React.FC<MuscleClassPageProps> = ({ skills = [] }) => {
+  const classSkills = skills.map((skill) => ({
+    ...formatHeroSkillForUI(skill.name, skill),
+    icon: GiMuscleUp,
+    color: 'bg-red-50 border-red-200',
+  }));
 
   const classData: ClassPageData = {
     className: 'マッスル',

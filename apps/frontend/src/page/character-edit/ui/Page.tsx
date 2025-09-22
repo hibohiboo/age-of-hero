@@ -7,8 +7,14 @@ import { transformCharacterToFormData } from '../utils/transformCharacterData';
 
 export function Page() {
   const { id } = useParams<{ id: string }>();
-  const { character, loading, error, handleSubmit, navigateToCharacterList } =
-    useCharacterEdit(id);
+  const {
+    character,
+    loading,
+    error,
+    handleSubmit,
+    navigateToCharacterList,
+    skillData,
+  } = useCharacterEdit(id);
 
   if (loading) {
     return <LoadingState />;
@@ -33,6 +39,7 @@ export function Page() {
       <CharacterCreationForm
         onSubmit={handleSubmit}
         initialData={initialData}
+        externalSkills={skillData}
       />
     </div>
   );
