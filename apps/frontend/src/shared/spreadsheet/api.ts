@@ -25,21 +25,24 @@ const fetcher = async (url: string): Promise<SpreadSheetResponse> => {
   return response.json();
 };
 
+const apiKey = import.meta.env.VITE_SPREAD_SHEET_API_KEY;
+
 const useSpreadSheetData = ({
   spreadSheetId,
   sheetName,
   range,
 }: GetSpreadSheetDataProps) => {
-  const apiKey = import.meta.env.VITE_SPREAD_SHEET_API_KEY;
   if (!apiKey) {
     throw new Error('Google Sheets API key is not set.');
   }
 
-  const url = apiKey
-    ? `${baseUrl}${spreadSheetId}/values/${sheetName}!${range}?key=${apiKey}`
-    : null;
+  const url = `${baseUrl}${spreadSheetId}/values/${sheetName}!${range}?key=${apiKey}`;
 
-  return useSWR<SpreadSheetResponse>(url, fetcher);
+  return useSWR<SpreadSheetResponse>(url, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    dedupingInterval: 600000, // 600秒間は同じリクエストを重複排除
+  });
 };
 export const useSpreadSheetSkillData = () => {
   const result = useSpreadSheetData({

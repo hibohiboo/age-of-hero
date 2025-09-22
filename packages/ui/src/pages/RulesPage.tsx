@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 
@@ -21,9 +22,9 @@ export const RulesPage: React.FC = () => {
 
       <div className="grid md:grid-cols-2 gap-6">
         {rulesSections.map((section, index) => (
-          <a
+          <Link
             key={index}
-            href={section.path}
+            to={section.path}
             className="inline-block text-blue-600 hover:text-blue-800 font-medium"
           >
             <Card key={index}>
@@ -32,7 +33,7 @@ export const RulesPage: React.FC = () => {
               </h3>
               詳細を見る →
             </Card>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
