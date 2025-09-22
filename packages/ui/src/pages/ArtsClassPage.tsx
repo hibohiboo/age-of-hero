@@ -25,7 +25,9 @@ interface ArtsClassPageProps {
   skills?: Skill[];
 }
 
-export const ArtsClassPage: React.FC<ArtsClassPageProps> = ({ skills = [] }) => {
+export const ArtsClassPage: React.FC<ArtsClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiPunchingBag,
@@ -34,7 +36,8 @@ export const ArtsClassPage: React.FC<ArtsClassPageProps> = ({ skills = [] }) => 
 
   const classData: ClassPageData = {
     className: 'アーツ',
-    description: '異能の力ではなく技術を磨き、異能に並び立つレベルに昇華させたヒーローたち。彼らは技術を一流の域に到達するまで磨き上げることでヒーローとして戦う力を確立させている。',
+    description:
+      '異能の力ではなく技術を磨き、異能に並び立つレベルに昇華させたヒーローたち。彼らは技術を一流の域に到達するまで磨き上げることでヒーローとして戦う力を確立させている。',
     classIcon: '🥊',
     abilityStats: [
       { name: '肉体', value: 1, icon: GiBiceps, color: 'bg-red-100' },
@@ -78,20 +81,26 @@ export const ArtsClassPage: React.FC<ArtsClassPageProps> = ({ skills = [] }) => 
     origins: [
       {
         title: '武術の修行者',
-        description: '古来から伝わる武術を極限まで鍛錬し、超人的な技術を身に着けた格闘家',
+        description:
+          '古来から伝わる武術を極限まで鍛錬し、超人的な技術を身に着けた格闘家',
       },
       {
         title: '軍事訓練の専門家',
-        description: '軍事組織や特殊部隊での厳しい訓練により、人間の限界を超えた技術を習得',
+        description:
+          '軍事組織や特殊部隊での厳しい訓練により、人間の限界を超えた技術を習得',
       },
       {
         title: '独学の天才',
-        description: '異能を持たない自分を受け入れ、独自の訓練で技術を極限まで高めた努力家',
+        description:
+          '異能を持たない自分を受け入れ、独自の訓練で技術を極限まで高めた努力家',
       },
     ],
-    originsDescription: 'アーツヒーローの技術がどのようにして磨かれたかは様々である。キャラクター作成時に、自分のアーツヒーローがどのような経緯で技術を極めたのかを考えてみよう。',
-    originsNote: 'いずれの起源であっても、その技術は血の滲むような努力と鍛錬によって身に着けられた特別な存在なのだ。',
-    abilityNote: 'アーツは反射能力（3）に特化し、感覚・知力もバランス良く持つ技術系クラス。超常能力は持たないが、高い技術力で異能者に対抗できる。',
+    originsDescription:
+      'アーツヒーローの技術がどのようにして磨かれたかは様々である。キャラクター作成時に、自分のアーツヒーローがどのような経緯で技術を極めたのかを考えてみよう。',
+    originsNote:
+      'いずれの起源であっても、その技術は血の滲むような努力と鍛錬によって身に着けられた特別な存在なのだ。',
+    abilityNote:
+      'アーツは反射能力（3）に特化し、感覚・知力もバランス良く持つ技術系クラス。超常能力は持たないが、高い技術力で異能者に対抗できる。',
     playStyles: [
       {
         title: '戦闘での役割',

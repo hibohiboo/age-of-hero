@@ -18,7 +18,7 @@
     "lint": "eslint . --fix && tsc -b  --noEmit"
   },
   "dependencies": {
-    "zod": "^4.1.9"
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@age-of-hero/typescript-config": "*"
