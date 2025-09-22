@@ -14,6 +14,7 @@ export function Page() {
     handleSubmit,
     navigateToCharacterList,
     skillData,
+    ultimateSkillData,
   } = useCharacterEdit(id);
 
   if (loading) {
@@ -40,6 +41,7 @@ export function Page() {
         onSubmit={handleSubmit}
         initialData={initialData}
         externalSkills={skillData}
+        ultimateSkills={ultimateSkillData}
       />
     </div>
   );

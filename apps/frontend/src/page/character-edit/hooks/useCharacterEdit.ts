@@ -2,7 +2,10 @@
 import type { CharacterFormData } from '@age-of-hero/ui';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useSpreadSheetSkillData } from '@age-of-hero/frontend/shared/spreadsheet';
+import {
+  useSpreadSheetSkillData,
+  useSpreadSheetUltimateData,
+} from '@age-of-hero/frontend/shared/spreadsheet';
 
 interface CharacterDetail {
   id: string;
@@ -35,6 +38,7 @@ export const useCharacterEdit = (id: string | undefined) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const skillData = useSpreadSheetSkillData();
+  const ultimateSkillData = useSpreadSheetUltimateData();
 
   useEffect(() => {
     const fetchCharacter = async () => {
@@ -98,5 +102,6 @@ export const useCharacterEdit = (id: string | undefined) => {
     handleSubmit,
     navigateToCharacterList,
     skillData,
+    ultimateSkillData,
   };
 };
