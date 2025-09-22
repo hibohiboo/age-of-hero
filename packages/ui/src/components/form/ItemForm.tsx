@@ -1,12 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import {
-  weapons,
-  armor,
-  consumables,
-  otherItems,
-  technologyItems,
-} from '../../constants/gameData';
+
 import { Button } from './Button';
 import { FormField, InputField, SelectField, TextAreaField } from './FormField';
 import { ArmorFields } from './item-fields/ArmorFields';
@@ -40,7 +34,7 @@ export type ItemColumn = {
   dodge?: string;
   actionValue?: string;
   protection?: string;
-  price?: number;
+  price: number;
   effect?: string;
 };
 interface ItemFormProps {
@@ -54,13 +48,6 @@ interface ItemFormProps {
   onRemove: (index: number) => void;
   presetItems?: Array<ItemColumn>;
 }
-const PRESET_ITEMS = [
-  ...weapons.map((w) => ({ category: '武器', ...w })),
-  ...armor.map((a) => ({ category: '防具', ...a })),
-  ...consumables.map((c) => ({ category: '消耗品', ...c })),
-  ...otherItems.map((o) => ({ category: 'その他', ...o })),
-  ...technologyItems.map((t) => ({ category: 'テクノロジー', ...t })),
-];
 const ITEM_TYPES = [
   { label: '白兵', value: '白兵' },
   { label: '射撃', value: '射撃' },

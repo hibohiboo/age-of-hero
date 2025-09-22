@@ -119,15 +119,8 @@ app.get(
       id: z.string().uuid('Invalid ID format'),
     }),
   ),
-  zValidator(
-    'query',
-    z.object({
-      password: z.string().optional(),
-    }),
-  ),
   async (c) => {
     const { id } = c.req.valid('param');
-    const { password } = c.req.valid('query');
 
     const [character] = await getDb()
       .select()
@@ -158,7 +151,7 @@ app.put(
   zValidator(
     'param',
     z.object({
-      id: z.string().uuid('Invalid ID format'),
+      id: z.string(),
     }),
   ),
   zValidator('json', updateCharacterSchema as any),
