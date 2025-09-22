@@ -20,7 +20,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 
@@ -28,7 +28,9 @@ interface MuscleClassPageProps {
   skills?: Skill[];
 }
 
-export const MuscleClassPage: React.FC<MuscleClassPageProps> = ({ skills = [] }) => {
+export const MuscleClassPage: React.FC<MuscleClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiMuscleUp,

@@ -19,7 +19,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 
@@ -27,7 +27,9 @@ interface MagicalClassPageProps {
   skills?: Skill[];
 }
 
-export const MagicalClassPage: React.FC<MagicalClassPageProps> = ({ skills = [] }) => {
+export const MagicalClassPage: React.FC<MagicalClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiCrystalBall,

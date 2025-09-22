@@ -17,7 +17,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 
@@ -25,7 +25,9 @@ interface ArtifactClassPageProps {
   skills?: Skill[];
 }
 
-export const ArtifactClassPage: React.FC<ArtifactClassPageProps> = ({ skills = [] }) => {
+export const ArtifactClassPage: React.FC<ArtifactClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiAncientSword,
@@ -34,7 +36,8 @@ export const ArtifactClassPage: React.FC<ArtifactClassPageProps> = ({ skills = [
 
   const classData: ClassPageData = {
     className: 'アーティファクト',
-    description: '遠い過去や神話の時代の武具を用いたり、それらの世界から現代にやってきたりといったヒーローだ。神代・古代の神秘的な力を持つ道具を使い、神からの寵愛を受ける。',
+    description:
+      '遠い過去や神話の時代の武具を用いたり、それらの世界から現代にやってきたりといったヒーローだ。神代・古代の神秘的な力を持つ道具を使い、神からの寵愛を受ける。',
     classIcon: '⚔️',
     abilityStats: [
       { name: '肉体', value: 2, icon: GiBiceps, color: 'bg-red-100' },
@@ -78,20 +81,25 @@ export const ArtifactClassPage: React.FC<ArtifactClassPageProps> = ({ skills = [
     origins: [
       {
         title: '遺跡からの発見',
-        description: '古代遺跡から発掘された神秘的な武具や道具を手に入れた考古学者',
+        description:
+          '古代遺跡から発掘された神秘的な武具や道具を手に入れた考古学者',
       },
       {
         title: '神話時代からの継承',
-        description: '神話の時代から現代まで受け継がれてきた聖なる武具の正統な継承者',
+        description:
+          '神話の時代から現代まで受け継がれてきた聖なる武具の正統な継承者',
       },
       {
         title: '異世界からの来訪',
         description: '神話の世界や古代から現代にやって来た戦士や神の使い',
       },
     ],
-    originsDescription: 'アーティファクトヒーローの神秘的な武具がどのようにして得られたかは様々である。キャラクター作成時に、自分のアーティファクトヒーローがどのような経緯で力を得たのかを考えてみよう。',
-    originsNote: 'いずれの起源であっても、その武具は神代・古代の神秘的な力を宿した特別な存在なのだ。',
-    abilityNote: 'アーティファクトは肉体・感覚・超常能力に優れた戦士系クラス。高いHPと神秘的な武具による多彩な戦闘能力を持つ。',
+    originsDescription:
+      'アーティファクトヒーローの神秘的な武具がどのようにして得られたかは様々である。キャラクター作成時に、自分のアーティファクトヒーローがどのような経緯で力を得たのかを考えてみよう。',
+    originsNote:
+      'いずれの起源であっても、その武具は神代・古代の神秘的な力を宿した特別な存在なのだ。',
+    abilityNote:
+      'アーティファクトは肉体・感覚・超常能力に優れた戦士系クラス。高いHPと神秘的な武具による多彩な戦闘能力を持つ。',
     playStyles: [
       {
         title: '戦闘での役割',

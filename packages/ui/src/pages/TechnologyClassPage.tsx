@@ -20,7 +20,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 
@@ -28,7 +28,9 @@ interface TechnologyClassPageProps {
   skills?: Skill[];
 }
 
-export const TechnologyClassPage: React.FC<TechnologyClassPageProps> = ({ skills = [] }) => {
+export const TechnologyClassPage: React.FC<TechnologyClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiRobotAntennas,

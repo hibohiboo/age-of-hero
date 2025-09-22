@@ -17,7 +17,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 

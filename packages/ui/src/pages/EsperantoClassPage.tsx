@@ -17,7 +17,7 @@ interface Skill {
   skill: string;
   target: string;
   range: string;
-  const: string;
+  cost: string;
   effect: string;
 }
 
@@ -25,7 +25,9 @@ interface EsperantoClassPageProps {
   skills?: Skill[];
 }
 
-export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({ skills = [] }) => {
+export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({
+  skills = [],
+}) => {
   const classSkills = skills.map((skill) => ({
     ...formatHeroSkillForUI(skill.name, skill),
     icon: GiStarFormation,
@@ -34,7 +36,8 @@ export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({ skills =
 
   const classData: ClassPageData = {
     className: 'エスペラント',
-    description: '宇宙や未来の世界からやって来たヒーローたち。現代の地球に存在しない特殊な技術や進化した身体能力を駆使して戦う。',
+    description:
+      '宇宙や未来の世界からやって来たヒーローたち。現代の地球に存在しない特殊な技術や進化した身体能力を駆使して戦う。',
     classIcon: '⭐',
     abilityStats: [
       { name: '肉体', value: 1, icon: GiBiceps, color: 'bg-red-100' },
@@ -78,7 +81,8 @@ export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({ skills =
     origins: [
       {
         title: '異星人・宇宙から飛来',
-        description: '宇宙から地球にやって来た異星人、または宇宙船で漂着した存在',
+        description:
+          '宇宙から地球にやって来た異星人、または宇宙船で漂着した存在',
       },
       {
         title: '未来人・時間移動者',
@@ -89,9 +93,12 @@ export const EsperantoClassPage: React.FC<EsperantoClassPageProps> = ({ skills =
         description: '異次元出身者や過去の宇宙人の血を受け継いだ地球人',
       },
     ],
-    originsDescription: 'エスペラントヒーローの出身がどこであるかは様々である。キャラクター作成時に、自分のエスペラントヒーローがどのような経緯で地球にやって来たのかを考えてみよう。',
-    originsNote: 'いずれの起源であっても、その力は現代地球を超越した技術や能力であり、使い手にとって特別な存在なのだ。',
-    abilityNote: 'エスペラントは反射・知力・超常能力に優れたテクニカル系クラス。物理能力は控えめだが、未来技術と超常能力で多彩な戦術が可能。',
+    originsDescription:
+      'エスペラントヒーローの出身がどこであるかは様々である。キャラクター作成時に、自分のエスペラントヒーローがどのような経緯で地球にやって来たのかを考えてみよう。',
+    originsNote:
+      'いずれの起源であっても、その力は現代地球を超越した技術や能力であり、使い手にとって特別な存在なのだ。',
+    abilityNote:
+      'エスペラントは反射・知力・超常能力に優れたテクニカル系クラス。物理能力は控えめだが、未来技術と超常能力で多彩な戦術が可能。',
     playStyles: [
       {
         title: '戦闘での役割',
