@@ -856,7 +856,8 @@ export const magicalSkills = [
       target: '単体',
       range: '中距離',
       cost: '5',
-      effect: '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに[ＬＶ×２]する。',
+      effect:
+        '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに[ＬＶ×２]する。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -870,7 +871,8 @@ export const magicalSkills = [
       target: '単体',
       range: '至近',
       cost: '5',
-      effect: '対象はそのラウンド中、ドッジの判定に[Ｌｖ×１０]％し、移動を妨害されずエンゲージの封鎖の影響を受けない。',
+      effect:
+        '対象はそのラウンド中、ドッジの判定に[Ｌｖ×１０]％し、移動を妨害されずエンゲージの封鎖の影響を受けない。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -884,7 +886,8 @@ export const magicalSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'あなたはこのメインプロセスで行う〈交渉〉か〈コネ〉の判定に＋[（Ｌｖ×10）＋10]％する。',
+      effect:
+        'あなたはこのメインプロセスで行う〈交渉〉か〈コネ〉の判定に＋[（Ｌｖ×10）＋10]％する。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -898,7 +901,8 @@ export const magicalSkills = [
       target: '単体',
       range: '中距離',
       cost: '4',
-      effect: '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×２０]％する。１ラウンドに１回使用可能。',
+      effect:
+        '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×２０]％する。１ラウンドに１回使用可能。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -912,7 +916,8 @@ export const magicalSkills = [
       target: '単体',
       range: '中距離',
       cost: '5',
-      effect: '対象が次に行う攻撃の判定値に＋２０％、ダメージに＋[Ｌｖ×４]＋１Ｄする。',
+      effect:
+        '対象が次に行う攻撃の判定値に＋２０％、ダメージに＋[Ｌｖ×４]＋１Ｄする。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -940,7 +945,8 @@ export const magicalSkills = [
       target: '効果参照',
       range: 'なし',
       cost: '10',
-      effect: 'このヒーロースキルを組み合わせた行動の対象を[１＋Ｌｖ÷２(切り上げ)]体に変更する。',
+      effect:
+        'このヒーロースキルを組み合わせた行動の対象を[１＋Ｌｖ÷２(切り上げ)]体に変更する。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -954,7 +960,8 @@ export const magicalSkills = [
       target: '自身',
       range: 'なし',
       cost: '12',
-      effect: 'あなたの能力値をふたつ選択する。そのラウンド中、選択した能力値の一方を＋１し、もう一方を－１する。シーンにＬｖ回使用可能。',
+      effect:
+        'あなたの能力値をふたつ選択する。そのラウンド中、選択した能力値の一方を＋１し、もう一方を－１する。シーンにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -968,7 +975,8 @@ export const magicalSkills = [
       target: '単体',
       range: '中距離',
       cost: '12',
-      effect: '対象が何らかのスキルを使用した際に使用する。対象が使用したスキルひとつを選択し、その効果を無効化する。シナリオに１回使用可能。',
+      effect:
+        '対象が何らかのスキルを使用した際に使用する。対象が使用したスキルひとつを選択し、その効果を無効化する。シナリオに１回使用可能。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -982,7 +990,8 @@ export const magicalSkills = [
       target: '単体',
       range: '中距離',
       cost: 'ＦＣ',
-      effect: '対象が何らかの判定を行った直後に使用する。ファンチットを任意の枚数消費する。その判定の出目を＋[消費したＦＣ×１０]か－[消費ＦＣ×１０]する。シナリオに１回使用可能。',
+      effect:
+        '対象が何らかの判定を行った直後に使用する。ファンチットを任意の枚数消費する。その判定の出目を＋[消費したＦＣ×１０]か－[消費ＦＣ×１０]する。シナリオに１回使用可能。',
     } as SkillDetails,
     color: 'bg-purple-50 border-purple-200',
   },
@@ -999,7 +1008,8 @@ export const psychicSkills = [
       target: '自身',
       range: 'なし',
       cost: 'なし',
-      effect: 'あなたは、《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。このヒーロースキルの効果で選択しなかった《オリジン：○○》は取得することができない。',
+      effect:
+        'あなたは、《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。このヒーロースキルの効果で選択しなかった《オリジン：○○》は取得することができない。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1013,7 +1023,8 @@ export const psychicSkills = [
       target: '単体',
       range: '中距離',
       cost: '4',
-      effect: '対象に特殊攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋３]',
+      effect:
+        '対象に特殊攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋３]',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1027,7 +1038,8 @@ export const psychicSkills = [
       target: '単体',
       range: '中距離',
       cost: '4',
-      effect: '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×１0]％か－[Ｌｖ×１０]％する。１ラウンドに１回使用可能。',
+      effect:
+        '対象が何らかの判定を行う直前に使用する。対象が行う判定の判定値に＋[Ｌｖ×１0]％か－[Ｌｖ×１０]％する。１ラウンドに１回使用可能。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1041,7 +1053,8 @@ export const psychicSkills = [
       target: '自身',
       range: '単体',
       cost: 'なし',
-      effect: '能力値をひとつ選択する。あなたの【超常】能力値を－１し、選択した能力値を＋１する。',
+      effect:
+        '能力値をひとつ選択する。あなたの【超常】能力値を－１し、選択した能力値を＋１する。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1055,7 +1068,8 @@ export const psychicSkills = [
       target: '単体',
       range: '至近',
       cost: '4',
-      effect: '対象をシーンの任意の距離に移動させる。この移動の際、対象は移動を妨害されない。同意を得た対象にのみ使用できる。',
+      effect:
+        '対象をシーンの任意の距離に移動させる。この移動の際、対象は移動を妨害されない。同意を得た対象にのみ使用できる。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1069,7 +1083,8 @@ export const psychicSkills = [
       target: '自身',
       range: 'なし',
       cost: '6',
-      effect: 'あなたはそのラウンド中、メジャーアクションとリアクションの判定の判定値に＋[Ｌｖ×１０]する。',
+      effect:
+        'あなたはそのラウンド中、メジャーアクションとリアクションの判定の判定値に＋[Ｌｖ×１０]する。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1083,7 +1098,8 @@ export const psychicSkills = [
       target: '効果参照',
       range: '中距離',
       cost: '8',
-      effect: '射程内のエンゲージをひとつ対象とする。対象のエンゲージを封鎖する。あなたは行動終了となる。',
+      effect:
+        '射程内のエンゲージをひとつ対象とする。対象のエンゲージを封鎖する。あなたは行動終了となる。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1097,7 +1113,8 @@ export const psychicSkills = [
       target: '自身',
       range: 'なし',
       cost: '5',
-      effect: '《オリジン：エレメント》《オリジン：空間転移》《オリジン：物体動作支配》のみ取得可能。あなたがこのメインプロセス中に行う攻撃のダメージに＋[Ｌｖ×２]する。また、その攻撃でダメージを与えた場合、ダメージを受けたキャラクターを１段階移動させてもよい。',
+      effect:
+        '《オリジン：エレメント》《オリジン：空間転移》《オリジン：物体動作支配》のみ取得可能。あなたがこのメインプロセス中に行う攻撃のダメージに＋[Ｌｖ×２]する。また、その攻撃でダメージを与えた場合、ダメージを受けたキャラクターを１段階移動させてもよい。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1111,7 +1128,8 @@ export const psychicSkills = [
       target: '自身',
       range: 'なし',
       cost: 'なし',
-      effect: 'あなたは、取得していない《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。',
+      effect:
+        'あなたは、取得していない《オリジン：○○》という名前のヒーロースキルを一種類選択し、取得することが可能になる。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1125,7 +1143,8 @@ export const psychicSkills = [
       target: '自身',
       range: 'なし',
       cost: '8',
-      effect: '《オリジン：エレメント》《オリジン：精神感応能力》《オリジン：物体動作支配》のみ取得可能。そのラウンド中、あなたが行う〈超能力〉判定の判定値に＋５０％し、メジャーアクションのコンボ数に＋１する。あなたはそのラウンド中、メインプロセスの終了時にＨＰが０になる。シーンにＬｖ回まで使用可能。',
+      effect:
+        '《オリジン：エレメント》《オリジン：精神感応能力》《オリジン：物体動作支配》のみ取得可能。そのラウンド中、あなたが行う〈超能力〉判定の判定値に＋５０％し、メジャーアクションのコンボ数に＋１する。あなたはそのラウンド中、メインプロセスの終了時にＨＰが０になる。シーンにＬｖ回まで使用可能。',
     } as SkillDetails,
     color: 'bg-pink-50 border-pink-200',
   },
@@ -1142,7 +1161,8 @@ export const technologySkills = [
       target: '自身',
       range: 'なし',
       cost: 'なし',
-      effect: 'テクノロジー専用アイテムを１つ取得する。このヒーロースキルのＬｖが３以上になったならば追加で１つ、Ｌｖが５以上になったならば更に追加で１つ取得する',
+      effect:
+        'テクノロジー専用アイテムを１つ取得する。このヒーロースキルのＬｖが３以上になったならば追加で１つ、Ｌｖが５以上になったならば更に追加で１つ取得する',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1156,7 +1176,8 @@ export const technologySkills = [
       target: '装備ひとつ',
       range: '至近',
       cost: '6',
-      effect: '装備ひとつを対象に〈製作〉技能での判定を行う。判定に成功したならば、対象の「攻撃力」「防護点」「ガード値」「修正」の内のひとつを＋[Ｌｖ＋１]する。同じ装備品の同じデータに対しては効果は重複しない。',
+      effect:
+        '装備ひとつを対象に〈製作〉技能での判定を行う。判定に成功したならば、対象の「攻撃力」「防護点」「ガード値」「修正」の内のひとつを＋[Ｌｖ＋１]する。同じ装備品の同じデータに対しては効果は重複しない。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1170,7 +1191,8 @@ export const technologySkills = [
       target: '単体',
       range: '武器',
       cost: '4',
-      effect: 'このヒーロースキルを組み合わせた〈操縦〉〈射撃〉技能の判定値を＋[（Ｌｖ×１０）＋１０]％する。攻撃に組み合わせて使用した場合、コンボ２として扱う。',
+      effect:
+        'このヒーロースキルを組み合わせた〈操縦〉〈射撃〉技能の判定値を＋[（Ｌｖ×１０）＋１０]％する。攻撃に組み合わせて使用した場合、コンボ２として扱う。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1184,7 +1206,8 @@ export const technologySkills = [
       target: '単体',
       range: '近距離',
       cost: '4',
-      effect: 'ダメージロールの直後に使用する。対象が受けるダメージを[Ｌｖ×２]＋２Ｄ軽減する。ラウンドに１回使用可能。',
+      effect:
+        'ダメージロールの直後に使用する。対象が受けるダメージを[Ｌｖ×２]＋２Ｄ軽減する。ラウンドに１回使用可能。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1212,7 +1235,8 @@ export const technologySkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'あなたの装備しているアイテムひとつを装備から外し、あなたの所持していることなるアイテムひとつを即座に装備する。',
+      effect:
+        'あなたの装備しているアイテムひとつを装備から外し、あなたの所持していることなるアイテムひとつを即座に装備する。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1226,7 +1250,8 @@ export const technologySkills = [
       target: '単体',
       range: '中',
       cost: '4',
-      effect: '対象が何らかの判定を行う直前に使用する。対象の判定値を－[Ｌｖ×１０]％する。ラウンドに１回使用可能。',
+      effect:
+        '対象が何らかの判定を行う直前に使用する。対象の判定値を－[Ｌｖ×１０]％する。ラウンドに１回使用可能。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1240,7 +1265,8 @@ export const technologySkills = [
       target: '自身',
       range: 'なし',
       cost: '6',
-      effect: 'あなたがそのメインプロセス中に行う攻撃ではダメージを＋[Ｌｖ×３]し、防護点を無視してダメージを算出する。シーンにＬｖ回使用可能。',
+      effect:
+        'あなたがそのメインプロセス中に行う攻撃ではダメージを＋[Ｌｖ×３]し、防護点を無視してダメージを算出する。シーンにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1254,7 +1280,8 @@ export const technologySkills = [
       target: '範囲（選択）',
       range: '武器',
       cost: '7',
-      effect: 'このヒーロースキルを組み合わせた攻撃の対象を範囲（選択）に変更する。また、この攻撃のダメージに[Ｌｖ＋５]する。シーンに１回使用可能。このヒーロースキルのＬｖが３以上になったならばシーンに２回、Ｌｖが５以上になったならばシーンに３回使用可能。',
+      effect:
+        'このヒーロースキルを組み合わせた攻撃の対象を範囲（選択）に変更する。また、この攻撃のダメージに[Ｌｖ＋５]する。シーンに１回使用可能。このヒーロースキルのＬｖが３以上になったならばシーンに２回、Ｌｖが５以上になったならばシーンに３回使用可能。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1268,7 +1295,8 @@ export const technologySkills = [
       target: '効果参照',
       range: '至近',
       cost: 'ＦＣ',
-      effect: 'あなたが装備しているアイテムひとつを対象とする。ファンチットを任意の枚数消費し、対象の「攻撃力」「防護点」「ガード値」「行動値」「修正」のうち[消費したＦＣ]個に＋[（Ｌｖ×３）＋２]する。判定値への修正については＋[Ｌｖ×５]％する。シナリオに１回使用可能。',
+      effect:
+        'あなたが装備しているアイテムひとつを対象とする。ファンチットを任意の枚数消費し、対象の「攻撃力」「防護点」「ガード値」「行動値」「修正」のうち[消費したＦＣ]個に＋[（Ｌｖ×３）＋２]する。判定値への修正については＋[Ｌｖ×５]％する。シナリオに１回使用可能。',
     } as SkillDetails,
     color: 'bg-cyan-50 border-cyan-200',
   },
@@ -1285,7 +1313,8 @@ export const esperantoSkills = [
       target: '単体',
       range: '武器',
       cost: '4',
-      effect: 'このヒーロースキルを組み合わせた〈技術〉〈射撃〉技能の判定値を＋[（Ｌｖ×１０）＋１０]％する。攻撃に組み合わせて使用した場合、コンボ２として扱う。',
+      effect:
+        'このヒーロースキルを組み合わせた〈技術〉〈射撃〉技能の判定値を＋[（Ｌｖ×１０）＋１０]％する。攻撃に組み合わせて使用した場合、コンボ２として扱う。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1313,7 +1342,8 @@ export const esperantoSkills = [
       target: '単体',
       range: '中距離',
       cost: '6',
-      effect: '対象が次に行う攻撃の判定値に＋[（Ｌｖ×１０）＋２０]％、ダメージに＋[Ｌｖ×３]する。',
+      effect:
+        '対象が次に行う攻撃の判定値に＋[（Ｌｖ×１０）＋２０]％、ダメージに＋[Ｌｖ×３]する。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1327,7 +1357,8 @@ export const esperantoSkills = [
       target: '単体',
       range: '近距離',
       cost: '4',
-      effect: '対象の受けているバッドステータスをすべて解除する。ラウンド１回使用可能。',
+      effect:
+        '対象の受けているバッドステータスをすべて解除する。ラウンド１回使用可能。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1341,7 +1372,8 @@ export const esperantoSkills = [
       target: '範囲選択',
       range: '中距離',
       cost: '6',
-      effect: 'そのシーン中、対象の防護点を＋[（Ｌｖ×３）＋２]する。この効果は重複しない。',
+      effect:
+        'そのシーン中、対象の防護点を＋[（Ｌｖ×３）＋２]する。この効果は重複しない。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1355,7 +1387,8 @@ export const esperantoSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：放心を与える。',
+      effect:
+        'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：放心を与える。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1369,7 +1402,8 @@ export const esperantoSkills = [
       target: '単体',
       range: '武器',
       cost: '6',
-      effect: '対象に白兵攻撃か射撃攻撃を行う。コンボ２。攻撃のダメージに＋[（Ｌｖ×２）＋２]、判定値に＋２０％する。',
+      effect:
+        '対象に白兵攻撃か射撃攻撃を行う。コンボ２。攻撃のダメージに＋[（Ｌｖ×２）＋２]、判定値に＋２０％する。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1383,7 +1417,8 @@ export const esperantoSkills = [
       target: '効果参照',
       range: '中距離',
       cost: '10',
-      effect: 'キャラクターをふたり選択する。選択した内の一方が次に行う判定の判定値に－４０％、もう一方の次に行う判定の判定値に＋４０％する。シナリオにＬｖ回使用可能。',
+      effect:
+        'キャラクターをふたり選択する。選択した内の一方が次に行う判定の判定値に－４０％、もう一方の次に行う判定の判定値に＋４０％する。シナリオにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1397,7 +1432,8 @@ export const esperantoSkills = [
       target: '自身',
       range: 'なし',
       cost: '12',
-      effect: 'あなたはシーン中に使用されたスキルをひとつ選択し、そのスキルをこのシーン中、１レベルで修得する。シナリオに１回使用可能。',
+      effect:
+        'あなたはシーン中に使用されたスキルをひとつ選択し、そのスキルをこのシーン中、１レベルで修得する。シナリオに１回使用可能。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1411,7 +1447,8 @@ export const esperantoSkills = [
       target: '自身',
       range: 'なし',
       cost: 'ＦＣ',
-      effect: 'ファンチットを任意の枚数消費する。あなたはこのメインプロセスに行う行動の対象を[消費したＦＣ÷２]体に、射程を視界に変更する。ただし、メインプロセスに攻撃を行う場合、コンボ数は３以上にならない。シナリオに１回まで使用可能。',
+      effect:
+        'ファンチットを任意の枚数消費する。あなたはこのメインプロセスに行う行動の対象を[消費したＦＣ÷２]体に、射程を視界に変更する。ただし、メインプロセスに攻撃を行う場合、コンボ数は３以上にならない。シナリオに１回まで使用可能。',
     } as SkillDetails,
     color: 'bg-yellow-50 border-yellow-200',
   },
@@ -1442,7 +1479,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'あなたはこのメインプロセスで行う〈知覚〉か〈心理〉の判定に＋[（Ｌｖ×10）＋10]％する。',
+      effect:
+        'あなたはこのメインプロセスで行う〈知覚〉か〈心理〉の判定に＋[（Ｌｖ×10）＋10]％する。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1456,7 +1494,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'そのシーン中、あなたの素手のデータを以下のように変更する。種別：白兵　技能：〈パワー〉　修正：＋１０％　攻撃力：＋[Ｌｖ＋６]　ガード値：２　射程：至近',
+      effect:
+        'そのシーン中、あなたの素手のデータを以下のように変更する。種別：白兵　技能：〈パワー〉　修正：＋１０％　攻撃力：＋[Ｌｖ＋６]　ガード値：２　射程：至近',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1470,7 +1509,8 @@ export const bioSkills = [
       target: '単体',
       range: '近',
       cost: '4',
-      effect: '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃の射程を「近距離」に変更し、ダメージに＋[Ｌｖ×２]する。このヒーロースキルのＬｖが４以上になったならば、射程を「中距離」に変更する。',
+      effect:
+        '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃の射程を「近距離」に変更し、ダメージに＋[Ｌｖ×２]する。このヒーロースキルのＬｖが４以上になったならば、射程を「中距離」に変更する。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1484,7 +1524,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: '4',
-      effect: 'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
+      effect:
+        'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1498,7 +1539,8 @@ export const bioSkills = [
       target: '単体',
       range: '武器',
       cost: '3',
-      effect: '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋２]点する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
+      effect:
+        '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[（Ｌｖ×２）＋２]点する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1512,7 +1554,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: '5',
-      effect: 'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：スリップ（Ｌｖ）とＢＳ：硬直を与える。',
+      effect:
+        'あなたがこのメインプロセス中に行う攻撃でダメージを与えた場合、ＢＳ：スリップ（Ｌｖ）とＢＳ：硬直を与える。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1526,7 +1569,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: '6',
-      effect: '何らかの判定を行う直前に使用する。その判定の判定値に＋[〈知覚〉判定値÷２]する。シーンにＬｖ回使用可能。',
+      effect:
+        '何らかの判定を行う直前に使用する。その判定の判定値に＋[〈知覚〉判定値÷２]する。シーンにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1540,7 +1584,8 @@ export const bioSkills = [
       target: '単体',
       range: '武器',
       cost: '8',
-      effect: '対象に白兵攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋３０％する。あなたはこのヒーロースキルを使用したメインプロセスの終了時に１０点のＨＰダメージを受ける。シナリオにＬｖ回使用可能。',
+      effect:
+        '対象に白兵攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋３０％する。あなたはこのヒーロースキルを使用したメインプロセスの終了時に１０点のＨＰダメージを受ける。シナリオにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1554,7 +1599,8 @@ export const bioSkills = [
       target: '自身',
       range: 'なし',
       cost: 'ＦＣ',
-      effect: 'ファンチットを任意の枚数消費する。あなたはそのラウンド中、消費したファンチット５枚ごとに以下の内から効果を１つ選び受ける。シナリオに１回使用可能。「与えるダメージ＋１Ｄ」「メジャーアクションの判定値＋４０％」「リアクションの判定値＋４０％」「行動値＋５」「防護点＋１０」',
+      effect:
+        'ファンチットを任意の枚数消費する。あなたはそのラウンド中、消費したファンチット５枚ごとに以下の内から効果を１つ選び受ける。シナリオに１回使用可能。「与えるダメージ＋１Ｄ」「メジャーアクションの判定値＋４０％」「リアクションの判定値＋４０％」「行動値＋５」「防護点＋１０」',
     } as SkillDetails,
     color: 'bg-green-50 border-green-200',
   },
@@ -1571,7 +1617,8 @@ export const artsSkills = [
       target: '単体',
       range: '武器',
       cost: '2',
-      effect: '対象に白兵攻撃または射撃攻撃を行う。コンボ２。この攻撃では武器に設定された技能に関わらず〈技術〉で判定を行う。',
+      effect:
+        '対象に白兵攻撃または射撃攻撃を行う。コンボ２。この攻撃では武器に設定された技能に関わらず〈技術〉で判定を行う。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1585,7 +1632,8 @@ export const artsSkills = [
       target: '自身',
       range: 'なし',
       cost: '4',
-      effect: 'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
+      effect:
+        'あなたがこのメインプロセス中に行う攻撃の判定に＋[Ｌｖ×２０]％する。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1599,7 +1647,8 @@ export const artsSkills = [
       target: '単体',
       range: '武器',
       cost: '6',
-      effect: 'このヒーロースキルを組み合わせた攻撃では装備している武器の攻撃力を合計することができる。この攻撃の判定値に－[４０－（Ｌｖ×10）]する。',
+      effect:
+        'このヒーロースキルを組み合わせた攻撃では装備している武器の攻撃力を合計することができる。この攻撃の判定値に－[４０－（Ｌｖ×10）]する。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1613,7 +1662,8 @@ export const artsSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'このヒーロースキルを組み合わせたドッジの判定値に＋[（Ｌｖ×１０）＋２０]％する。',
+      effect:
+        'このヒーロースキルを組み合わせたドッジの判定値に＋[（Ｌｖ×１０）＋２０]％する。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1627,7 +1677,8 @@ export const artsSkills = [
       target: '範囲選択',
       range: '至近',
       cost: '8',
-      effect: '〈情報〉か〈心理〉の判定を行う。判定に成功した場合、対象がそのラウンド中に与えるダメージに＋[Ｌｖ×３]する。',
+      effect:
+        '〈情報〉か〈心理〉の判定を行う。判定に成功した場合、対象がそのラウンド中に与えるダメージに＋[Ｌｖ×３]する。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1641,7 +1692,8 @@ export const artsSkills = [
       target: '自身',
       range: 'なし',
       cost: '4',
-      effect: 'あなたがこのメインプロセスで行う白兵攻撃でダメージを与えたならば、BS捕縛を与える。',
+      effect:
+        'あなたがこのメインプロセスで行う白兵攻撃でダメージを与えたならば、BS捕縛を与える。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1655,7 +1707,8 @@ export const artsSkills = [
       target: '単体',
       range: '効果参照',
       cost: '8',
-      effect: '対象に射撃攻撃を行う。コンボ２．このヒーロースキルを組み合わせた攻撃の射程は[使用した武器の射程＋１段階]となる。この攻撃に対するドッジの判定値に－[Ｌｖ×２０]％する。',
+      effect:
+        '対象に射撃攻撃を行う。コンボ２．このヒーロースキルを組み合わせた攻撃の射程は[使用した武器の射程＋１段階]となる。この攻撃に対するドッジの判定値に－[Ｌｖ×２０]％する。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1669,7 +1722,8 @@ export const artsSkills = [
       target: '単体',
       range: '武器',
       cost: '10',
-      effect: '対象に白兵攻撃か射撃攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋２０％する。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。シナリオにＬｖ回使用可能。',
+      effect:
+        '対象に白兵攻撃か射撃攻撃を行う。その攻撃のコンボ数を＋１し、判定値を＋２０％する。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。シナリオにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1683,7 +1737,8 @@ export const artsSkills = [
       target: '単体',
       range: '近距離',
       cost: '8',
-      effect: '対象が何らかの判定を行った直後に使用する。その判定を振り直させる。シーンにＬｖ回使用可能。',
+      effect:
+        '対象が何らかの判定を行った直後に使用する。その判定を振り直させる。シーンにＬｖ回使用可能。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1697,7 +1752,8 @@ export const artsSkills = [
       target: '自身',
       range: 'なし',
       cost: 'ＦＣ',
-      effect: 'ファンチットを１０枚消費する。ドッジの判定に＋４０％する。その後、リアクションに成功した回数だけ装備した武器を使用した攻撃を行う。この攻撃の対象はリアクションの対決を行ったキャラクターとなり、この攻撃に対するリアクションは発生しない。シナリオに１回まで使用可能。',
+      effect:
+        'ファンチットを１０枚消費する。ドッジの判定に＋４０％する。その後、リアクションに成功した回数だけ装備した武器を使用した攻撃を行う。この攻撃の対象はリアクションの対決を行ったキャラクターとなり、この攻撃に対するリアクションは発生しない。シナリオに１回まで使用可能。',
     } as SkillDetails,
     color: 'bg-teal-50 border-teal-200',
   },
@@ -1714,7 +1770,8 @@ export const artifactSkills = [
       target: '自身',
       range: 'なし',
       cost: '4',
-      effect: 'そのシーン中、以下のデータの武器を作成し、装備する。このヒーロースキルのレベルが３以上になったならば、この武器による攻撃によるダメージは防護点を－[Ｌｖ×２]して算出する。種別：白兵　技能：〈パワー〉〈技術〉　修正：０％　攻撃力：＋[Ｌｖ＋７]　ガード値：４　射程：至近',
+      effect:
+        'そのシーン中、以下のデータの武器を作成し、装備する。このヒーロースキルのレベルが３以上になったならば、この武器による攻撃によるダメージは防護点を－[Ｌｖ×２]して算出する。種別：白兵　技能：〈パワー〉〈技術〉　修正：０％　攻撃力：＋[Ｌｖ＋７]　ガード値：４　射程：至近',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1742,7 +1799,8 @@ export const artifactSkills = [
       target: '単体',
       range: '至近',
       cost: '4',
-      effect: '対象がリアクションを行った直前に使用する。対象への攻撃に対しカバーリングを行い、このメインプロセス中に受けるダメージを５点軽減する。あなたはこのヒーロースキルによるカバーリングで行動終了にならず、行動終了していても使用できる。',
+      effect:
+        '対象がリアクションを行った直前に使用する。対象への攻撃に対しカバーリングを行い、このメインプロセス中に受けるダメージを５点軽減する。あなたはこのヒーロースキルによるカバーリングで行動終了にならず、行動終了していても使用できる。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1756,7 +1814,8 @@ export const artifactSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'ガード時に使用する。そのメインプロセス中、あなたのガード値を＋[Ｌｖ×４]する。',
+      effect:
+        'ガード時に使用する。そのメインプロセス中、あなたのガード値を＋[Ｌｖ×４]する。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1770,7 +1829,8 @@ export const artifactSkills = [
       target: '自身',
       range: 'なし',
       cost: '3',
-      effect: 'このメインプロセス中、あなたがアーティファクトのヒーロースキルを使用した判定を行う際、判定値に＋[Ｌｖ×２０]％する。',
+      effect:
+        'このメインプロセス中、あなたがアーティファクトのヒーロースキルを使用した判定を行う際、判定値に＋[Ｌｖ×２０]％する。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1784,7 +1844,8 @@ export const artifactSkills = [
       target: '単体',
       range: '中距離',
       cost: '5',
-      effect: '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに＋[装備している武器の攻撃力]する。',
+      effect:
+        '対象に特殊攻撃を行う。コンボ2。このヒーロースキルを組み合わせた攻撃のダメージに＋[装備している武器の攻撃力]する。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1798,7 +1859,8 @@ export const artifactSkills = [
       target: '単体',
       range: '武器',
       cost: '3',
-      effect: '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
+      effect:
+        '対象に白兵攻撃を行う。コンボ２。このヒーロースキルを組み合わせた攻撃のダメージに＋[Ｌｖ×３]する。このヒーロースキルのＬｖが４以上になったならばコンボ数を＋１してもよい。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1812,7 +1874,8 @@ export const artifactSkills = [
       target: '単体',
       range: '至近',
       cost: '12',
-      effect: '戦闘不能状態のキャラクターを対象とする。その戦闘不能状態を解除し、HPを[Ｌｖ×２０]点回復する。このヒーロースキルはあなたが戦闘不能状態でも使用できる。シナリオに１回使用可能。',
+      effect:
+        '戦闘不能状態のキャラクターを対象とする。その戦闘不能状態を解除し、HPを[Ｌｖ×２０]点回復する。このヒーロースキルはあなたが戦闘不能状態でも使用できる。シナリオに１回使用可能。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1826,7 +1889,8 @@ export const artifactSkills = [
       target: '自身',
       range: 'なし',
       cost: '8',
-      effect: 'このメインプロセス中、あなたが行う攻撃に対してガードを行えない。１シナリオに１回。',
+      effect:
+        'このメインプロセス中、あなたが行う攻撃に対してガードを行えない。１シナリオに１回。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1840,7 +1904,8 @@ export const artifactSkills = [
       target: '単体',
       range: '視界',
       cost: 'ＦＣ',
-      effect: 'ファンチットを５枚消費する。対象に５DのHPダメージを与える。ラウンドに１回、シナリオにレベル回使用可能。',
+      effect:
+        'ファンチットを５枚消費する。対象に５DのHPダメージを与える。ラウンドに１回、シナリオにレベル回使用可能。',
     } as SkillDetails,
     color: 'bg-orange-50 border-orange-200',
   },
@@ -1901,7 +1966,8 @@ export const muscleSkills = [
       target: '自身',
       range: 'なし',
       cost: '4',
-      effect: 'そのシーンの間、以下のデータの武器を作成し装備する。このヒーロースキルのＬｖが３以上になったならば、この武器を用いて「対象：範囲」に攻撃を行ってもよい。\n種別：白兵\n技能：〈パワー〉\n修正：－２０％\n攻撃力：＋[Ｌｖ＋９]\nガード値：６\n射程：至近',
+      effect:
+        'そのシーンの間、以下のデータの武器を作成し装備する。このヒーロースキルのＬｖが３以上になったならば、この武器を用いて「対象：範囲」に攻撃を行ってもよい。\n種別：白兵\n技能：〈パワー〉\n修正：－２０％\n攻撃力：＋[Ｌｖ＋９]\nガード値：６\n射程：至近',
     } as SkillDetails,
     color: 'bg-red-50 border-red-200',
   },
@@ -1999,7 +2065,7 @@ export const muscleSkills = [
 
 export const ultimateSkills = [
   {
-    name: '《ダメージブースト》',
+    name: 'ダメージブースト',
     icon: GiSwordsPower,
     details: {
       maxLv: 1,
@@ -2014,7 +2080,7 @@ export const ultimateSkills = [
     color: 'bg-red-50 border-red-200',
   },
   {
-    name: '《リザレクション》',
+    name: 'リザレクション',
     icon: GiHeartPlus,
     details: {
       maxLv: 1,
@@ -2029,7 +2095,7 @@ export const ultimateSkills = [
     color: 'bg-green-50 border-green-200',
   },
   {
-    name: '《ファンアピール》',
+    name: 'ファンアピール',
     icon: GiTicket,
     details: {
       maxLv: 1,
@@ -2044,7 +2110,7 @@ export const ultimateSkills = [
     color: 'bg-yellow-50 border-yellow-200',
   },
   {
-    name: '《カルネージアタック》',
+    name: 'カルネージアタック',
     icon: GiGooExplosion,
     details: {
       maxLv: 1,
@@ -2059,7 +2125,7 @@ export const ultimateSkills = [
     color: 'bg-orange-50 border-orange-200',
   },
   {
-    name: '《スキルアッパー》',
+    name: 'スキルアッパー',
     icon: GiUpgrade,
     details: {
       maxLv: 1,
@@ -2074,7 +2140,7 @@ export const ultimateSkills = [
     color: 'bg-blue-50 border-blue-200',
   },
   {
-    name: '《ディスティニールーラー》',
+    name: 'ディスティニールーラー',
     icon: GiStarStruck,
     details: {
       maxLv: 1,
@@ -2089,7 +2155,7 @@ export const ultimateSkills = [
     color: 'bg-purple-50 border-purple-200',
   },
   {
-    name: '《フェイトダークサイド》',
+    name: 'フェイトダークサイド',
     icon: GiDeathSkull,
     details: {
       maxLv: 1,
@@ -2104,7 +2170,7 @@ export const ultimateSkills = [
     color: 'bg-gray-50 border-gray-200',
   },
   {
-    name: '《フルディフェンス》',
+    name: 'フルディフェンス',
     icon: GiShieldBash,
     details: {
       maxLv: 1,

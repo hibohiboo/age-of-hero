@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ArtifactClassPage,
   ArtsClassPage,
@@ -27,14 +28,30 @@ import {
 import { Page as CharacterCreationPage } from '@age-of-hero/frontend/page/rules/character-creation';
 import { TopPage } from '@age-of-hero/frontend/page/top';
 import { Layout } from '@age-of-hero/frontend/shared/layout';
-import { useSpreadSheetSkillData } from '@age-of-hero/frontend/shared/spreadsheet';
+import {
+  useSpreadSheetSkillData,
+  useSpreadSheetUltimateData,
+} from '@age-of-hero/frontend/shared/spreadsheet';
 
-const ClassPageWrapper = ({ className, Component }: { className: string; Component: React.ComponentType<{ skills?: any[] }> }) => {
+const ClassPageWrapper = ({
+  className,
+  Component,
+}: {
+  className: string;
+  Component: React.ComponentType<{ skills?: any[] }>;
+}) => {
   const skillData = useSpreadSheetSkillData();
-  const filteredSkills = skillData.filter(skill => skill.class === className);
+  const filteredSkills = skillData.filter((skill) => skill.class === className);
   return <Component skills={filteredSkills} />;
 };
-
+const UltimateWrapper = ({
+  Component,
+}: {
+  Component: React.ComponentType<{ ultimateSkills?: any[] }>;
+}) => {
+  const skillData = useSpreadSheetUltimateData();
+  return <Component ultimateSkills={skillData} />;
+};
 export const createRouter = () =>
   createBrowserRouter([
     {
@@ -95,39 +112,73 @@ export const createRouter = () =>
         },
         {
           path: 'character/muscle',
-          element: <ClassPageWrapper className="マッスル" Component={MuscleClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="マッスル"
+              Component={MuscleClassPage}
+            />
+          ),
         },
         {
           path: 'character/technology',
-          element: <ClassPageWrapper className="テクノロジー" Component={TechnologyClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="テクノロジー"
+              Component={TechnologyClassPage}
+            />
+          ),
         },
         {
           path: 'character/bio',
-          element: <ClassPageWrapper className="バイオ" Component={BioClassPage} />
+          element: (
+            <ClassPageWrapper className="バイオ" Component={BioClassPage} />
+          ),
         },
         {
           path: 'character/esperanto',
-          element: <ClassPageWrapper className="エスペラント" Component={EsperantoClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="エスペラント"
+              Component={EsperantoClassPage}
+            />
+          ),
         },
         {
           path: 'character/magical',
-          element: <ClassPageWrapper className="マジカル" Component={MagicalClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="マジカル"
+              Component={MagicalClassPage}
+            />
+          ),
         },
         {
           path: 'character/psychic',
-          element: <ClassPageWrapper className="サイキック" Component={PsychicClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="サイキック"
+              Component={PsychicClassPage}
+            />
+          ),
         },
         {
           path: 'character/artifact',
-          element: <ClassPageWrapper className="アーティファクト" Component={ArtifactClassPage} />,
+          element: (
+            <ClassPageWrapper
+              className="アーティファクト"
+              Component={ArtifactClassPage}
+            />
+          ),
         },
         {
           path: 'character/arts',
-          element: <ClassPageWrapper className="アーツ" Component={ArtsClassPage} />,
+          element: (
+            <ClassPageWrapper className="アーツ" Component={ArtsClassPage} />
+          ),
         },
         {
           path: 'character/ultimate-skill',
-          element: <UltimateSkillPage />,
+          element: <UltimateWrapper Component={UltimateSkillPage} />,
         },
         {
           path: 'character/item',

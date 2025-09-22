@@ -9,9 +9,16 @@ import { Link } from 'react-router';
 import { PageHeader } from '../components/PageHeader';
 import { Section } from '../components/Section';
 import { SkillCard } from '../components/SkillCard';
+import { ExternalSkill } from '../components/form/SkillForm';
 import { ultimateSkills } from '../constants/gameData';
 
-export const UltimateSkillPage: React.FC = () => {
+interface UltimateSkillPageProps {
+  ultimateSkills?: Omit<ExternalSkill, 'class'>[];
+}
+
+export const UltimateSkillPage: React.FC<UltimateSkillPageProps> = ({
+  ultimateSkills: propsUltimateSkills = [],
+}) => {
   const skillCategories = [
     {
       title: '攻撃系必殺技',
@@ -42,6 +49,11 @@ export const UltimateSkillPage: React.FC = () => {
       color: 'bg-purple-50 border-purple-200',
     },
   ];
+  const skills = propsUltimateSkills.map((s) => {
+    const skill = ultimateSkills.find((us) => us.name === s.name);
+    if (!skill) return { ...s, icon: GiSwordsPower, color: 'gray' };
+    return { ...s, icon: skill.icon, color: skill.color };
+  });
 
   return (
     <article className="max-w-4xl mx-auto">
@@ -125,12 +137,12 @@ export const UltimateSkillPage: React.FC = () => {
           </p>
 
           <div className="space-y-6">
-            {ultimateSkills.map((skill, index) => (
+            {skills.map((skill, index) => (
               <SkillCard
                 key={index}
                 name={skill.name}
                 icon={skill.icon}
-                details={skill.details}
+                details={skill}
                 color={skill.color}
               />
             ))}
