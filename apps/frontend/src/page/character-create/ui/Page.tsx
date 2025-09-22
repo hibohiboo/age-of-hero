@@ -1,9 +1,11 @@
 import { CharacterCreationForm } from '@age-of-hero/ui';
 import type { CharacterFormData } from '@age-of-hero/ui';
 import { useNavigate } from 'react-router';
+import { useSpreadSheetSkillData } from '@age-of-hero/frontend/shared/spreadsheet';
 
 export function Page() {
   const navigate = useNavigate();
+  const skillData = useSpreadSheetSkillData();
 
   const handleSubmit = async (data: CharacterFormData) => {
     try {
@@ -34,7 +36,10 @@ export function Page() {
       <h1 className="text-3xl font-bold text-center mb-8">
         Age of Hero キャラクター作成
       </h1>
-      <CharacterCreationForm onSubmit={handleSubmit} />
+      <CharacterCreationForm
+        onSubmit={handleSubmit}
+        externalSkills={skillData}
+      />
     </div>
   );
 }
