@@ -29,6 +29,7 @@ import { Page as CharacterCreationPage } from '@age-of-hero/frontend/page/rules/
 import { TopPage } from '@age-of-hero/frontend/page/top';
 import { Layout } from '@age-of-hero/frontend/shared/layout';
 import {
+  useSpreadSheetItemData,
   useSpreadSheetSkillData,
   useSpreadSheetUltimateData,
 } from '@age-of-hero/frontend/shared/spreadsheet';
@@ -51,6 +52,14 @@ const UltimateWrapper = ({
 }) => {
   const skillData = useSpreadSheetUltimateData();
   return <Component ultimateSkills={skillData} />;
+};
+const ItemWrapper = ({
+  Component,
+}: {
+  Component: React.ComponentType<{ items?: any[] }>;
+}) => {
+  const itemData = useSpreadSheetItemData();
+  return <Component items={itemData} />;
 };
 export const createRouter = () =>
   createBrowserRouter([
@@ -182,7 +191,7 @@ export const createRouter = () =>
         },
         {
           path: 'character/item',
-          element: <ItemsPage />,
+          element: <ItemWrapper Component={ItemsPage} />,
         },
       ],
     },

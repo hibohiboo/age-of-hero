@@ -2,6 +2,7 @@ import { CharacterCreationForm } from '@age-of-hero/ui';
 import type { CharacterFormData } from '@age-of-hero/ui';
 import { useNavigate } from 'react-router';
 import {
+  useSpreadSheetItemData,
   useSpreadSheetSkillData,
   useSpreadSheetUltimateData,
 } from '@age-of-hero/frontend/shared/spreadsheet';
@@ -10,6 +11,7 @@ export function Page() {
   const navigate = useNavigate();
   const skillData = useSpreadSheetSkillData();
   const ultimateSkillData = useSpreadSheetUltimateData();
+  const presetItems = useSpreadSheetItemData();
 
   const handleSubmit = async (data: CharacterFormData) => {
     try {
@@ -44,6 +46,7 @@ export function Page() {
         onSubmit={handleSubmit}
         externalSkills={skillData}
         ultimateSkills={ultimateSkillData}
+        presetItems={presetItems}
       />
     </div>
   );

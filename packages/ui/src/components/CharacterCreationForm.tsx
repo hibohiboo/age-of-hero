@@ -27,6 +27,7 @@ import { ItemForm } from './form/ItemForm';
 import { LimitSettingsSection } from './form/LimitSettingsSection';
 import { SessionHistoryForm } from './form/SessionHistoryForm';
 import { ExternalSkill, SkillForm } from './form/SkillForm';
+import { ItemColumn } from './form/ItemForm';
 import { ValidationSummary } from './form/ValidationSummary';
 
 interface CharacterCreationFormProps {
@@ -35,6 +36,7 @@ interface CharacterCreationFormProps {
   initialData?: Partial<CharacterFormData>;
   externalSkills?: ExternalSkill[];
   ultimateSkills?: Omit<ExternalSkill, 'class'>[];
+  presetItems?: ItemColumn[];
 }
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
@@ -43,6 +45,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   initialData,
   externalSkills = [],
   ultimateSkills: propsUltimateSkills = [],
+  presetItems = [],
 }) => {
   const vm = useCharacterCreationForm({ onSubmit, initialData });
   const {
@@ -442,6 +445,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
               index={index}
               onUpdate={updateItem}
               onRemove={removeItem}
+              presetItems={presetItems}
             />
           ))}
         </div>

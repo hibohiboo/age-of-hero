@@ -96,3 +96,44 @@ export const useSpreadSheetUltimateData = () => {
     }) || []
   );
 };
+export const useSpreadSheetItemData = () => {
+  const result = useSpreadSheetData({
+    spreadSheetId: import.meta.env.VITE_SPREAD_SHEET_ID!,
+    sheetName: 'アイテム',
+    range: 'A2:M200',
+  });
+  return (
+    result.data?.values.map((row) => {
+      const [
+        category,
+        name,
+        type,
+        skill,
+        modifier,
+        attackPower,
+        guardValue,
+        range,
+        dodge,
+        actionValue,
+        protection,
+        price,
+        effect,
+      ] = row;
+      return {
+        category,
+        name,
+        type,
+        skill,
+        modifier,
+        attackPower,
+        guardValue,
+        range,
+        dodge,
+        actionValue,
+        protection,
+        price: Number(price),
+        effect,
+      };
+    }) || []
+  );
+};

@@ -13,7 +13,7 @@ import { ArmorFields } from './item-fields/ArmorFields';
 import { ConsumableFields } from './item-fields/ConsumableFields';
 import { WeaponFields } from './item-fields/WeaponFields';
 
-interface ItemFormField {
+export interface ItemFormField {
   name: string;
   type: string;
   skill?: string;
@@ -28,7 +28,21 @@ interface ItemFormField {
   effect?: string;
   quantity?: number;
 }
-
+export type ItemColumn = {
+  category: string;
+  name: string;
+  type: string;
+  skill?: string;
+  modifier?: string;
+  attackPower?: string;
+  guardValue?: string;
+  range?: string;
+  dodge?: string;
+  actionValue?: string;
+  protection?: string;
+  price?: number;
+  effect?: string;
+};
 interface ItemFormProps {
   item: ItemFormField;
   index: number;
@@ -38,6 +52,7 @@ interface ItemFormProps {
     value: string | number,
   ) => void;
   onRemove: (index: number) => void;
+  presetItems?: Array<ItemColumn>;
 }
 const PRESET_ITEMS = [
   ...weapons.map((w) => ({ category: '武器', ...w })),
@@ -55,35 +70,35 @@ const ITEM_TYPES = [
   { label: 'その他', value: 'その他' },
 ];
 
+// eslint-disable-next-line complexity
 export const ItemForm: React.FC<ItemFormProps> = ({
   item,
   index,
   onUpdate,
   onRemove,
+  presetItems = [],
 }) => {
   const isWeapon =
     item.type === '白兵' || item.type === '射撃' || item.type === '白兵/射撃';
   const isArmor = item.type === '防具';
   const isConsumable = item.type === '消耗品';
   const handlePresetSelect = (value: string) => {
-    const preset = PRESET_ITEMS.find((p) => p.name === value);
+    const preset = presetItems.find((p) => p.name === value);
     if (!preset) return;
 
-    // ItemDetails → ItemFormField へ変換
-    const { details } = preset;
     const fields: Partial<ItemFormField> = {
       name: preset.name,
-      type: details.type,
-      skill: details.skill,
-      modifier: details.modifier,
-      attackPower: details.attackPower,
-      guardValue: details.guardValue,
-      range: details.range,
-      dodge: details.dodge,
-      actionValue: details.actionValue,
-      protection: details.protection,
-      price: details.price ?? 0,
-      effect: details.effect,
+      type: preset.type,
+      skill: preset.skill,
+      modifier: preset.modifier,
+      attackPower: preset.attackPower,
+      guardValue: preset.guardValue,
+      range: preset.range,
+      dodge: preset.dodge,
+      actionValue: preset.actionValue,
+      protection: preset.protection,
+      price: preset.price ?? 0,
+      effect: preset.effect,
     };
 
     (Object.keys(fields) as (keyof ItemFormField)[]).forEach((key) =>
@@ -99,7 +114,7 @@ export const ItemForm: React.FC<ItemFormProps> = ({
             value=""
             options={[
               { label: '', value: '' },
-              ...PRESET_ITEMS.map((p) => ({
+              ...presetItems.map((p) => ({
                 label: `[${p.category}] ${p.name}`,
                 value: p.name,
               })),

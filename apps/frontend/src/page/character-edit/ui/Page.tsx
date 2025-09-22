@@ -15,6 +15,7 @@ export function Page() {
     navigateToCharacterList,
     skillData,
     ultimateSkillData,
+    presetItems,
   } = useCharacterEdit(id);
 
   if (loading) {
@@ -42,6 +43,7 @@ export function Page() {
         initialData={initialData}
         externalSkills={skillData}
         ultimateSkills={ultimateSkillData}
+        presetItems={presetItems}
       />
     </div>
   );
