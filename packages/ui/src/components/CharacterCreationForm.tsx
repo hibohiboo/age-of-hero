@@ -14,7 +14,6 @@ import {
   SKILLS,
   ABILITY_CATEGORIES,
   CLASSES,
-  ultimateSkills,
 } from '../constants/gameData';
 import {
   useCharacterCreationForm,
@@ -35,6 +34,7 @@ interface CharacterCreationFormProps {
   isLoading?: boolean;
   initialData?: Partial<CharacterFormData>;
   externalSkills?: ExternalSkill[];
+  ultimateSkills?: Omit<ExternalSkill, 'class'>[];
 }
 
 export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
@@ -42,6 +42,7 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
   isLoading = false,
   initialData,
   externalSkills = [],
+  ultimateSkills: propsUltimateSkills = [],
 }) => {
   const vm = useCharacterCreationForm({ onSubmit, initialData });
   const {
@@ -384,25 +385,25 @@ export const CharacterCreationForm: React.FC<CharacterCreationFormProps> = ({
                     value=""
                     options={[
                       { label: '', value: '' },
-                      ...ultimateSkills.map((skill) => ({
+                      ...propsUltimateSkills.map((skill) => ({
                         label: skill.name,
                         value: skill.name,
                       })),
                     ]}
                     onChange={(value) => {
-                      const preset = ultimateSkills.find(
+                      const preset = propsUltimateSkills.find(
                         (s) => s.name === value,
                       );
                       if (!preset) return;
 
                       const fields = [
                         ['name', preset.name],
-                        ['timing', preset.details.timing],
-                        ['skill', preset.details.skill],
-                        ['target', preset.details.target],
-                        ['range', preset.details.range],
-                        ['cost', preset.details.cost],
-                        ['effect', preset.details.effect],
+                        ['timing', preset.timing],
+                        ['skill', preset.skill],
+                        ['target', preset.target],
+                        ['range', preset.range],
+                        ['cost', preset.cost],
+                        ['effect', preset.effect],
                       ] as const;
 
                       fields.forEach(([f, v]) =>
