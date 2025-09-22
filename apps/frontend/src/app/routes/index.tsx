@@ -27,6 +27,13 @@ import {
 import { Page as CharacterCreationPage } from '@age-of-hero/frontend/page/rules/character-creation';
 import { TopPage } from '@age-of-hero/frontend/page/top';
 import { Layout } from '@age-of-hero/frontend/shared/layout';
+import { useSpreadSheetSkillData } from '@age-of-hero/frontend/shared/spreadsheet';
+
+const ClassPageWrapper = ({ className, Component }: { className: string; Component: React.ComponentType<{ skills?: any[] }> }) => {
+  const skillData = useSpreadSheetSkillData();
+  const filteredSkills = skillData.filter(skill => skill.class === className);
+  return <Component skills={filteredSkills} />;
+};
 
 export const createRouter = () =>
   createBrowserRouter([
@@ -88,32 +95,35 @@ export const createRouter = () =>
         },
         {
           path: 'character/muscle',
-          element: <MuscleClassPage />,
+          element: <ClassPageWrapper className="マッスル" Component={MuscleClassPage} />,
         },
         {
           path: 'character/technology',
-          element: <TechnologyClassPage />,
+          element: <ClassPageWrapper className="テクノロジー" Component={TechnologyClassPage} />,
         },
-        { path: 'character/bio', element: <BioClassPage /> },
+        {
+          path: 'character/bio',
+          element: <ClassPageWrapper className="バイオ" Component={BioClassPage} />
+        },
         {
           path: 'character/esperanto',
-          element: <EsperantoClassPage />,
+          element: <ClassPageWrapper className="エスペラント" Component={EsperantoClassPage} />,
         },
         {
           path: 'character/magical',
-          element: <MagicalClassPage />,
+          element: <ClassPageWrapper className="マジカル" Component={MagicalClassPage} />,
         },
         {
           path: 'character/psychic',
-          element: <PsychicClassPage />,
+          element: <ClassPageWrapper className="サイキック" Component={PsychicClassPage} />,
         },
         {
           path: 'character/artifact',
-          element: <ArtifactClassPage />,
+          element: <ClassPageWrapper className="アーティファクト" Component={ArtifactClassPage} />,
         },
         {
           path: 'character/arts',
-          element: <ArtsClassPage />,
+          element: <ClassPageWrapper className="アーツ" Component={ArtsClassPage} />,
         },
         {
           path: 'character/ultimate-skill',
